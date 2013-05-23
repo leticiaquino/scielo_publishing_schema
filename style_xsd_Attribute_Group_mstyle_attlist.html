@@ -1,0 +1,1816 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component scriptlevel</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_mstyle.attlist_scriptlevel', 
+				'properties_mstyle.attlist_displaystyle', 
+				'properties_mstyle.attlist_scriptsizemultiplier', 
+				'properties_mstyle.attlist_scriptminsize', 
+				'properties_mstyle.attlist_color', 
+				'properties_mstyle.attlist_background', 
+				'properties_mstyle.attlist_veryverythinmathspace', 
+				'properties_mstyle.attlist_verythinmathspace', 
+				'properties_mstyle.attlist_thinmathspace', 
+				'properties_mstyle.attlist_mediummathspace', 
+				'properties_mstyle.attlist_thickmathspace', 
+				'properties_mstyle.attlist_verythickmathspace', 
+				'properties_mstyle.attlist_veryverythickmathspace', 
+				'properties_mstyle.attlist_linethickness');
+
+        
+        var facetsBoxes= new Array('facets_mstyle.attlist_scriptminsize', 
+				'facets_mstyle.attlist_veryverythinmathspace', 
+				'facets_mstyle.attlist_verythinmathspace', 
+				'facets_mstyle.attlist_thinmathspace', 
+				'facets_mstyle.attlist_mediummathspace', 
+				'facets_mstyle.attlist_thickmathspace', 
+				'facets_mstyle.attlist_verythickmathspace', 
+				'facets_mstyle.attlist_veryverythickmathspace');
+
+        var usedByBoxes= new Array('usedBy_mstyle.attlist_scriptlevel', 
+				'usedBy_mstyle.attlist_displaystyle', 
+				'usedBy_mstyle.attlist_scriptsizemultiplier', 
+				'usedBy_mstyle.attlist_scriptminsize', 
+				'usedBy_mstyle.attlist_color', 
+				'usedBy_mstyle.attlist_background', 
+				'usedBy_mstyle.attlist_veryverythinmathspace', 
+				'usedBy_mstyle.attlist_verythinmathspace', 
+				'usedBy_mstyle.attlist_thinmathspace', 
+				'usedBy_mstyle.attlist_mediummathspace', 
+				'usedBy_mstyle.attlist_thickmathspace', 
+				'usedBy_mstyle.attlist_verythickmathspace', 
+				'usedBy_mstyle.attlist_veryverythickmathspace', 
+				'usedBy_mstyle.attlist_linethickness', 
+				'usedBy_mstyle.attlist');
+
+        
+        
+        var diagramBoxes= new Array('diagram_mstyle.attlist');
+
+        
+        var attributesBoxes= new Array('attributes_mstyle.attlist');
+
+        
+        
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, facetsBoxes);" class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="mstyle.attlist_scriptlevel"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @scriptlevel</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:integer</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_scriptlevel" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_scriptlevel');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_scriptlevel" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_scriptlevel" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_scriptlevel');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_scriptlevel" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_displaystyle"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @displaystyle</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_displaystyle" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_displaystyle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_displaystyle" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_displaystyle" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_displaystyle');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_displaystyle" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_scriptsizemultiplier"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @scriptsizemultiplier</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:decimal</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_scriptsizemultiplier" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_scriptsizemultiplier');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_scriptsizemultiplier" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>0.71</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_scriptsizemultiplier" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_scriptsizemultiplier');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_scriptsizemultiplier" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_scriptminsize"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @scriptminsize</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_scriptminsize" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_scriptminsize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_scriptminsize" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>8pt</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_mstyle.attlist_scriptminsize" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_mstyle.attlist_scriptminsize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_mstyle.attlist_scriptminsize" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">pattern</td>
+                                    <td width="30%"><b>(-?([0-9]+|[0-9]*\.[0-9]+)*(em|ex|px|in|cm|mm|pt|pc|%))|0</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_scriptminsize" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_scriptminsize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_scriptminsize" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_color"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @color</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_color" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_color');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_color" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_color" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_color');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_color" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_background"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @background</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_background" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_background');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_background" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>transparent</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_background" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_background');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_background" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_veryverythinmathspace"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @veryverythinmathspace</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_veryverythinmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_veryverythinmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_veryverythinmathspace" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>0.0555556em</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_mstyle.attlist_veryverythinmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_mstyle.attlist_veryverythinmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_mstyle.attlist_veryverythinmathspace" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">pattern</td>
+                                    <td width="30%"><b>(-?([0-9]+|[0-9]*\.[0-9]+)*(em|ex|px|in|cm|mm|pt|pc|%))|0</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_veryverythinmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_veryverythinmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_veryverythinmathspace" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_verythinmathspace"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @verythinmathspace</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_verythinmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_verythinmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_verythinmathspace" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>0.111111em</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_mstyle.attlist_verythinmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_mstyle.attlist_verythinmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_mstyle.attlist_verythinmathspace" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">pattern</td>
+                                    <td width="30%"><b>(-?([0-9]+|[0-9]*\.[0-9]+)*(em|ex|px|in|cm|mm|pt|pc|%))|0</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_verythinmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_verythinmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_verythinmathspace" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_thinmathspace"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @thinmathspace</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_thinmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_thinmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_thinmathspace" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>0.166667em</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_mstyle.attlist_thinmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_mstyle.attlist_thinmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_mstyle.attlist_thinmathspace" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">pattern</td>
+                                    <td width="30%"><b>(-?([0-9]+|[0-9]*\.[0-9]+)*(em|ex|px|in|cm|mm|pt|pc|%))|0</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_thinmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_thinmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_thinmathspace" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_mediummathspace"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @mediummathspace</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_mediummathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_mediummathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_mediummathspace" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>0.222222em</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_mstyle.attlist_mediummathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_mstyle.attlist_mediummathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_mstyle.attlist_mediummathspace" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">pattern</td>
+                                    <td width="30%"><b>(-?([0-9]+|[0-9]*\.[0-9]+)*(em|ex|px|in|cm|mm|pt|pc|%))|0</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_mediummathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_mediummathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_mediummathspace" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_thickmathspace"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @thickmathspace</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_thickmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_thickmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_thickmathspace" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>0.277778em</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_mstyle.attlist_thickmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_mstyle.attlist_thickmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_mstyle.attlist_thickmathspace" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">pattern</td>
+                                    <td width="30%"><b>(-?([0-9]+|[0-9]*\.[0-9]+)*(em|ex|px|in|cm|mm|pt|pc|%))|0</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_thickmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_thickmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_thickmathspace" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_verythickmathspace"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @verythickmathspace</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_verythickmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_verythickmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_verythickmathspace" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>0.333333em</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_mstyle.attlist_verythickmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_mstyle.attlist_verythickmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_mstyle.attlist_verythickmathspace" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">pattern</td>
+                                    <td width="30%"><b>(-?([0-9]+|[0-9]*\.[0-9]+)*(em|ex|px|in|cm|mm|pt|pc|%))|0</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_verythickmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_verythickmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_verythickmathspace" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_veryverythickmathspace"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @veryverythickmathspace</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_veryverythickmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_veryverythickmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_veryverythickmathspace" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>0.388889em</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_mstyle.attlist_veryverythickmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_mstyle.attlist_veryverythickmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_mstyle.attlist_veryverythickmathspace" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">pattern</td>
+                                    <td width="30%"><b>(-?([0-9]+|[0-9]*\.[0-9]+)*(em|ex|px|in|cm|mm|pt|pc|%))|0</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_veryverythickmathspace" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_veryverythickmathspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_veryverythickmathspace" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist_linethickness"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b> / @linethickness</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-optional-unit.html#length-with-optional-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-optional-unit')">length-with-optional-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_thickness.html#thickness" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component thickness')">thickness</a></b>)
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_mstyle.attlist_linethickness" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_mstyle.attlist_linethickness');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_mstyle.attlist_linethickness" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist_linethickness" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist_linethickness');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist_linethickness" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="mstyle.attlist"></a><div class="componentTitle">Attribute Group <span class="qname">mstyle.attlist</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1998/Math/MathML</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_mstyle.attlist" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_mstyle.attlist');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_mstyle.attlist" style="display:block"><img alt="Diagram" border="0" src="img/style_xsd_Attribute_Group_mstyle_attlist.jpeg" usemap="#style_xsd_Attribute_Group_mstyle_attlist" /><map name="style_xsd_Attribute_Group_mstyle_attlist" id="style_xsd_Attribute_Group_mstyle_attlist">
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_scriptlevel" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_scriptlevel" coords="151,0,254,24" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_displaystyle" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_displaystyle" coords="151,34,262,58" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_scriptsizemultiplier" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_scriptsizemultiplier" coords="151,68,302,92" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_scriptminsize" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_scriptminsize" coords="151,102,271,126" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_color" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_color" coords="151,136,227,160" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_background" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_background" coords="151,170,264,194" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_veryverythinmathspace" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_veryverythinmathspace" coords="151,204,324,228" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_verythinmathspace" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_verythinmathspace" coords="151,238,301,262" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_thinmathspace" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_thinmathspace" coords="151,272,278,296" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_mediummathspace" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_mediummathspace" coords="151,306,300,330" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_thickmathspace" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_thickmathspace" coords="151,340,283,364" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_verythickmathspace" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_verythickmathspace" coords="151,374,306,398" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_veryverythickmathspace" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_veryverythickmathspace" coords="151,408,329,432" />
+                                 <area alt="style_xsd_Attribute_Group_mstyle_attlist.tmp#mstyle.attlist_linethickness" href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_linethickness" coords="151,442,269,466" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_form" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_form" coords="165,520,239,544" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_lspace" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_lspace" coords="165,554,247,578" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_rspace" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_rspace" coords="165,588,249,612" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_fence" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_fence" coords="165,622,242,646" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_separator" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_separator" coords="165,656,265,680" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_stretchy" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_stretchy" coords="165,690,257,714" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_symmetric" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_symmetric" coords="165,724,269,748" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_movablelimits" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_movablelimits" coords="165,758,287,782" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_accent" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_accent" coords="165,792,248,816" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_largeop" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_largeop" coords="165,826,254,850" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_minsize" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_minsize" coords="165,860,254,884" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_maxsize" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_maxsize" coords="165,894,257,918" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" coords="154,479,290,505" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Token-style_attrib.tmp#Token-style.attrib_mathvariant" href="common-attribs_xsd_Attribute_Group_Token-style_attrib.html#Token-style.attrib_mathvariant" coords="165,979,277,1003" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Token-style_attrib.tmp#Token-style.attrib_mathsize" href="common-attribs_xsd_Attribute_Group_Token-style_attrib.html#Token-style.attrib_mathsize" coords="165,1013,261,1037" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Token-style_attrib.tmp#Token-style.attrib_mathcolor" href="common-attribs_xsd_Attribute_Group_Token-style_attrib.html#Token-style.attrib_mathcolor" coords="165,1047,268,1071" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Token-style_attrib.tmp#Token-style.attrib_mathbackground" href="common-attribs_xsd_Attribute_Group_Token-style_attrib.html#Token-style.attrib_mathbackground" coords="165,1081,305,1105" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Token-style_attrib.tmp#Token-style.attrib" href="common-attribs_xsd_Attribute_Group_Token-style_attrib.html#Token-style.attrib" coords="154,938,305,964" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Common_attrib.tmp#Common.attrib_class" href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_class" coords="165,1166,240,1190" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Common_attrib.tmp#Common.attrib_style" href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_style" coords="165,1200,238,1224" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Common_attrib.tmp#Common.attrib_xref" href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_xref" coords="165,1234,235,1258" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Common_attrib.tmp#Common.attrib_id" href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_id" coords="165,1268,233,1292" />
+                                 <area alt="xlink_xsd_Attribute_xlink_href.tmp#href" href="xlink_xsd_Attribute_xlink_href.html#href" coords="165,1302,253,1326" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Common_attrib.tmp#Common.attrib" href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib" coords="154,1125,290,1151" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_mstyle.attlist" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_mstyle.attlist');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_mstyle.attlist" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Complex Type </td>
+                                    <td><b><a href="style_xsd_Complex_Type_mstyle_type.html#mstyle.type" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.type')">mstyle.type</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_mstyle.attlist" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_mstyle.attlist');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_mstyle.attlist" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_accent" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component accent')">accent</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_background" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component background')">background</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>transparent</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component class')">class</a></b></td>
+                                    <td><b>xs:NMTOKENS</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_color" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component color')">color</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_displaystyle" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component displaystyle')">displaystyle</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_fence" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fence')">fence</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_form" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component form')">form</a></b></td>
+                                    <td>restriction of <b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_largeop" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component largeop')">largeop</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_linethickness" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component linethickness')">linethickness</a></b></td>
+                                    <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-optional-unit.html#length-with-optional-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-optional-unit')">length-with-optional-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_thickness.html#thickness" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component thickness')">thickness</a></b>)
+                                    </td>
+                                    <td>1</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_lspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component lspace')">lspace</a></b></td>
+                                    <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>)
+                                    </td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Token-style_attrib.html#Token-style.attrib_mathbackground" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component mathbackground')">mathbackground</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Token-style_attrib.html#Token-style.attrib_mathcolor" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component mathcolor')">mathcolor</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Token-style_attrib.html#Token-style.attrib_mathsize" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component mathsize')">mathsize</a></b></td>
+                                    <td>union of(<b><a href="common-types_xsd_Simple_Type_simple-size.html#simple-size" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component simple-size')">simple-size</a></b>, <b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>)
+                                    </td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Token-style_attrib.html#Token-style.attrib_mathvariant" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component mathvariant')">mathvariant</a></b></td>
+                                    <td>restriction of <b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_maxsize" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component maxsize')">maxsize</a></b></td>
+                                    <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>, <b><a href="common-types_xsd_Simple_Type_infinity.html#infinity" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component infinity')">infinity</a></b>, <b>xs:float</b>)
+                                    </td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_mediummathspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component mediummathspace')">mediummathspace</a></b></td>
+                                    <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                                    <td>0.222222em</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_minsize" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component minsize')">minsize</a></b></td>
+                                    <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>)
+                                    </td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_movablelimits" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component movablelimits')">movablelimits</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_rspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component rspace')">rspace</a></b></td>
+                                    <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>)
+                                    </td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_scriptlevel" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component scriptlevel')">scriptlevel</a></b></td>
+                                    <td><b>xs:integer</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_scriptminsize" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component scriptminsize')">scriptminsize</a></b></td>
+                                    <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                                    <td>8pt</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_scriptsizemultiplier" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component scriptsizemultiplier')">scriptsizemultiplier</a></b></td>
+                                    <td><b>xs:decimal</b></td>
+                                    <td>0.71</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_separator" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component separator')">separator</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_stretchy" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component stretchy')">stretchy</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_style" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component style')">style</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_symmetric" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component symmetric')">symmetric</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_thickmathspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component thickmathspace')">thickmathspace</a></b></td>
+                                    <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                                    <td>0.277778em</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_thinmathspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component thinmathspace')">thinmathspace</a></b></td>
+                                    <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                                    <td>0.166667em</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_verythickmathspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component verythickmathspace')">verythickmathspace</a></b></td>
+                                    <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                                    <td>0.333333em</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_verythinmathspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component verythinmathspace')">verythinmathspace</a></b></td>
+                                    <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                                    <td>0.111111em</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_veryverythickmathspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component veryverythickmathspace')">veryverythickmathspace</a></b></td>
+                                    <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                                    <td>0.388889em</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist_veryverythinmathspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component veryverythinmathspace')">veryverythinmathspace</a></b></td>
+                                    <td><b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b></td>
+                                    <td>0.0555556em</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd_Attribute_xlink_href.html#href" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for component xlink:href')">xlink:href</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_xref" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component xref')">xref</a></b></td>
+                                    <td><b>xs:IDREF</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

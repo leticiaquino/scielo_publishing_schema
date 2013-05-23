@@ -1,0 +1,1633 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component table</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_table', 
+				'properties_table_id', 
+				'properties_table_frame', 
+				'properties_table_rules');
+
+        
+        var facetsBoxes= new Array('facets_table_frame', 
+				'facets_table_rules');
+
+        var usedByBoxes= new Array('usedBy_table', 
+				'usedBy_table_id', 
+				'usedBy_table_content-type', 
+				'usedBy_table_style', 
+				'usedBy_table_summary', 
+				'usedBy_table_width', 
+				'usedBy_table_border', 
+				'usedBy_table_frame', 
+				'usedBy_table_rules', 
+				'usedBy_table_cellspacing', 
+				'usedBy_table_cellpadding');
+
+        
+        var instanceBoxes= new Array('instance_table');
+
+        var diagramBoxes= new Array('diagram_table');
+
+        var annotationBoxes= new Array('annotations_table', 
+				'annotations_table_content-type', 
+				'annotations_table_style', 
+				'annotations_table_summary', 
+				'annotations_table_width', 
+				'annotations_table_border', 
+				'annotations_table_frame', 
+				'annotations_table_rules', 
+				'annotations_table_cellspacing', 
+				'annotations_table_cellpadding');
+
+        var attributesBoxes= new Array('attributes_table');
+
+        
+        
+        
+        var modelBoxes= new Array('model_table');
+
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, facetsBoxes);" class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="table"></a><div class="componentTitle">Element <span class="qname">table</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_table" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_table');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_table" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">The rows and columns part of a full table. (This element is based on and intended
+                                    to be converted easily to the XHMTL 
+                                    <tt>table</tt> element.)
+                                 </p>
+                                 <p xmlns="">By default, the NISO JATS table model (based on and designed to be converted easily
+                                    to the XHTML 1.1 table model) should be used as defined in the XHTML 1.1 table model,
+                                    to take advantage of existing software for table handling.
+                                 </p>
+                                 <p xmlns="">This element contains 
+                                    <em>only</em> the rows and columns of the table, which is typically just part of what would be
+                                    called a “table” in print or display. A full table might also include a table number
+                                    (label), a table title, a table caption, table notes and footnotes, introductory paragraphs,
+                                    etc., so a full table is tagged using the &lt;table-wrap&gt; element. If the complex table
+                                    contains rows and columns, &lt;table-wrap&gt; will contain a &lt;table&gt; as well as other content.
+                                 </p>
+                                 <p xmlns="">In the NISO JATS table model, the XHMTL™ table model has been modified to remove the
+                                    &lt;caption&gt; element from within the &lt;table&gt; element, because, in the base Suite, the
+                                    &lt;caption&gt; element has been made part of the &lt;table-wrap&gt; element.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Related Essay:</strong> For a discussion on the table formatting, see Table Formatting. For a discussion
+                                    on the use of &lt;table&gt;s inside &lt;table-wrap&gt; and for related groups of tables, see Table,
+                                    Table Wrapper, and Table Group.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>OASIS CALS Table Note:</strong>  The OASIS XML Exchange (CALS)table model has also been included in the NISO JATS
+                                    Suite and may be used as an alternative tablemodel. It is even possible, though not
+                                    easy, to include two different table models in a JATS-basedDTD, by using pseudo-namespaces
+                                    with a fixed prefix to differentiate any name clashes. TheXHTML-based table model
+                                    is usually taken as primary (no name space prefix) and the OASIS Exchangetable model
+                                    set up to use pseudo-namespaces (prefix “
+                                    <tt>oasis</tt>”) with an
+                                    <tt>xmlns #FIXED</tt> attribute. For organizations that choose to use the OASIS model instead ofthe more
+                                    XHTML-like NISO JATS table model, a version of the Publishing DTD has been provided
+                                    withthe OASIS table model (
+                                    <tt>JATS-archive-oasis-article1.dtd</tt>). A separate Tag Library describing the OASIS table model elements, attributes, and
+                                    parameter entities may be accessed at http://jats.nlm.nih.gov/options/OASIS/tag-library/19990315/index.html.
+                                 </p>
+                                 <p xmlns="">The following changes were made to the OASIS XML Exchange (CALS) table model: </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>The 
+                                       <tt>%titles;</tt> parameter entity for the OASIS table model has been set to the null string (
+                                       <tt>""</tt>), since the table title &lt;title&gt; is also part of the &lt;table-wrap&gt;; and 
+                                    </li>
+                                    <li>The OASIS pseudo-namespace with a prefix of “oasis” has been added to each element.</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_table" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_table');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_table" style="display:block"><img alt="Diagram" border="0" src="img/SciELO-journalpublishing1_xsd_Element_table.jpeg" usemap="#SciELO-journalpublishing1_xsd_Element_table" /><map name="SciELO-journalpublishing1_xsd_Element_table" id="SciELO-journalpublishing1_xsd_Element_table">
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_table.tmp#table_id" href="SciELO-journalpublishing1_xsd_Element_table.html#table_id" coords="119,40,211,82" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_table.tmp#table_content-type" href="SciELO-journalpublishing1_xsd_Element_table.html#table_content-type" coords="119,92,226,116" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_table.tmp#table_style" href="SciELO-journalpublishing1_xsd_Element_table.html#table_style" coords="119,195,181,219" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_table.tmp#table_summary" href="SciELO-journalpublishing1_xsd_Element_table.html#table_summary" coords="119,311,206,335" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_table.tmp#table_width" href="SciELO-journalpublishing1_xsd_Element_table.html#table_width" coords="119,401,185,425" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_table.tmp#table_border" href="SciELO-journalpublishing1_xsd_Element_table.html#table_border" coords="119,504,193,528" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_table.tmp#table_frame" href="SciELO-journalpublishing1_xsd_Element_table.html#table_frame" coords="119,594,311,636" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_table.tmp#table_rules" href="SciELO-journalpublishing1_xsd_Element_table.html#table_rules" coords="119,689,311,731" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_table.tmp#table_cellspacing" href="SciELO-journalpublishing1_xsd_Element_table.html#table_cellspacing" coords="119,784,216,808" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_table.tmp#table_cellpadding" href="SciELO-journalpublishing1_xsd_Element_table.html#table_cellpadding" coords="119,874,218,898" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_col.tmp#col" href="SciELO-journalpublishing1_xsd_Element_col.html#col" coords="268,958,319,982" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_colgroup.tmp#colgroup" href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" coords="268,1048,348,1072" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_thead.tmp#thead" href="SciELO-journalpublishing1_xsd_Element_thead.html#thead" coords="360,1138,421,1162" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_tfoot.tmp#tfoot" href="SciELO-journalpublishing1_xsd_Element_tfoot.html#tfoot" coords="360,1228,417,1252" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_tbody.tmp#tbody" href="SciELO-journalpublishing1_xsd_Element_tbody.html#tbody" coords="360,1318,422,1342" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_tr.tmp#tr" href="SciELO-journalpublishing1_xsd_Element_tr.html#tr" coords="268,1408,319,1432" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_table" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_table');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_table" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Elements </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_alternatives.html#alternatives" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component alternatives')">alternatives</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_table-wrap.html#table-wrap" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table-wrap')">table-wrap</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_table" type="image" src="img/btM.gif" value="-" onclick="switchState('model_table');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_table" style="display:block">(<b><a href="SciELO-journalpublishing1_xsd_Element_col.html#col" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component col*')">col*</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup*')">colgroup*</a></b>) , ((<b><a href="SciELO-journalpublishing1_xsd_Element_thead.html#thead" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component thead{0,1}')">thead{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_tfoot.html#tfoot" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component tfoot{0,1}')">tfoot{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_tbody.html#tbody" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component tbody+')">tbody+</a></b>) | <b><a href="SciELO-journalpublishing1_xsd_Element_tr.html#tr" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component tr+')">tr+</a></b>)
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="SciELO-journalpublishing1_xsd_Element_col.html#col" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component col')">col</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_tbody.html#tbody" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component tbody')">tbody</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_tfoot.html#tfoot" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component tfoot')">tfoot</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_thead.html#thead" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component thead')">thead</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_tr.html#tr" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component tr')">tr</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_table" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_table');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_table" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;table</span><span class="tT"> </span><span class="tAN">border=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cellpadding=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cellspacing=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">frame=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rules=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">summary=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;col</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">char=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">charoff=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">span=</span><span class="tAV">"1"</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">valign=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/col&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;colgroup</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">char=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">charoff=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">span=</span><span class="tAV">"1"</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">valign=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/colgroup&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;thead</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">char=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">charoff=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">valign=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tfoot</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">char=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">charoff=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">valign=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/tfoot&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tbody</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">char=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">charoff=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">valign=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tr</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">char=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">charoff=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">valign=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/table&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_table" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_table');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_table" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table_border" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component border')">border</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Thickness, in pixels, of the border to draw around the table. Avalue of “
+                                             <tt>0</tt>” indicates that the table has no border. (This attribute is based on andintended
+                                             to be converted easily to the XHMTL 
+                                             <tt>border</tt> attribute.) 
+                                          </p>
+                                          <p xmlns="">Supplying the @border attribute without specifying a value indicates that the table
+                                             has a border of the application’s default thickness.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Best Practice: </strong> Although the Tag Set can enforce only that this attribute contain any text, numbers,
+                                             or special characters, best practice is to constrain this value to a counting number
+                                             (positive integer).
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table_cellpadding" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component cellpadding')">cellpadding</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Amount of space, measured in pixels, between the border of a cell and thecontents
+                                             of a table cell. (This attribute is based on andintended to be converted easily to
+                                             the XHMTL 
+                                             <tt>cellpadding</tt> attribute.) 
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Best Practice: </strong> Although the Tag Set can enforce only that this attribute contain any text, numbers,
+                                             or special characters, best practice is to constrain this value to a counting number
+                                             (positive integer).
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table_cellspacing" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component cellspacing')">cellspacing</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Width of space between cells in a table. (This attribute is based on andintended to
+                                             be converted easily to the XHMTL 
+                                             <tt>cellspacing</tt> attribute.)
+                                          </p>
+                                          <p xmlns="">Width of space between cells in a table </p>
+                                          <p xmlns="">
+                                             <strong>Best Practice: </strong> Although the Tag Set can enforce only that this attribute contain any text, numbers,
+                                             or special characters, best practice is to constrain this value to a counting number
+                                             (positive integer).
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table_content-type" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component content-type')">content-type</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Subject or type of content that makes this element semantically distinct.</p>
+                                          <p xmlns="">The values for this attribute may include information classes, semantic categories,
+                                             or functions for grouping elements. This attribute could identify: the name of a drug,
+                                             company, or product; systematics terms such as genus, species, or family; or biological
+                                             systems components, such as gene, protein, or peptide. The attribute could also be
+                                             used to record that the content of a table cell is a total or subtotal amount, that
+                                             a sidebar (&lt;boxed-text&gt;) contains a case study, or that a &lt;statement&gt; is a theorem
+                                             or a proof.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Conversion Note:</strong> This attribute can be used to preserve semantic tagging that can’t be captured directly
+                                             with an element in this Tag Set.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Display/Formatting Note:</strong> The presence of a @content-type attribute may be used to treat its element in a distinct
+                                             way, for example, giving the work, phrase, or structure a different look in print
+                                             or on display. This type of formatting may be guided by the value of the attribute,
+                                             for example, making all circulatory system words (identified by a &lt;named-content&gt;
+                                             element) red or putting a background image behind case studies.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Historical Note:</strong> In Tag Set version 2.3, because “
+                                             <tt>type</tt>” attributes were viewed as a useful tool for preserving Publisher semantics without
+                                             extending the Tag Set, @content-type attributes were added to more than 60 elements
+                                             according to the following rationale. 
+                                          </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>Unless there was a conflicting rule, a @content-type attribute was added.</li>
+                                             <li>Elements that cannot repeat (such as &lt;body&gt; and &lt;title-group&gt;) were not given a @content-type
+                                                attribute. This includes all the “
+                                                <tt>-meta</tt>” elements and most top-level structural elements (such as &lt;front&gt; and &lt;back&gt;).
+                                             </li>
+                                             <li>Elements that can appear more than once by virtue of being part of a 
+                                                <tt>#PCDATA</tt> 
+                                                <tt>OR</tt>-group were given a @content-type attribute.
+                                             </li>
+                                             <li>Elements that already had a “
+                                                <tt>type</tt>” or “
+                                                <tt>style</tt>” attribute were not given a second such attribute.
+                                             </li>
+                                             <li>Elements concerning glyph characters were not given a @content-type attribute.</li>
+                                             <li> 
+                                                <tt>EMPTY</tt> elements (such as all the counts) were not given a @content-type attribute.
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table_frame" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component frame')">frame</a></b></td>
+                                    <td>restriction of <b>xs:token</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Specifies which sides of the table should be given rules, making a box or frameof
+                                             lines around the table. (This attribute is based on andintended to be converted easily
+                                             to the XHMTL 
+                                             <tt>frame</tt> attribute.)
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table_rules" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component rules')">rules</a></b></td>
+                                    <td>restriction of <b>xs:token</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Defines which rules to draw between the rows and columns of an XHTML 1.1 table. (This
+                                             attribute is based on andintended to be converted easily to the XHMTL 
+                                             <tt>rules</tt> attribute.) 
+                                          </p>
+                                          <p xmlns="">If the @rules attribute has not been used, the presence or absence of rules will be
+                                             based on the@border attribute. If 
+                                          </p>
+                                          <pre xmlns="">&lt;th border="0"&gt;</pre>
+                                          <p xmlns="">or there is no @border attribute, then no rules are drawn. Otherwise, the value of
+                                             the @rules attribute is assumed to be “
+                                             <tt>all</tt>”. (The related table attribute @frame only concerns rules around the outside of the
+                                             table.)
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table_style" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component style')">style</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Names the concrete style or rendering to be applied to the element. This attribute
+                                             can be used in several contexts:
+                                          </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>with the styled content element (&lt;styled-content&gt;), records XHTML classes or similar
+                                                styling information;
+                                             </li>
+                                             <li>with many of the elements within a NISO JATS table(&lt;table&gt;), records the name of the
+                                                style to be applied to the element; or
+                                             </li>
+                                             <li>with &lt;mml:math&gt;, use as defined in the documentation for the Mathematical Markup Language
+                                                (MathML) 2.0 Tag Set (http://www.w3.org/TR/MathML2).
+                                             </li>
+                                          </ul>
+                                          <p xmlns="">
+                                             <strong>Best Practice:</strong> When used with a Styled Special (Subject) Content element, the value should be as
+                                             defined in the W3CXHTML 1.1 Tag Set.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table_summary" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component summary')">summary</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">A summary of the contents or the semantics of the table, provided for speech-synthesis
+                                             and non-visual browsers. (This attribute is based on andintended to be converted easily
+                                             to the XHMTL 
+                                             <tt>summary</tt> attribute.)
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table_width" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component width')">width</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">This attribute can be used in several contexts: </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>within the mathematics element (&lt;mml:math&gt;). Use documentation for the Mathematical
+                                                Markup Language (MathML) 2.0 Tag Set. (http://www.w3.org/TR/MathML2/)
+                                             </li>
+                                             <li>within a NISO JATS table (based on and designed to be converted easily to theXHTML
+                                                1.1 table model) this attribute should be used to specify component width (as defined
+                                                in the XHTML 1.1 table model to take advantage of existing software for table handling).
+                                             </li>
+                                          </ul>
+                                          <p xmlns="">As specified in the NISO JATS table model (based on and easily converted to the XHTML
+                                             1.1 table model), this attribute should specify the desired width of the entire table.
+                                             The attribute is intended for visual applications. When the value is a percentage
+                                             value, the value is relative to the available horizontal space. In the absence of
+                                             any width specification, table width is determined by the application. The width value
+                                             can be either an integer number of pixels or a percentage of the width of the display
+                                             window.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="table_id"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b> / @id</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:ID</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_table_id" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_table_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_table_id" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table_id" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table_id" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="table_content-type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b> / @content-type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_table_content-type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_table_content-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_table_content-type" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Subject or type of content that makes this element semantically distinct.</p>
+                                 <p xmlns="">The values for this attribute may include information classes, semantic categories,
+                                    or functions for grouping elements. This attribute could identify: the name of a drug,
+                                    company, or product; systematics terms such as genus, species, or family; or biological
+                                    systems components, such as gene, protein, or peptide. The attribute could also be
+                                    used to record that the content of a table cell is a total or subtotal amount, that
+                                    a sidebar (&lt;boxed-text&gt;) contains a case study, or that a &lt;statement&gt; is a theorem
+                                    or a proof.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Conversion Note:</strong> This attribute can be used to preserve semantic tagging that can’t be captured directly
+                                    with an element in this Tag Set.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Display/Formatting Note:</strong> The presence of a @content-type attribute may be used to treat its element in a distinct
+                                    way, for example, giving the work, phrase, or structure a different look in print
+                                    or on display. This type of formatting may be guided by the value of the attribute,
+                                    for example, making all circulatory system words (identified by a &lt;named-content&gt;
+                                    element) red or putting a background image behind case studies.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Historical Note:</strong> In Tag Set version 2.3, because “
+                                    <tt>type</tt>” attributes were viewed as a useful tool for preserving Publisher semantics without
+                                    extending the Tag Set, @content-type attributes were added to more than 60 elements
+                                    according to the following rationale. 
+                                 </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>Unless there was a conflicting rule, a @content-type attribute was added.</li>
+                                    <li>Elements that cannot repeat (such as &lt;body&gt; and &lt;title-group&gt;) were not given a @content-type
+                                       attribute. This includes all the “
+                                       <tt>-meta</tt>” elements and most top-level structural elements (such as &lt;front&gt; and &lt;back&gt;).
+                                    </li>
+                                    <li>Elements that can appear more than once by virtue of being part of a 
+                                       <tt>#PCDATA</tt> 
+                                       <tt>OR</tt>-group were given a @content-type attribute.
+                                    </li>
+                                    <li>Elements that already had a “
+                                       <tt>type</tt>” or “
+                                       <tt>style</tt>” attribute were not given a second such attribute.
+                                    </li>
+                                    <li>Elements concerning glyph characters were not given a @content-type attribute.</li>
+                                    <li> 
+                                       <tt>EMPTY</tt> elements (such as all the counts) were not given a @content-type attribute.
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table_content-type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table_content-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table_content-type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="table_style"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b> / @style</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_table_style" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_table_style');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_table_style" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Names the concrete style or rendering to be applied to the element. This attribute
+                                    can be used in several contexts:
+                                 </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>with the styled content element (&lt;styled-content&gt;), records XHTML classes or similar
+                                       styling information;
+                                    </li>
+                                    <li>with many of the elements within a NISO JATS table(&lt;table&gt;), records the name of the
+                                       style to be applied to the element; or
+                                    </li>
+                                    <li>with &lt;mml:math&gt;, use as defined in the documentation for the Mathematical Markup Language
+                                       (MathML) 2.0 Tag Set (http://www.w3.org/TR/MathML2).
+                                    </li>
+                                 </ul>
+                                 <p xmlns="">
+                                    <strong>Best Practice:</strong> When used with a Styled Special (Subject) Content element, the value should be as
+                                    defined in the W3CXHTML 1.1 Tag Set.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table_style" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table_style');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table_style" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="table_summary"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b> / @summary</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_table_summary" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_table_summary');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_table_summary" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">A summary of the contents or the semantics of the table, provided for speech-synthesis
+                                    and non-visual browsers. (This attribute is based on andintended to be converted easily
+                                    to the XHMTL 
+                                    <tt>summary</tt> attribute.)
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table_summary" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table_summary');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table_summary" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="table_width"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b> / @width</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_table_width" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_table_width');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_table_width" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">This attribute can be used in several contexts: </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>within the mathematics element (&lt;mml:math&gt;). Use documentation for the Mathematical
+                                       Markup Language (MathML) 2.0 Tag Set. (http://www.w3.org/TR/MathML2/)
+                                    </li>
+                                    <li>within a NISO JATS table (based on and designed to be converted easily to theXHTML
+                                       1.1 table model) this attribute should be used to specify component width (as defined
+                                       in the XHTML 1.1 table model to take advantage of existing software for table handling).
+                                    </li>
+                                 </ul>
+                                 <p xmlns="">As specified in the NISO JATS table model (based on and easily converted to the XHTML
+                                    1.1 table model), this attribute should specify the desired width of the entire table.
+                                    The attribute is intended for visual applications. When the value is a percentage
+                                    value, the value is relative to the available horizontal space. In the absence of
+                                    any width specification, table width is determined by the application. The width value
+                                    can be either an integer number of pixels or a percentage of the width of the display
+                                    window.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table_width" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table_width');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table_width" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="table_border"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b> / @border</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_table_border" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_table_border');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_table_border" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Thickness, in pixels, of the border to draw around the table. Avalue of “
+                                    <tt>0</tt>” indicates that the table has no border. (This attribute is based on andintended
+                                    to be converted easily to the XHMTL 
+                                    <tt>border</tt> attribute.) 
+                                 </p>
+                                 <p xmlns="">Supplying the @border attribute without specifying a value indicates that the table
+                                    has a border of the application’s default thickness.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Best Practice: </strong> Although the Tag Set can enforce only that this attribute contain any text, numbers,
+                                    or special characters, best practice is to constrain this value to a counting number
+                                    (positive integer).
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table_border" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table_border');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table_border" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="table_frame"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b> / @frame</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_table_frame" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_table_frame');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_table_frame" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Specifies which sides of the table should be given rules, making a box or frameof
+                                    lines around the table. (This attribute is based on andintended to be converted easily
+                                    to the XHMTL 
+                                    <tt>frame</tt> attribute.)
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:token</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_table_frame" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_table_frame');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_table_frame" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_table_frame" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_table_frame');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_table_frame" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>void</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>above</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>below</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>hsides</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>lhs</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>rhs</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>vsides</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>box</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>border</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table_frame" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table_frame');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table_frame" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="table_rules"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b> / @rules</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_table_rules" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_table_rules');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_table_rules" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Defines which rules to draw between the rows and columns of an XHTML 1.1 table. (This
+                                    attribute is based on andintended to be converted easily to the XHMTL 
+                                    <tt>rules</tt> attribute.) 
+                                 </p>
+                                 <p xmlns="">If the @rules attribute has not been used, the presence or absence of rules will be
+                                    based on the@border attribute. If 
+                                 </p>
+                                 <pre xmlns="">&lt;th border="0"&gt;</pre>
+                                 <p xmlns="">or there is no @border attribute, then no rules are drawn. Otherwise, the value of
+                                    the @rules attribute is assumed to be “
+                                    <tt>all</tt>”. (The related table attribute @frame only concerns rules around the outside of the
+                                    table.)
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:token</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_table_rules" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_table_rules');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_table_rules" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_table_rules" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_table_rules');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_table_rules" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>none</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>groups</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>rows</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>cols</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>all</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table_rules" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table_rules');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table_rules" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="table_cellspacing"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b> / @cellspacing</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_table_cellspacing" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_table_cellspacing');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_table_cellspacing" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Width of space between cells in a table. (This attribute is based on andintended to
+                                    be converted easily to the XHMTL 
+                                    <tt>cellspacing</tt> attribute.)
+                                 </p>
+                                 <p xmlns="">Width of space between cells in a table </p>
+                                 <p xmlns="">
+                                    <strong>Best Practice: </strong> Although the Tag Set can enforce only that this attribute contain any text, numbers,
+                                    or special characters, best practice is to constrain this value to a counting number
+                                    (positive integer).
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table_cellspacing" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table_cellspacing');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table_cellspacing" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="table_cellpadding"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b> / @cellpadding</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_table_cellpadding" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_table_cellpadding');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_table_cellpadding" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Amount of space, measured in pixels, between the border of a cell and thecontents
+                                    of a table cell. (This attribute is based on andintended to be converted easily to
+                                    the XHMTL 
+                                    <tt>cellpadding</tt> attribute.) 
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Best Practice: </strong> Although the Tag Set can enforce only that this attribute contain any text, numbers,
+                                    or special characters, best practice is to constrain this value to a counting number
+                                    (positive integer).
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_table_cellpadding" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_table_cellpadding');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_table_cellpadding" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

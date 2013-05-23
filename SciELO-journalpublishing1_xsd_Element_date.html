@@ -1,0 +1,940 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component date</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_date');
+
+        
+        
+        var usedByBoxes= new Array('usedBy_date', 
+				'usedBy_date_date-type', 
+				'usedBy_date_publication-format', 
+				'usedBy_date_iso-8601-date', 
+				'usedBy_date_calendar', 
+				'usedBy_date_specific-use');
+
+        
+        var instanceBoxes= new Array('instance_date');
+
+        var diagramBoxes= new Array('diagram_date');
+
+        var annotationBoxes= new Array('annotations_date', 
+				'annotations_date_date-type', 
+				'annotations_date_publication-format', 
+				'annotations_date_iso-8601-date', 
+				'annotations_date_calendar', 
+				'annotations_date_specific-use');
+
+        var attributesBoxes= new Array('attributes_date');
+
+        
+        
+        
+        var modelBoxes= new Array('model_date');
+
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="date"></a><div class="componentTitle">Element <span class="qname">date</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_date" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_date');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_date" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Container element for the parts of a single calendar date.</p>
+                                 <p xmlns="">
+                                    <strong>Usage:</strong>  A &lt;date&gt; element may contain date components such as &lt;day&gt;, &lt;month&gt;, and &lt;year&gt;
+                                    (which are typically given numeric values), as well as non-numeric elements such as
+                                    &lt;season&gt; (which is a text string).
+                                 </p>
+                                 <p xmlns="">When used within citations (&lt;element-citation&gt; and &lt;mixed-citation&gt;), this element
+                                    names the publication date of the cited source. When used as part of &lt;history&gt;, this
+                                    element holds one of the publication history dates that may be preserved for an article,
+                                    such as when it was received or when it was accepted.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Related Essay:</strong> For a discussion on the use of &lt;date&gt;, see Dates in Citations.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_date" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_date');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_date" style="display:block"><img alt="Diagram" border="0" src="img/SciELO-journalpublishing1_xsd_Element_date.jpeg" usemap="#SciELO-journalpublishing1_xsd_Element_date" /><map name="SciELO-journalpublishing1_xsd_Element_date" id="SciELO-journalpublishing1_xsd_Element_date">
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_date.tmp#date_date-type" href="SciELO-journalpublishing1_xsd_Element_date.html#date_date-type" coords="116,40,205,64" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_date.tmp#date_publication-format" href="SciELO-journalpublishing1_xsd_Element_date.html#date_publication-format" coords="116,130,255,154" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_date.tmp#date_iso-8601-date" href="SciELO-journalpublishing1_xsd_Element_date.html#date_iso-8601-date" coords="116,233,232,257" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_date.tmp#date_calendar" href="SciELO-journalpublishing1_xsd_Element_date.html#date_calendar" coords="116,323,199,347" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_date.tmp#date_specific-use" href="SciELO-journalpublishing1_xsd_Element_date.html#date_specific-use" coords="116,413,219,437" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_day.tmp#day" href="SciELO-journalpublishing1_xsd_Element_day.html#day" coords="315,523,366,547" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_month.tmp#month" href="SciELO-journalpublishing1_xsd_Element_month.html#month" coords="315,639,381,663" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_season.tmp#season" href="SciELO-journalpublishing1_xsd_Element_season.html#season" coords="244,755,313,779" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_year.tmp#year" href="SciELO-journalpublishing1_xsd_Element_year.html#year" coords="173,871,227,895" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_date" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_date');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_date" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_date" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_date');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_date" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Elements </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_element-citation.html#element-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component element-citation')">element-citation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_history.html#history" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component history')">history</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_mixed-citation.html#mixed-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component mixed-citation')">mixed-citation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_product.html#NO_NAMESPACE_product" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component product')">product</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_related-article.html#related-article" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component related-article')">related-article</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_related-object.html#related-object" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component related-object')">related-object</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_date" type="image" src="img/btM.gif" value="-" onclick="switchState('model_date');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_date" style="display:block">((<b><a href="SciELO-journalpublishing1_xsd_Element_day.html#day" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component day{0,1}')">day{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_month.html#month" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component month{0,1}')">month{0,1}</a></b>) | <b><a href="SciELO-journalpublishing1_xsd_Element_season.html#season" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component season')">season</a></b>) , <b><a href="SciELO-journalpublishing1_xsd_Element_year.html#year" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component year')">year</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="SciELO-journalpublishing1_xsd_Element_day.html#day" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component day')">day</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_month.html#month" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component month')">month</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_season.html#season" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component season')">season</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_year.html#year" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component year')">year</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_date" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_date');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_date" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;date</span><span class="tT"> </span><span class="tAN">calendar=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">date-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">iso-8601-date=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publication-format=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;day</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/day&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;month</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/month&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;season</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/season&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;year</span><span class="tT"> </span><span class="tAN">calendar=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">iso-8601-date=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/year&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/date&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_date" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_date');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_date" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date_calendar" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component calendar')">calendar</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Name of the calendar used in naming a date such as a publication date, for example,
+                                             “
+                                             <tt>Gregorian</tt>”, “
+                                             <tt>Japanese</tt>” (Emperor years), or “
+                                             <tt>Islamic</tt>”.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date_date-type" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date-type')">date-type</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Event in the lifecycle of an article that this date is marking (for example, the date
+                                             themanuscript was received or accepted, the date the electronic preprint was published,
+                                             or the date of any revision or retraction).
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date_iso-8601-date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component iso-8601-date')">iso-8601-date</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">A machine-processable, ISO 8601 formatted date(“
+                                             <tt>YYYY-MM-DDThh:mm:ss</tt>”) value for a date that may be specified as text,as a partial date, or as any other
+                                             date format that cannot be guaranteed to be machine-processable.
+                                          </p>
+                                          <p xmlns="">The ISO date format : “
+                                             <tt>YYYY-MM-DDThh:mm:ss</tt>” may be used, for example, to add a numeric value, such as “
+                                             <tt>01</tt>” to a &lt;month&gt; element with a value of “
+                                             <tt>January</tt>”. In addition, the hours, minutes, and seconds may be used to include a timestamp
+                                             for a date, for example, when a publication date has both an embargo date and an embargo
+                                             time.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date_publication-format" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component publication-format')">publication-format</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Format or medium of the document (for example, “
+                                             <tt>print</tt>”). This element is used in two senses:
+                                          </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>to describe the format/medium for a publication date or other lifecycle date such
+                                                as an acceptance date or a revision date, and
+                                             </li>
+                                             <li>to name the format/medium of the document being cited as part of a bibliographic reference.</li>
+                                          </ul>
+                                          <p xmlns="">
+                                             <strong>Best Practice:</strong> This attribute should be used when the value is known. Values may include such formats
+                                             as “
+                                             <tt>print</tt>”, “
+                                             <tt>electronic</tt>”, “
+                                             <tt>video</tt>”, “
+                                             <tt>audio</tt>”,“
+                                             <tt>ebook</tt>”, “
+                                             <tt>online-only</tt>”.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date_specific-use" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component specific-use')">specific-use</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Specifies distinctions in the applicability of a particular element.</p>
+                                          <p xmlns="">No particular processing or display is promised by the values of this attribute; it
+                                             is up to the users’ application to make any appropriate display versions. This attribute
+                                             can be used to create some of the old SGML functionality of using Marked Sections
+                                             within text.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Best Practice:</strong> This attribute is not used to make semantic distinctions; the attribute @content-type
+                                             is more appropriate to tell, for example, “
+                                             <tt>skeletal</tt>” system material, “
+                                             <tt>circulatory</tt>” system material, and “
+                                             <tt>lymphatic</tt>” system material, or “
+                                             <tt>legal</tt>” material from “
+                                             <tt>engineering</tt>” material. The @specific-use attribute is used to make usage or processing distinctions,
+                                             for example, audience or sorting distinctions. The attributes can be used together,
+                                             for example, to mark “
+                                             <tt>content-type="dosage" specific-use="for-the-patient"</tt>”. The attribute can also be used in combination with the @xml:lang attribute to indicate,
+                                             for example, that a name given in a second language is a transliteration of the primary
+                                             name. This attribute is not appropriate for differences in appearance; the element
+                                             &lt;styled-content&gt; is typically better for that use. Nor should this attribute be used
+                                             to record lifecycle or version distinctions.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="date_date-type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date')">date</a></b> / @date-type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_date_date-type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_date_date-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_date_date-type" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Event in the lifecycle of an article that this date is marking (for example, the date
+                                    themanuscript was received or accepted, the date the electronic preprint was published,
+                                    or the date of any revision or retraction).
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_date_date-type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_date_date-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_date_date-type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date')">date</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="date_publication-format"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date')">date</a></b> / @publication-format</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_date_publication-format" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_date_publication-format');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_date_publication-format" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Format or medium of the document (for example, “
+                                    <tt>print</tt>”). This element is used in two senses:
+                                 </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>to describe the format/medium for a publication date or other lifecycle date such
+                                       as an acceptance date or a revision date, and
+                                    </li>
+                                    <li>to name the format/medium of the document being cited as part of a bibliographic reference.</li>
+                                 </ul>
+                                 <p xmlns="">
+                                    <strong>Best Practice:</strong> This attribute should be used when the value is known. Values may include such formats
+                                    as “
+                                    <tt>print</tt>”, “
+                                    <tt>electronic</tt>”, “
+                                    <tt>video</tt>”, “
+                                    <tt>audio</tt>”,“
+                                    <tt>ebook</tt>”, “
+                                    <tt>online-only</tt>”.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_date_publication-format" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_date_publication-format');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_date_publication-format" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date')">date</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="date_iso-8601-date"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date')">date</a></b> / @iso-8601-date</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_date_iso-8601-date" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_date_iso-8601-date');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_date_iso-8601-date" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">A machine-processable, ISO 8601 formatted date(“
+                                    <tt>YYYY-MM-DDThh:mm:ss</tt>”) value for a date that may be specified as text,as a partial date, or as any other
+                                    date format that cannot be guaranteed to be machine-processable.
+                                 </p>
+                                 <p xmlns="">The ISO date format : “
+                                    <tt>YYYY-MM-DDThh:mm:ss</tt>” may be used, for example, to add a numeric value, such as “
+                                    <tt>01</tt>” to a &lt;month&gt; element with a value of “
+                                    <tt>January</tt>”. In addition, the hours, minutes, and seconds may be used to include a timestamp
+                                    for a date, for example, when a publication date has both an embargo date and an embargo
+                                    time.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_date_iso-8601-date" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_date_iso-8601-date');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_date_iso-8601-date" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date')">date</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="date_calendar"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date')">date</a></b> / @calendar</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_date_calendar" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_date_calendar');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_date_calendar" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Name of the calendar used in naming a date such as a publication date, for example,
+                                    “
+                                    <tt>Gregorian</tt>”, “
+                                    <tt>Japanese</tt>” (Emperor years), or “
+                                    <tt>Islamic</tt>”.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_date_calendar" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_date_calendar');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_date_calendar" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date')">date</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="date_specific-use"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date')">date</a></b> / @specific-use</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_date_specific-use" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_date_specific-use');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_date_specific-use" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Specifies distinctions in the applicability of a particular element.</p>
+                                 <p xmlns="">No particular processing or display is promised by the values of this attribute; it
+                                    is up to the users’ application to make any appropriate display versions. This attribute
+                                    can be used to create some of the old SGML functionality of using Marked Sections
+                                    within text.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Best Practice:</strong> This attribute is not used to make semantic distinctions; the attribute @content-type
+                                    is more appropriate to tell, for example, “
+                                    <tt>skeletal</tt>” system material, “
+                                    <tt>circulatory</tt>” system material, and “
+                                    <tt>lymphatic</tt>” system material, or “
+                                    <tt>legal</tt>” material from “
+                                    <tt>engineering</tt>” material. The @specific-use attribute is used to make usage or processing distinctions,
+                                    for example, audience or sorting distinctions. The attributes can be used together,
+                                    for example, to mark “
+                                    <tt>content-type="dosage" specific-use="for-the-patient"</tt>”. The attribute can also be used in combination with the @xml:lang attribute to indicate,
+                                    for example, that a name given in a second language is a transliteration of the primary
+                                    name. This attribute is not appropriate for differences in appearance; the element
+                                    &lt;styled-content&gt; is typically better for that use. Nor should this attribute be used
+                                    to record lifecycle or version distinctions.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_date_specific-use" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_date_specific-use');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_date_specific-use" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_date.html#date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date')">date</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

@@ -1,0 +1,826 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component ack</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_ack', 
+				'properties_ack_id');
+
+        
+        
+        var usedByBoxes= new Array('usedBy_ack', 
+				'usedBy_ack_id', 
+				'usedBy_ack_specific-use', 
+				'usedBy_ack_content-type');
+
+        
+        var instanceBoxes= new Array('instance_ack');
+
+        var diagramBoxes= new Array('diagram_ack');
+
+        var annotationBoxes= new Array('annotations_ack', 
+				'annotations_ack_specific-use', 
+				'annotations_ack_content-type');
+
+        var attributesBoxes= new Array('attributes_ack');
+
+        
+        
+        
+        var modelBoxes= new Array('model_ack');
+
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="ack"></a><div class="componentTitle">Element <span class="qname">ack</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_ack" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_ack');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_ack" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Textual material that names the parties who the author wishes to thank or recognize
+                                    for their assistance in, for example, producing the work, funding the work, inspiring
+                                    the work, or assisting in the research on which the work is based.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_ack" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_ack');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_ack" style="display:block"><img alt="Diagram" border="0" src="img/SciELO-journalpublishing1_xsd_Element_ack.jpeg" usemap="#SciELO-journalpublishing1_xsd_Element_ack" /><map name="SciELO-journalpublishing1_xsd_Element_ack" id="SciELO-journalpublishing1_xsd_Element_ack">
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_ack.tmp#ack_id" href="SciELO-journalpublishing1_xsd_Element_ack.html#ack_id" coords="113,40,205,82" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_ack.tmp#ack_specific-use" href="SciELO-journalpublishing1_xsd_Element_ack.html#ack_specific-use" coords="113,92,216,116" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_ack.tmp#ack_content-type" href="SciELO-journalpublishing1_xsd_Element_ack.html#ack_content-type" coords="113,195,220,219" />
+                                 <area alt="xml_xsd_Attribute_xml_lang.tmp#lang" href="xml_xsd_Attribute_xml_lang.html#lang" coords="113,298,207,322" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_label.tmp#label" href="SciELO-journalpublishing1_xsd_Element_label.html#label" coords="191,339,247,363" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_title.tmp#NO_NAMESPACE_title" href="SciELO-journalpublishing1_xsd_Element_title.html#NO_NAMESPACE_title" coords="191,455,242,479" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_p.tmp#p" href="SciELO-journalpublishing1_xsd_Element_p.html#p" coords="191,532,242,556" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_sec.tmp#NO_NAMESPACE_sec" href="SciELO-journalpublishing1_xsd_Element_sec.html#NO_NAMESPACE_sec" coords="191,635,242,659" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_ref-list.tmp#ref-list" href="SciELO-journalpublishing1_xsd_Element_ref-list.html#ref-list" coords="191,738,259,762" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ack" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ack');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ack" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_ack" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_ack');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_ack" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_back.html#back" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component back')">back</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_ack" type="image" src="img/btM.gif" value="-" onclick="switchState('model_ack');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_ack" style="display:block"><b><a href="SciELO-journalpublishing1_xsd_Element_label.html#label" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component label{0,1}')">label{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_title.html#NO_NAMESPACE_title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component title{0,1}')">title{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_p.html#p" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component p*')">p*</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_sec.html#NO_NAMESPACE_sec" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sec*')">sec*</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_ref-list.html#ref-list" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ref-list*')">ref-list*</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="SciELO-journalpublishing1_xsd_Element_label.html#label" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component label')">label</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_p.html#p" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component p')">p</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_ref-list.html#ref-list" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ref-list')">ref-list</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_sec.html#NO_NAMESPACE_sec" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sec')">sec</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_title.html#NO_NAMESPACE_title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component title')">title</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_ack" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_ack');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_ack" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;ack</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;label</span><span class="tT"> </span><span class="tAN">alt=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/label&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;title</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/title&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;p</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;sec</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">sec-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/sec&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ref-list</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/ref-list&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/ack&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_ack" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_ack');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_ack" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_ack.html#ack_content-type" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component content-type')">content-type</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Subject or type of content that makes this element semantically distinct.</p>
+                                          <p xmlns="">The values for this attribute may include information classes, semantic categories,
+                                             or functions for grouping elements. This attribute could identify: the name of a drug,
+                                             company, or product; systematics terms such as genus, species, or family; or biological
+                                             systems components, such as gene, protein, or peptide. The attribute could also be
+                                             used to record that the content of a table cell is a total or subtotal amount, that
+                                             a sidebar (&lt;boxed-text&gt;) contains a case study, or that a &lt;statement&gt; is a theorem
+                                             or a proof.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Conversion Note:</strong> This attribute can be used to preserve semantic tagging that can’t be captured directly
+                                             with an element in this Tag Set.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Display/Formatting Note:</strong> The presence of a @content-type attribute may be used to treat its element in a distinct
+                                             way, for example, giving the work, phrase, or structure a different look in print
+                                             or on display. This type of formatting may be guided by the value of the attribute,
+                                             for example, making all circulatory system words (identified by a &lt;named-content&gt;
+                                             element) red or putting a background image behind case studies.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Historical Note:</strong> In Tag Set version 2.3, because “
+                                             <tt>type</tt>” attributes were viewed as a useful tool for preserving Publisher semantics without
+                                             extending the Tag Set, @content-type attributes were added to more than 60 elements
+                                             according to the following rationale. 
+                                          </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>Unless there was a conflicting rule, a @content-type attribute was added.</li>
+                                             <li>Elements that cannot repeat (such as &lt;body&gt; and &lt;title-group&gt;) were not given a @content-type
+                                                attribute. This includes all the “
+                                                <tt>-meta</tt>” elements and most top-level structural elements (such as &lt;front&gt; and &lt;back&gt;).
+                                             </li>
+                                             <li>Elements that can appear more than once by virtue of being part of a 
+                                                <tt>#PCDATA</tt> 
+                                                <tt>OR</tt>-group were given a @content-type attribute.
+                                             </li>
+                                             <li>Elements that already had a “
+                                                <tt>type</tt>” or “
+                                                <tt>style</tt>” attribute were not given a second such attribute.
+                                             </li>
+                                             <li>Elements concerning glyph characters were not given a @content-type attribute.</li>
+                                             <li> 
+                                                <tt>EMPTY</tt> elements (such as all the counts) were not given a @content-type attribute.
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_ack.html#ack_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_ack.html#ack_specific-use" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component specific-use')">specific-use</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Specifies distinctions in the applicability of a particular element.</p>
+                                          <p xmlns="">No particular processing or display is promised by the values of this attribute; it
+                                             is up to the users’ application to make any appropriate display versions. This attribute
+                                             can be used to create some of the old SGML functionality of using Marked Sections
+                                             within text.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Best Practice:</strong> This attribute is not used to make semantic distinctions; the attribute @content-type
+                                             is more appropriate to tell, for example, “
+                                             <tt>skeletal</tt>” system material, “
+                                             <tt>circulatory</tt>” system material, and “
+                                             <tt>lymphatic</tt>” system material, or “
+                                             <tt>legal</tt>” material from “
+                                             <tt>engineering</tt>” material. The @specific-use attribute is used to make usage or processing distinctions,
+                                             for example, audience or sorting distinctions. The attributes can be used together,
+                                             for example, to mark “
+                                             <tt>content-type="dosage" specific-use="for-the-patient"</tt>”. The attribute can also be used in combination with the @xml:lang attribute to indicate,
+                                             for example, that a name given in a second language is a transliteration of the primary
+                                             name. This attribute is not appropriate for differences in appearance; the element
+                                             &lt;styled-content&gt; is typically better for that use. Nor should this attribute be used
+                                             to record lifecycle or version distinctions.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xml_xsd_Attribute_xml_lang.html#lang" target="mainFrame" title="http://www.w3.org/XML/1998/namespace" onclick="updatePageTitle('Schema documentation for component xml:lang')">xml:lang</a></b></td>
+                                    <td><b>xs:NMTOKEN</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ack_id"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_ack.html#ack" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ack')">ack</a></b> / @id</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:ID</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_ack_id" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_ack_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_ack_id" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_ack_id" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_ack_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_ack_id" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_ack.html#ack" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ack')">ack</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ack_specific-use"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_ack.html#ack" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ack')">ack</a></b> / @specific-use</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_ack_specific-use" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_ack_specific-use');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_ack_specific-use" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Specifies distinctions in the applicability of a particular element.</p>
+                                 <p xmlns="">No particular processing or display is promised by the values of this attribute; it
+                                    is up to the users’ application to make any appropriate display versions. This attribute
+                                    can be used to create some of the old SGML functionality of using Marked Sections
+                                    within text.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Best Practice:</strong> This attribute is not used to make semantic distinctions; the attribute @content-type
+                                    is more appropriate to tell, for example, “
+                                    <tt>skeletal</tt>” system material, “
+                                    <tt>circulatory</tt>” system material, and “
+                                    <tt>lymphatic</tt>” system material, or “
+                                    <tt>legal</tt>” material from “
+                                    <tt>engineering</tt>” material. The @specific-use attribute is used to make usage or processing distinctions,
+                                    for example, audience or sorting distinctions. The attributes can be used together,
+                                    for example, to mark “
+                                    <tt>content-type="dosage" specific-use="for-the-patient"</tt>”. The attribute can also be used in combination with the @xml:lang attribute to indicate,
+                                    for example, that a name given in a second language is a transliteration of the primary
+                                    name. This attribute is not appropriate for differences in appearance; the element
+                                    &lt;styled-content&gt; is typically better for that use. Nor should this attribute be used
+                                    to record lifecycle or version distinctions.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_ack_specific-use" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_ack_specific-use');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_ack_specific-use" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_ack.html#ack" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ack')">ack</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="ack_content-type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_ack.html#ack" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ack')">ack</a></b> / @content-type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_ack_content-type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_ack_content-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_ack_content-type" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Subject or type of content that makes this element semantically distinct.</p>
+                                 <p xmlns="">The values for this attribute may include information classes, semantic categories,
+                                    or functions for grouping elements. This attribute could identify: the name of a drug,
+                                    company, or product; systematics terms such as genus, species, or family; or biological
+                                    systems components, such as gene, protein, or peptide. The attribute could also be
+                                    used to record that the content of a table cell is a total or subtotal amount, that
+                                    a sidebar (&lt;boxed-text&gt;) contains a case study, or that a &lt;statement&gt; is a theorem
+                                    or a proof.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Conversion Note:</strong> This attribute can be used to preserve semantic tagging that can’t be captured directly
+                                    with an element in this Tag Set.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Display/Formatting Note:</strong> The presence of a @content-type attribute may be used to treat its element in a distinct
+                                    way, for example, giving the work, phrase, or structure a different look in print
+                                    or on display. This type of formatting may be guided by the value of the attribute,
+                                    for example, making all circulatory system words (identified by a &lt;named-content&gt;
+                                    element) red or putting a background image behind case studies.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Historical Note:</strong> In Tag Set version 2.3, because “
+                                    <tt>type</tt>” attributes were viewed as a useful tool for preserving Publisher semantics without
+                                    extending the Tag Set, @content-type attributes were added to more than 60 elements
+                                    according to the following rationale. 
+                                 </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>Unless there was a conflicting rule, a @content-type attribute was added.</li>
+                                    <li>Elements that cannot repeat (such as &lt;body&gt; and &lt;title-group&gt;) were not given a @content-type
+                                       attribute. This includes all the “
+                                       <tt>-meta</tt>” elements and most top-level structural elements (such as &lt;front&gt; and &lt;back&gt;).
+                                    </li>
+                                    <li>Elements that can appear more than once by virtue of being part of a 
+                                       <tt>#PCDATA</tt> 
+                                       <tt>OR</tt>-group were given a @content-type attribute.
+                                    </li>
+                                    <li>Elements that already had a “
+                                       <tt>type</tt>” or “
+                                       <tt>style</tt>” attribute were not given a second such attribute.
+                                    </li>
+                                    <li>Elements concerning glyph characters were not given a @content-type attribute.</li>
+                                    <li> 
+                                       <tt>EMPTY</tt> elements (such as all the counts) were not given a @content-type attribute.
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_ack_content-type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_ack_content-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_ack_content-type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_ack.html#ack" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ack')">ack</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

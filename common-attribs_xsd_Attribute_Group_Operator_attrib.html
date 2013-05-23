@@ -1,0 +1,1317 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component form</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_Operator.attrib_form', 
+				'properties_Operator.attrib_lspace', 
+				'properties_Operator.attrib_rspace', 
+				'properties_Operator.attrib_fence', 
+				'properties_Operator.attrib_separator', 
+				'properties_Operator.attrib_stretchy', 
+				'properties_Operator.attrib_symmetric', 
+				'properties_Operator.attrib_movablelimits', 
+				'properties_Operator.attrib_accent', 
+				'properties_Operator.attrib_largeop', 
+				'properties_Operator.attrib_minsize', 
+				'properties_Operator.attrib_maxsize');
+
+        
+        var facetsBoxes= new Array('facets_Operator.attrib_form');
+
+        var usedByBoxes= new Array('usedBy_Operator.attrib_form', 
+				'usedBy_Operator.attrib_lspace', 
+				'usedBy_Operator.attrib_rspace', 
+				'usedBy_Operator.attrib_fence', 
+				'usedBy_Operator.attrib_separator', 
+				'usedBy_Operator.attrib_stretchy', 
+				'usedBy_Operator.attrib_symmetric', 
+				'usedBy_Operator.attrib_movablelimits', 
+				'usedBy_Operator.attrib_accent', 
+				'usedBy_Operator.attrib_largeop', 
+				'usedBy_Operator.attrib_minsize', 
+				'usedBy_Operator.attrib_maxsize', 
+				'usedBy_Operator.attrib');
+
+        
+        
+        var diagramBoxes= new Array('diagram_Operator.attrib');
+
+        
+        var attributesBoxes= new Array('attributes_Operator.attrib');
+
+        
+        
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, facetsBoxes);" class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="Operator.attrib_form"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @form</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_form" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_form');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_form" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_Operator.attrib_form" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_Operator.attrib_form');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_Operator.attrib_form" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>prefix</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>infix</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>postfix</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_form" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_form');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_form" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_lspace"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @lspace</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>)
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_lspace" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_lspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_lspace" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_lspace" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_lspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_lspace" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_rspace"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @rspace</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>)
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_rspace" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_rspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_rspace" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_rspace" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_rspace');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_rspace" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_fence"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @fence</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_fence" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_fence');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_fence" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_fence" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_fence');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_fence" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_separator"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @separator</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_separator" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_separator');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_separator" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_separator" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_separator');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_separator" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_stretchy"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @stretchy</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_stretchy" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_stretchy');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_stretchy" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_stretchy" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_stretchy');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_stretchy" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_symmetric"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @symmetric</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_symmetric" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_symmetric');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_symmetric" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_symmetric" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_symmetric');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_symmetric" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_movablelimits"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @movablelimits</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_movablelimits" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_movablelimits');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_movablelimits" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_movablelimits" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_movablelimits');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_movablelimits" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_accent"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @accent</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_accent" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_accent');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_accent" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_accent" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_accent');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_accent" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_largeop"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @largeop</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_largeop" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_largeop');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_largeop" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_largeop" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_largeop');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_largeop" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_minsize"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @minsize</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>)
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_minsize" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_minsize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_minsize" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_minsize" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_minsize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_minsize" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib_maxsize"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b> / @maxsize</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>, <b><a href="common-types_xsd_Simple_Type_infinity.html#infinity" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component infinity')">infinity</a></b>, <b>xs:float</b>)
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Operator.attrib_maxsize" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Operator.attrib_maxsize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Operator.attrib_maxsize" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib_maxsize" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib_maxsize');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib_maxsize" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Operator.attrib')">Operator.attrib</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Operator.attrib"></a><div class="componentTitle">Attribute Group <span class="qname">Operator.attrib</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1998/Math/MathML</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Operator.attrib" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Operator.attrib');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Operator.attrib" style="display:block"><img alt="Diagram" border="0" src="img/common-attribs_xsd_Attribute_Group_Operator_attrib.jpeg" usemap="#common-attribs_xsd_Attribute_Group_Operator_attrib" /><map name="common-attribs_xsd_Attribute_Group_Operator_attrib" id="common-attribs_xsd_Attribute_Group_Operator_attrib">
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_form" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_form" coords="164,0,238,24" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_lspace" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_lspace" coords="164,34,246,58" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_rspace" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_rspace" coords="164,68,248,92" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_fence" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_fence" coords="164,102,241,126" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_separator" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_separator" coords="164,136,264,160" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_stretchy" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_stretchy" coords="164,170,256,194" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_symmetric" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_symmetric" coords="164,204,268,228" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_movablelimits" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_movablelimits" coords="164,238,286,262" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_accent" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_accent" coords="164,272,247,296" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_largeop" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_largeop" coords="164,306,253,330" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_minsize" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_minsize" coords="164,340,253,364" />
+                                 <area alt="common-attribs_xsd_Attribute_Group_Operator_attrib.tmp#Operator.attrib_maxsize" href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_maxsize" coords="164,374,256,398" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Operator.attrib" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Operator.attrib');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Operator.attrib" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Groups </td>
+                                    <td><b><a href="tokens_xsd_Attribute_Group_mo_attlist.html#mo.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mo.attlist')">mo.attlist</a></b>, <b><a href="style_xsd_Attribute_Group_mstyle_attlist.html#mstyle.attlist" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle.attlist')">mstyle.attlist</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_Operator.attrib" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_Operator.attrib');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_Operator.attrib" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_accent" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component accent')">accent</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_fence" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fence')">fence</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_form" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component form')">form</a></b></td>
+                                    <td>restriction of <b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_largeop" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component largeop')">largeop</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_lspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component lspace')">lspace</a></b></td>
+                                    <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>)
+                                    </td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_maxsize" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component maxsize')">maxsize</a></b></td>
+                                    <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>, <b><a href="common-types_xsd_Simple_Type_infinity.html#infinity" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component infinity')">infinity</a></b>, <b>xs:float</b>)
+                                    </td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_minsize" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component minsize')">minsize</a></b></td>
+                                    <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>)
+                                    </td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_movablelimits" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component movablelimits')">movablelimits</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_rspace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component rspace')">rspace</a></b></td>
+                                    <td>union of(<b><a href="common-types_xsd_Simple_Type_length-with-unit.html#length-with-unit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component length-with-unit')">length-with-unit</a></b>, <b><a href="common-types_xsd_Simple_Type_named-space.html#named-space" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component named-space')">named-space</a></b>)
+                                    </td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_separator" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component separator')">separator</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_stretchy" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component stretchy')">stretchy</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Operator_attrib.html#Operator.attrib_symmetric" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component symmetric')">symmetric</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

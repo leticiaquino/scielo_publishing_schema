@@ -1,0 +1,415 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component PresExpr.class</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        var usedByBoxes= new Array('usedBy_PresExpr.class');
+
+        
+        
+        var diagramBoxes= new Array('diagram_PresExpr.class');
+
+        
+        
+        
+        
+        
+        var modelBoxes= new Array('model_PresExpr.class');
+
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="PresExpr.class"></a><div class="componentTitle">Element Group <span class="qname">PresExpr.class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1998/Math/MathML</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_PresExpr.class" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_PresExpr.class');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_PresExpr.class" style="display:block"><img alt="Diagram" border="0" src="img/math_xsd_Element_Group_PresExpr_class.jpeg" usemap="#math_xsd_Element_Group_PresExpr_class" /><map name="math_xsd_Element_Group_PresExpr_class" id="math_xsd_Element_Group_PresExpr_class">
+                                 <area alt="tokens_xsd_Element_mi.tmp#mi" href="tokens_xsd_Element_mi.html#mi" coords="317,44,368,68" />
+                                 <area alt="tokens_xsd_Element_mo.tmp#mo" href="tokens_xsd_Element_mo.html#mo" coords="317,78,368,102" />
+                                 <area alt="tokens_xsd_Element_mn.tmp#mn" href="tokens_xsd_Element_mn.html#mn" coords="317,112,368,136" />
+                                 <area alt="tokens_xsd_Element_mtext.tmp#mtext" href="tokens_xsd_Element_mtext.html#mtext" coords="317,146,379,170" />
+                                 <area alt="tokens_xsd_Element_ms.tmp#ms" href="tokens_xsd_Element_ms.html#ms" coords="317,180,368,204" />
+                                 <area alt="tokens_xsd_Element_Group_Presentation-token_class.tmp#Presentation-token.class" href="tokens_xsd_Element_Group_Presentation-token_class.html#Presentation-token.class" coords="235,3,423,29" />
+                                 <area alt="layout_xsd_Element_mrow.tmp#mrow" href="layout_xsd_Element_mrow.html#mrow" coords="317,265,378,289" />
+                                 <area alt="layout_xsd_Element_mfrac.tmp#mfrac" href="layout_xsd_Element_mfrac.html#mfrac" coords="317,299,379,323" />
+                                 <area alt="layout_xsd_Element_msqrt.tmp#msqrt" href="layout_xsd_Element_msqrt.html#msqrt" coords="317,333,380,357" />
+                                 <area alt="layout_xsd_Element_mroot.tmp#mroot" href="layout_xsd_Element_mroot.html#mroot" coords="317,367,381,391" />
+                                 <area alt="layout_xsd_Element_mpadded.tmp#mpadded" href="layout_xsd_Element_mpadded.html#mpadded" coords="317,401,398,425" />
+                                 <area alt="layout_xsd_Element_mphantom.tmp#mphantom" href="layout_xsd_Element_mphantom.html#mphantom" coords="317,435,406,459" />
+                                 <area alt="layout_xsd_Element_mfenced.tmp#mfenced" href="layout_xsd_Element_mfenced.html#mfenced" coords="317,469,394,493" />
+                                 <area alt="layout_xsd_Element_menclose.tmp#menclose" href="layout_xsd_Element_menclose.html#menclose" coords="317,503,399,527" />
+                                 <area alt="layout_xsd_Element_Group_Presentation-layout_class.tmp#Presentation-layout.class" href="layout_xsd_Element_Group_Presentation-layout_class.html#Presentation-layout.class" coords="235,224,426,250" />
+                                 <area alt="scripts_xsd_Element_msub.tmp#msub" href="scripts_xsd_Element_msub.html#msub" coords="317,588,378,612" />
+                                 <area alt="scripts_xsd_Element_msup.tmp#msup" href="scripts_xsd_Element_msup.html#msup" coords="317,622,378,646" />
+                                 <area alt="scripts_xsd_Element_msubsup.tmp#msubsup" href="scripts_xsd_Element_msubsup.html#msubsup" coords="317,656,398,680" />
+                                 <area alt="scripts_xsd_Element_munder.tmp#munder" href="scripts_xsd_Element_munder.html#munder" coords="317,690,390,714" />
+                                 <area alt="scripts_xsd_Element_mover.tmp#mover" href="scripts_xsd_Element_mover.html#mover" coords="317,724,382,748" />
+                                 <area alt="scripts_xsd_Element_munderover.tmp#munderover" href="scripts_xsd_Element_munderover.html#munderover" coords="317,758,414,782" />
+                                 <area alt="scripts_xsd_Element_mmultiscripts.tmp#mmultiscripts" href="scripts_xsd_Element_mmultiscripts.html#mmultiscripts" coords="317,792,422,816" />
+                                 <area alt="scripts_xsd_Element_Group_Presentation-script_class.tmp#Presentation-script.class" href="scripts_xsd_Element_Group_Presentation-script_class.html#Presentation-script.class" coords="235,547,424,573" />
+                                 <area alt="table_xsd_Element_mtable.tmp#mtable" href="table_xsd_Element_mtable.html#mtable" coords="317,877,384,901" />
+                                 <area alt="table_xsd_Element_maligngroup.tmp#maligngroup" href="table_xsd_Element_maligngroup.html#maligngroup" coords="317,911,417,935" />
+                                 <area alt="table_xsd_Element_malignmark.tmp#malignmark" href="table_xsd_Element_malignmark.html#malignmark" coords="317,945,411,969" />
+                                 <area alt="table_xsd_Element_Group_Presentation-table_class.tmp#Presentation-table.class" href="table_xsd_Element_Group_Presentation-table_class.html#Presentation-table.class" coords="235,836,419,862" />
+                                 <area alt="space_xsd_Element_mspace.tmp#mspace" href="space_xsd_Element_mspace.html#mspace" coords="232,986,304,1010" />
+                                 <area alt="action_xsd_Element_maction.tmp#maction" href="action_xsd_Element_maction.html#maction" coords="232,1020,306,1044" />
+                                 <area alt="error_xsd_Element_merror.tmp#merror" href="error_xsd_Element_merror.html#merror" coords="232,1054,301,1078" />
+                                 <area alt="style_xsd_Element_mstyle.tmp#mstyle" href="style_xsd_Element_mstyle.html#mstyle" coords="232,1088,298,1112" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_PresExpr.class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_PresExpr.class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_PresExpr.class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element Groups </td>
+                                    <td><b><a href="math_xsd_Element_Group_Content-expr_class.html#Content-expr.class" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Content-expr.class')">Content-expr.class</a></b>, <b><a href="math_xsd_Element_Group_Presentation-expr_class.html#Presentation-expr.class" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component Presentation-expr.class')">Presentation-expr.class</a></b>, <b><a href="math_xsd_Element_Group_math_content.html#math.content" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component math.content')">math.content</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_PresExpr.class" type="image" src="img/btM.gif" value="-" onclick="switchState('model_PresExpr.class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_PresExpr.class" style="display:block"><b><a href="tokens_xsd_Element_mi.html#mi" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mi')">mi</a></b> | <b><a href="tokens_xsd_Element_mo.html#mo" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mo')">mo</a></b> | <b><a href="tokens_xsd_Element_mn.html#mn" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mn')">mn</a></b> | <b><a href="tokens_xsd_Element_mtext.html#mtext" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mtext')">mtext</a></b> | <b><a href="tokens_xsd_Element_ms.html#ms" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ms')">ms</a></b> | <b><a href="layout_xsd_Element_mrow.html#mrow" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mrow')">mrow</a></b> | <b><a href="layout_xsd_Element_mfrac.html#mfrac" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mfrac')">mfrac</a></b> | <b><a href="layout_xsd_Element_msqrt.html#msqrt" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msqrt')">msqrt</a></b> | <b><a href="layout_xsd_Element_mroot.html#mroot" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mroot')">mroot</a></b> | <b><a href="layout_xsd_Element_mpadded.html#mpadded" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mpadded')">mpadded</a></b> | <b><a href="layout_xsd_Element_mphantom.html#mphantom" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mphantom')">mphantom</a></b> | <b><a href="layout_xsd_Element_mfenced.html#mfenced" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mfenced')">mfenced</a></b> | <b><a href="layout_xsd_Element_menclose.html#menclose" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component menclose')">menclose</a></b> | <b><a href="scripts_xsd_Element_msub.html#msub" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msub')">msub</a></b> | <b><a href="scripts_xsd_Element_msup.html#msup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msup')">msup</a></b> | <b><a href="scripts_xsd_Element_msubsup.html#msubsup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msubsup')">msubsup</a></b> | <b><a href="scripts_xsd_Element_munder.html#munder" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component munder')">munder</a></b> | <b><a href="scripts_xsd_Element_mover.html#mover" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mover')">mover</a></b> | <b><a href="scripts_xsd_Element_munderover.html#munderover" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component munderover')">munderover</a></b> | <b><a href="scripts_xsd_Element_mmultiscripts.html#mmultiscripts" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mmultiscripts')">mmultiscripts</a></b> | <b><a href="table_xsd_Element_mtable.html#mtable" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mtable')">mtable</a></b> | <b><a href="table_xsd_Element_maligngroup.html#maligngroup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component maligngroup')">maligngroup</a></b> | <b><a href="table_xsd_Element_malignmark.html#malignmark" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component malignmark')">malignmark</a></b> | <b><a href="space_xsd_Element_mspace.html#mspace" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mspace')">mspace</a></b> | <b><a href="action_xsd_Element_maction.html#maction" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component maction')">maction</a></b> | <b><a href="error_xsd_Element_merror.html#merror" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component merror')">merror</a></b> | <b><a href="style_xsd_Element_mstyle.html#mstyle" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle')">mstyle</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="action_xsd_Element_maction.html#maction" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component maction')">maction</a></b>, <b><a href="table_xsd_Element_maligngroup.html#maligngroup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component maligngroup')">maligngroup</a></b>, <b><a href="table_xsd_Element_malignmark.html#malignmark" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component malignmark')">malignmark</a></b>, <b><a href="layout_xsd_Element_menclose.html#menclose" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component menclose')">menclose</a></b>, <b><a href="error_xsd_Element_merror.html#merror" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component merror')">merror</a></b>, <b><a href="layout_xsd_Element_mfenced.html#mfenced" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mfenced')">mfenced</a></b>, <b><a href="layout_xsd_Element_mfrac.html#mfrac" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mfrac')">mfrac</a></b>, <b><a href="tokens_xsd_Element_mi.html#mi" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mi')">mi</a></b>, <b><a href="scripts_xsd_Element_mmultiscripts.html#mmultiscripts" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mmultiscripts')">mmultiscripts</a></b>, <b><a href="tokens_xsd_Element_mn.html#mn" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mn')">mn</a></b>, <b><a href="tokens_xsd_Element_mo.html#mo" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mo')">mo</a></b>, <b><a href="scripts_xsd_Element_mover.html#mover" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mover')">mover</a></b>, <b><a href="layout_xsd_Element_mpadded.html#mpadded" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mpadded')">mpadded</a></b>, <b><a href="layout_xsd_Element_mphantom.html#mphantom" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mphantom')">mphantom</a></b>, <b><a href="layout_xsd_Element_mroot.html#mroot" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mroot')">mroot</a></b>, <b><a href="layout_xsd_Element_mrow.html#mrow" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mrow')">mrow</a></b>, <b><a href="tokens_xsd_Element_ms.html#ms" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ms')">ms</a></b>, <b><a href="space_xsd_Element_mspace.html#mspace" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mspace')">mspace</a></b>, <b><a href="layout_xsd_Element_msqrt.html#msqrt" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msqrt')">msqrt</a></b>, <b><a href="style_xsd_Element_mstyle.html#mstyle" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle')">mstyle</a></b>, <b><a href="scripts_xsd_Element_msub.html#msub" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msub')">msub</a></b>, <b><a href="scripts_xsd_Element_msubsup.html#msubsup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msubsup')">msubsup</a></b>, <b><a href="scripts_xsd_Element_msup.html#msup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msup')">msup</a></b>, <b><a href="table_xsd_Element_mtable.html#mtable" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mtable')">mtable</a></b>, <b><a href="tokens_xsd_Element_mtext.html#mtext" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mtext')">mtext</a></b>, <b><a href="scripts_xsd_Element_munder.html#munder" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component munder')">munder</a></b>, <b><a href="scripts_xsd_Element_munderover.html#munderover" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component munderover')">munderover</a></b></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

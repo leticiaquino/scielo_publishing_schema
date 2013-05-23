@@ -1,0 +1,643 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component logbase.type</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        var usedByBoxes= new Array('usedBy_logbase.type');
+
+        
+        
+        var diagramBoxes= new Array('diagram_logbase.type');
+
+        
+        var attributesBoxes= new Array('attributes_logbase.type');
+
+        
+        
+        
+        var modelBoxes= new Array('model_logbase.type');
+
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="logbase.type"></a><div class="componentTitle">Complex Type <span class="qname">logbase.type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/1998/Math/MathML</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_logbase.type" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_logbase.type');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_logbase.type" style="display:block"><img alt="Diagram" border="0" src="img/elementary-functions_xsd_Complex_Type_logbase_type.jpeg" usemap="#elementary-functions_xsd_Complex_Type_logbase_type" /><map name="elementary-functions_xsd_Complex_Type_logbase_type" id="elementary-functions_xsd_Complex_Type_logbase_type">
+                                 <area alt="common-attribs_xsd_Attribute_Group_Common_attrib.tmp#Common.attrib" href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib" coords="168,41,304,67" />
+                                 <area alt="tokens_xsd_Element_cn.tmp#cn" href="tokens_xsd_Element_cn.html#cn" coords="491,265,542,289" />
+                                 <area alt="tokens_xsd_Element_ci.tmp#ci" href="tokens_xsd_Element_ci.html#ci" coords="491,299,542,323" />
+                                 <area alt="tokens_xsd_Element_csymbol.tmp#csymbol" href="tokens_xsd_Element_csymbol.html#csymbol" coords="491,333,567,357" />
+                                 <area alt="tokens_xsd_Element_Group_Content-tokens_class.tmp#Content-tokens.class" href="tokens_xsd_Element_Group_Content-tokens_class.html#Content-tokens.class" coords="409,224,579,250" />
+                                 <area alt="arith_xsd_Element_abs.tmp#abs" href="arith_xsd_Element_abs.html#abs" coords="491,418,542,442" />
+                                 <area alt="arith_xsd_Element_conjugate.tmp#conjugate" href="arith_xsd_Element_conjugate.html#conjugate" coords="491,452,575,476" />
+                                 <area alt="arith_xsd_Element_factorial.tmp#factorial" href="arith_xsd_Element_factorial.html#factorial" coords="491,486,566,510" />
+                                 <area alt="arith_xsd_Element_arg.tmp#arg" href="arith_xsd_Element_arg.html#arg" coords="491,520,542,544" />
+                                 <area alt="arith_xsd_Element_real.tmp#real" href="arith_xsd_Element_real.html#real" coords="491,554,542,578" />
+                                 <area alt="arith_xsd_Element_imaginary.tmp#imaginary" href="arith_xsd_Element_imaginary.html#imaginary" coords="491,588,575,612" />
+                                 <area alt="arith_xsd_Element_floor.tmp#floor" href="arith_xsd_Element_floor.html#floor" coords="491,622,548,646" />
+                                 <area alt="arith_xsd_Element_ceiling.tmp#ceiling" href="arith_xsd_Element_ceiling.html#ceiling" coords="491,656,557,680" />
+                                 <area alt="arith_xsd_Element_quotient.tmp#quotient" href="arith_xsd_Element_quotient.html#quotient" coords="491,690,567,714" />
+                                 <area alt="arith_xsd_Element_divide.tmp#divide" href="arith_xsd_Element_divide.html#divide" coords="491,724,554,748" />
+                                 <area alt="arith_xsd_Element_rem.tmp#rem" href="arith_xsd_Element_rem.html#rem" coords="491,758,543,782" />
+                                 <area alt="arith_xsd_Element_minus.tmp#minus" href="arith_xsd_Element_minus.html#minus" coords="491,792,555,816" />
+                                 <area alt="arith_xsd_Element_plus.tmp#plus" href="arith_xsd_Element_plus.html#plus" coords="491,826,545,850" />
+                                 <area alt="arith_xsd_Element_times.tmp#times" href="arith_xsd_Element_times.html#times" coords="491,860,551,884" />
+                                 <area alt="arith_xsd_Element_power.tmp#power" href="arith_xsd_Element_power.html#power" coords="491,894,555,918" />
+                                 <area alt="arith_xsd_Element_root.tmp#root" href="arith_xsd_Element_root.html#root" coords="491,928,545,952" />
+                                 <area alt="arith_xsd_Element_max.tmp#max" href="arith_xsd_Element_max.html#max" coords="491,962,545,986" />
+                                 <area alt="arith_xsd_Element_min.tmp#min" href="arith_xsd_Element_min.html#min" coords="491,996,542,1020" />
+                                 <area alt="arith_xsd_Element_gcd.tmp#gcd" href="arith_xsd_Element_gcd.html#gcd" coords="491,1030,542,1054" />
+                                 <area alt="arith_xsd_Element_lcm.tmp#lcm" href="arith_xsd_Element_lcm.html#lcm" coords="491,1064,542,1088" />
+                                 <area alt="arith_xsd_Element_sum.tmp#sum" href="arith_xsd_Element_sum.html#sum" coords="491,1098,545,1122" />
+                                 <area alt="arith_xsd_Element_product.tmp#product" href="arith_xsd_Element_product.html#product" coords="491,1132,565,1156" />
+                                 <area alt="arith_xsd_Element_Group_Content-arith_class.tmp#Content-arith.class" href="arith_xsd_Element_Group_Content-arith_class.html#Content-arith.class" coords="409,377,568,403" />
+                                 <area alt="functions_xsd_Element_compose.tmp#compose" href="functions_xsd_Element_compose.html#compose" coords="491,1217,571,1241" />
+                                 <area alt="functions_xsd_Element_domain.tmp#domain" href="functions_xsd_Element_domain.html#domain" coords="491,1251,562,1275" />
+                                 <area alt="functions_xsd_Element_codomain.tmp#codomain" href="functions_xsd_Element_codomain.html#codomain" coords="491,1285,575,1309" />
+                                 <area alt="functions_xsd_Element_image.tmp#image" href="functions_xsd_Element_image.html#image" coords="491,1319,554,1343" />
+                                 <area alt="functions_xsd_Element_domainofapplication.tmp#domainofapplication" href="functions_xsd_Element_domainofapplication.html#domainofapplication" coords="491,1353,632,1377" />
+                                 <area alt="functions_xsd_Element_ident.tmp#ident" href="functions_xsd_Element_ident.html#ident" coords="491,1387,549,1411" />
+                                 <area alt="functions_xsd_Element_Group_Content-functions_class.tmp#Content-functions.class" href="functions_xsd_Element_Group_Content-functions_class.html#Content-functions.class" coords="409,1176,594,1202" />
+                                 <area alt="logic_xsd_Element_and.tmp#and" href="logic_xsd_Element_and.html#and" coords="491,1472,542,1496" />
+                                 <area alt="logic_xsd_Element_or.tmp#or" href="logic_xsd_Element_or.html#or" coords="491,1506,542,1530" />
+                                 <area alt="logic_xsd_Element_xor.tmp#xor" href="logic_xsd_Element_xor.html#xor" coords="491,1540,542,1564" />
+                                 <area alt="logic_xsd_Element_not.tmp#not" href="logic_xsd_Element_not.html#not" coords="491,1574,542,1598" />
+                                 <area alt="logic_xsd_Element_exists.tmp#exists" href="logic_xsd_Element_exists.html#exists" coords="491,1608,554,1632" />
+                                 <area alt="logic_xsd_Element_forall.tmp#forall" href="logic_xsd_Element_forall.html#forall" coords="491,1642,550,1666" />
+                                 <area alt="logic_xsd_Element_implies.tmp#implies" href="logic_xsd_Element_implies.html#implies" coords="491,1676,560,1700" />
+                                 <area alt="logic_xsd_Element_Group_Content-logic_class.tmp#Content-logic.class" href="logic_xsd_Element_Group_Content-logic_class.html#Content-logic.class" coords="409,1431,569,1457" />
+                                 <area alt="constants_xsd_Element_naturalnumbers.tmp#naturalnumbers" href="constants_xsd_Element_naturalnumbers.html#naturalnumbers" coords="491,1761,608,1785" />
+                                 <area alt="constants_xsd_Element_primes.tmp#primes" href="constants_xsd_Element_primes.html#primes" coords="491,1795,559,1819" />
+                                 <area alt="constants_xsd_Element_integers.tmp#integers" href="constants_xsd_Element_integers.html#integers" coords="491,1829,566,1853" />
+                                 <area alt="constants_xsd_Element_rationals.tmp#rationals" href="constants_xsd_Element_rationals.html#rationals" coords="491,1863,569,1887" />
+                                 <area alt="constants_xsd_Element_reals.tmp#reals" href="constants_xsd_Element_reals.html#reals" coords="491,1897,548,1921" />
+                                 <area alt="constants_xsd_Element_complexes.tmp#complexes" href="constants_xsd_Element_complexes.html#complexes" coords="491,1931,580,1955" />
+                                 <area alt="constants_xsd_Element_emptyset.tmp#emptyset" href="constants_xsd_Element_emptyset.html#emptyset" coords="491,1965,571,1989" />
+                                 <area alt="constants_xsd_Element_exponentiale.tmp#exponentiale" href="constants_xsd_Element_exponentiale.html#exponentiale" coords="491,1999,591,2023" />
+                                 <area alt="constants_xsd_Element_imaginaryi.tmp#imaginaryi" href="constants_xsd_Element_imaginaryi.html#imaginaryi" coords="491,2033,578,2057" />
+                                 <area alt="constants_xsd_Element_pi.tmp#pi" href="constants_xsd_Element_pi.html#pi" coords="491,2067,542,2091" />
+                                 <area alt="constants_xsd_Element_eulergamma.tmp#eulergamma" href="constants_xsd_Element_eulergamma.html#eulergamma" coords="491,2101,588,2125" />
+                                 <area alt="constants_xsd_Element_true.tmp#true" href="constants_xsd_Element_true.html#true" coords="491,2135,544,2159" />
+                                 <area alt="constants_xsd_Element_false.tmp#false" href="constants_xsd_Element_false.html#false" coords="491,2169,547,2193" />
+                                 <area alt="constants_xsd_Element_infinity.tmp#http___www.w3.org_1998_Math_MathML_infinity" href="constants_xsd_Element_infinity.html#http___www.w3.org_1998_Math_MathML_infinity" coords="491,2203,559,2227" />
+                                 <area alt="constants_xsd_Element_notanumber.tmp#notanumber" href="constants_xsd_Element_notanumber.html#notanumber" coords="491,2237,588,2261" />
+                                 <area alt="constants_xsd_Element_Group_Content-constants_class.tmp#Content-constants.class" href="constants_xsd_Element_Group_Content-constants_class.html#Content-constants.class" coords="409,1720,596,1746" />
+                                 <area alt="sets_xsd_Element_set.tmp#set" href="sets_xsd_Element_set.html#set" coords="491,2322,542,2346" />
+                                 <area alt="sets_xsd_Element_list.tmp#list" href="sets_xsd_Element_list.html#list" coords="491,2356,542,2380" />
+                                 <area alt="sets_xsd_Element_union.tmp#union" href="sets_xsd_Element_union.html#union" coords="491,2390,553,2414" />
+                                 <area alt="sets_xsd_Element_intersect.tmp#intersect" href="sets_xsd_Element_intersect.html#intersect" coords="491,2424,569,2448" />
+                                 <area alt="sets_xsd_Element_in.tmp#in" href="sets_xsd_Element_in.html#in" coords="491,2458,542,2482" />
+                                 <area alt="sets_xsd_Element_notin.tmp#notin" href="sets_xsd_Element_notin.html#notin" coords="491,2492,550,2516" />
+                                 <area alt="sets_xsd_Element_subset.tmp#subset" href="sets_xsd_Element_subset.html#subset" coords="491,2526,558,2550" />
+                                 <area alt="sets_xsd_Element_prsubset.tmp#prsubset" href="sets_xsd_Element_prsubset.html#prsubset" coords="491,2560,570,2584" />
+                                 <area alt="sets_xsd_Element_notsubset.tmp#notsubset" href="sets_xsd_Element_notsubset.html#notsubset" coords="491,2594,576,2618" />
+                                 <area alt="sets_xsd_Element_notprsubset.tmp#notprsubset" href="sets_xsd_Element_notprsubset.html#notprsubset" coords="491,2628,588,2652" />
+                                 <area alt="sets_xsd_Element_setdiff.tmp#setdiff" href="sets_xsd_Element_setdiff.html#setdiff" coords="491,2662,556,2686" />
+                                 <area alt="sets_xsd_Element_card.tmp#card" href="sets_xsd_Element_card.html#card" coords="491,2696,546,2720" />
+                                 <area alt="sets_xsd_Element_cartesianproduct.tmp#cartesianproduct" href="sets_xsd_Element_cartesianproduct.html#cartesianproduct" coords="491,2730,614,2754" />
+                                 <area alt="sets_xsd_Element_Group_Content-sets_class.tmp#Content-sets.class" href="sets_xsd_Element_Group_Content-sets_class.html#Content-sets.class" coords="409,2281,565,2307" />
+                                 <area alt="relations_xsd_Element_eq.tmp#eq" href="relations_xsd_Element_eq.html#eq" coords="491,2815,542,2839" />
+                                 <area alt="relations_xsd_Element_neq.tmp#neq" href="relations_xsd_Element_neq.html#neq" coords="491,2849,542,2873" />
+                                 <area alt="relations_xsd_Element_leq.tmp#leq" href="relations_xsd_Element_leq.html#leq" coords="491,2883,542,2907" />
+                                 <area alt="relations_xsd_Element_lt.tmp#lt" href="relations_xsd_Element_lt.html#lt" coords="491,2917,542,2941" />
+                                 <area alt="relations_xsd_Element_geq.tmp#geq" href="relations_xsd_Element_geq.html#geq" coords="491,2951,542,2975" />
+                                 <area alt="relations_xsd_Element_gt.tmp#gt" href="relations_xsd_Element_gt.html#gt" coords="491,2985,542,3009" />
+                                 <area alt="relations_xsd_Element_equivalent.tmp#equivalent" href="relations_xsd_Element_equivalent.html#equivalent" coords="491,3019,577,3043" />
+                                 <area alt="relations_xsd_Element_approx.tmp#approx" href="relations_xsd_Element_approx.html#approx" coords="491,3053,561,3077" />
+                                 <area alt="relations_xsd_Element_factorof.tmp#factorof" href="relations_xsd_Element_factorof.html#factorof" coords="491,3087,565,3111" />
+                                 <area alt="relations_xsd_Element_Group_Content-relations_class.tmp#Content-relations.class" href="relations_xsd_Element_Group_Content-relations_class.html#Content-relations.class" coords="409,2774,590,2800" />
+                                 <area alt="elementary-functions_xsd_Element_exp.tmp#exp" href="elementary-functions_xsd_Element_exp.html#exp" coords="491,3172,542,3196" />
+                                 <area alt="elementary-functions_xsd_Element_ln.tmp#ln" href="elementary-functions_xsd_Element_ln.html#ln" coords="491,3206,542,3230" />
+                                 <area alt="elementary-functions_xsd_Element_log.tmp#log" href="elementary-functions_xsd_Element_log.html#log" coords="491,3240,542,3264" />
+                                 <area alt="elementary-functions_xsd_Element_logbase.tmp#logbase" href="elementary-functions_xsd_Element_logbase.html#logbase" coords="491,3274,564,3298" />
+                                 <area alt="elementary-functions_xsd_Element_sin.tmp#sin" href="elementary-functions_xsd_Element_sin.html#sin" coords="491,3308,542,3332" />
+                                 <area alt="elementary-functions_xsd_Element_cos.tmp#cos" href="elementary-functions_xsd_Element_cos.html#cos" coords="491,3342,542,3366" />
+                                 <area alt="elementary-functions_xsd_Element_tan.tmp#tan" href="elementary-functions_xsd_Element_tan.html#tan" coords="491,3376,542,3400" />
+                                 <area alt="elementary-functions_xsd_Element_sec.tmp#sec" href="elementary-functions_xsd_Element_sec.html#sec" coords="491,3410,542,3434" />
+                                 <area alt="elementary-functions_xsd_Element_csc.tmp#csc" href="elementary-functions_xsd_Element_csc.html#csc" coords="491,3444,542,3468" />
+                                 <area alt="elementary-functions_xsd_Element_cot.tmp#cot" href="elementary-functions_xsd_Element_cot.html#cot" coords="491,3478,542,3502" />
+                                 <area alt="elementary-functions_xsd_Element_arcsin.tmp#arcsin" href="elementary-functions_xsd_Element_arcsin.html#arcsin" coords="491,3512,555,3536" />
+                                 <area alt="elementary-functions_xsd_Element_arccos.tmp#arccos" href="elementary-functions_xsd_Element_arccos.html#arccos" coords="491,3546,558,3570" />
+                                 <area alt="elementary-functions_xsd_Element_arctan.tmp#arctan" href="elementary-functions_xsd_Element_arctan.html#arctan" coords="491,3580,556,3604" />
+                                 <area alt="elementary-functions_xsd_Element_arcsec.tmp#arcsec" href="elementary-functions_xsd_Element_arcsec.html#arcsec" coords="491,3614,557,3638" />
+                                 <area alt="elementary-functions_xsd_Element_arccsc.tmp#arccsc" href="elementary-functions_xsd_Element_arccsc.html#arccsc" coords="491,3648,557,3672" />
+                                 <area alt="elementary-functions_xsd_Element_arccot.tmp#arccot" href="elementary-functions_xsd_Element_arccot.html#arccot" coords="491,3682,556,3706" />
+                                 <area alt="elementary-functions_xsd_Element_sinh.tmp#sinh" href="elementary-functions_xsd_Element_sinh.html#sinh" coords="491,3716,545,3740" />
+                                 <area alt="elementary-functions_xsd_Element_cosh.tmp#cosh" href="elementary-functions_xsd_Element_cosh.html#cosh" coords="491,3750,548,3774" />
+                                 <area alt="elementary-functions_xsd_Element_tanh.tmp#tanh" href="elementary-functions_xsd_Element_tanh.html#tanh" coords="491,3784,546,3808" />
+                                 <area alt="elementary-functions_xsd_Element_sech.tmp#sech" href="elementary-functions_xsd_Element_sech.html#sech" coords="491,3818,547,3842" />
+                                 <area alt="elementary-functions_xsd_Element_csch.tmp#csch" href="elementary-functions_xsd_Element_csch.html#csch" coords="491,3852,547,3876" />
+                                 <area alt="elementary-functions_xsd_Element_coth.tmp#coth" href="elementary-functions_xsd_Element_coth.html#coth" coords="491,3886,546,3910" />
+                                 <area alt="elementary-functions_xsd_Element_arccosh.tmp#arccosh" href="elementary-functions_xsd_Element_arccosh.html#arccosh" coords="491,3920,565,3944" />
+                                 <area alt="elementary-functions_xsd_Element_arccoth.tmp#arccoth" href="elementary-functions_xsd_Element_arccoth.html#arccoth" coords="491,3954,563,3978" />
+                                 <area alt="elementary-functions_xsd_Element_arccsch.tmp#arccsch" href="elementary-functions_xsd_Element_arccsch.html#arccsch" coords="491,3988,564,4012" />
+                                 <area alt="elementary-functions_xsd_Element_arcsech.tmp#arcsech" href="elementary-functions_xsd_Element_arcsech.html#arcsech" coords="491,4022,564,4046" />
+                                 <area alt="elementary-functions_xsd_Element_arcsinh.tmp#arcsinh" href="elementary-functions_xsd_Element_arcsinh.html#arcsinh" coords="491,4056,562,4080" />
+                                 <area alt="elementary-functions_xsd_Element_arctanh.tmp#arctanh" href="elementary-functions_xsd_Element_arctanh.html#arctanh" coords="491,4090,563,4114" />
+                                 <area alt="elementary-functions_xsd_Element_Group_Content-elementary-functions_class.tmp#Content-elementary-functions.class" href="elementary-functions_xsd_Element_Group_Content-elementary-functions_class.html#Content-elementary-functions.class" coords="409,3131,659,3157" />
+                                 <area alt="calculus_xsd_Element_int.tmp#int" href="calculus_xsd_Element_int.html#int" coords="491,4175,542,4199" />
+                                 <area alt="calculus_xsd_Element_diff.tmp#diff" href="calculus_xsd_Element_diff.html#diff" coords="491,4209,542,4233" />
+                                 <area alt="calculus_xsd_Element_partialdiff.tmp#partialdiff" href="calculus_xsd_Element_partialdiff.html#partialdiff" coords="491,4243,574,4267" />
+                                 <area alt="calculus_xsd_Element_limit.tmp#limit" href="calculus_xsd_Element_limit.html#limit" coords="491,4277,545,4301" />
+                                 <area alt="calculus_xsd_Element_lowlimit.tmp#lowlimit" href="calculus_xsd_Element_lowlimit.html#lowlimit" coords="491,4311,563,4335" />
+                                 <area alt="calculus_xsd_Element_uplimit.tmp#uplimit" href="calculus_xsd_Element_uplimit.html#uplimit" coords="491,4345,559,4369" />
+                                 <area alt="calculus_xsd_Element_tendsto.tmp#tendsto" href="calculus_xsd_Element_tendsto.html#tendsto" coords="491,4379,563,4403" />
+                                 <area alt="calculus_xsd_Element_Group_Content-calculus_class.tmp#Content-calculus.class" href="calculus_xsd_Element_Group_Content-calculus_class.html#Content-calculus.class" coords="409,4134,587,4160" />
+                                 <area alt="linear-algebra_xsd_Element_vector.tmp#vector" href="linear-algebra_xsd_Element_vector.html#vector" coords="491,4464,556,4488" />
+                                 <area alt="linear-algebra_xsd_Element_matrix.tmp#matrix" href="linear-algebra_xsd_Element_matrix.html#matrix" coords="491,4498,557,4522" />
+                                 <area alt="linear-algebra_xsd_Element_determinant.tmp#determinant" href="linear-algebra_xsd_Element_determinant.html#determinant" coords="491,4532,587,4556" />
+                                 <area alt="linear-algebra_xsd_Element_transpose.tmp#transpose" href="linear-algebra_xsd_Element_transpose.html#transpose" coords="491,4566,576,4590" />
+                                 <area alt="linear-algebra_xsd_Element_selector.tmp#selector" href="linear-algebra_xsd_Element_selector.html#selector" coords="491,4600,565,4624" />
+                                 <area alt="linear-algebra_xsd_Element_vectorproduct.tmp#vectorproduct" href="linear-algebra_xsd_Element_vectorproduct.html#vectorproduct" coords="491,4634,599,4658" />
+                                 <area alt="linear-algebra_xsd_Element_scalarproduct.tmp#scalarproduct" href="linear-algebra_xsd_Element_scalarproduct.html#scalarproduct" coords="491,4668,597,4692" />
+                                 <area alt="linear-algebra_xsd_Element_outerproduct.tmp#outerproduct" href="linear-algebra_xsd_Element_outerproduct.html#outerproduct" coords="491,4702,594,4726" />
+                                 <area alt="linear-algebra_xsd_Element_Group_Content-linear-algebra_class.tmp#Content-linear-algebra.class" href="linear-algebra_xsd_Element_Group_Content-linear-algebra_class.html#Content-linear-algebra.class" coords="409,4423,619,4449" />
+                                 <area alt="vector-calculus_xsd_Element_divergence.tmp#divergence" href="vector-calculus_xsd_Element_divergence.html#divergence" coords="491,4787,581,4811" />
+                                 <area alt="vector-calculus_xsd_Element_grad.tmp#grad" href="vector-calculus_xsd_Element_grad.html#grad" coords="491,4821,547,4845" />
+                                 <area alt="vector-calculus_xsd_Element_curl.tmp#curl" href="vector-calculus_xsd_Element_curl.html#curl" coords="491,4855,543,4879" />
+                                 <area alt="vector-calculus_xsd_Element_laplacian.tmp#laplacian" href="vector-calculus_xsd_Element_laplacian.html#laplacian" coords="491,4889,569,4913" />
+                                 <area alt="vector-calculus_xsd_Element_Group_Content-vector-calculus_class.tmp#Content-vector-calculus.class" href="vector-calculus_xsd_Element_Group_Content-vector-calculus_class.html#Content-vector-calculus.class" coords="409,4746,627,4772" />
+                                 <area alt="statistics_xsd_Element_mean.tmp#mean" href="statistics_xsd_Element_mean.html#mean" coords="491,4974,551,4998" />
+                                 <area alt="statistics_xsd_Element_sdev.tmp#sdev" href="statistics_xsd_Element_sdev.html#sdev" coords="491,5008,547,5032" />
+                                 <area alt="statistics_xsd_Element_variance.tmp#variance" href="statistics_xsd_Element_variance.html#variance" coords="491,5042,567,5066" />
+                                 <area alt="statistics_xsd_Element_median.tmp#median" href="statistics_xsd_Element_median.html#median" coords="491,5076,561,5100" />
+                                 <area alt="statistics_xsd_Element_mode.tmp#mode" href="statistics_xsd_Element_mode.html#mode" coords="491,5110,552,5134" />
+                                 <area alt="statistics_xsd_Element_moment.tmp#moment" href="statistics_xsd_Element_moment.html#moment" coords="491,5144,566,5168" />
+                                 <area alt="statistics_xsd_Element_momentabout.tmp#momentabout" href="statistics_xsd_Element_momentabout.html#momentabout" coords="491,5178,597,5202" />
+                                 <area alt="statistics_xsd_Element_Group_Content-statistics_class.tmp#Content-statistics.class" href="statistics_xsd_Element_Group_Content-statistics_class.html#Content-statistics.class" coords="409,4933,591,4959" />
+                                 <area alt="constructs_xsd_Element_apply.tmp#apply" href="constructs_xsd_Element_apply.html#apply" coords="491,5263,551,5287" />
+                                 <area alt="constructs_xsd_Element_interval.tmp#interval" href="constructs_xsd_Element_interval.html#interval" coords="491,5297,562,5321" />
+                                 <area alt="constructs_xsd_Element_inverse.tmp#inverse" href="constructs_xsd_Element_inverse.html#inverse" coords="491,5331,561,5355" />
+                                 <area alt="constructs_xsd_Element_condition.tmp#condition" href="constructs_xsd_Element_condition.html#condition" coords="491,5365,573,5389" />
+                                 <area alt="constructs_xsd_Element_declare.tmp#declare" href="constructs_xsd_Element_declare.html#declare" coords="491,5399,561,5423" />
+                                 <area alt="constructs_xsd_Element_lambda.tmp#lambda" href="constructs_xsd_Element_lambda.html#lambda" coords="491,5433,561,5457" />
+                                 <area alt="constructs_xsd_Element_piecewise.tmp#piecewise" href="constructs_xsd_Element_piecewise.html#piecewise" coords="491,5467,573,5491" />
+                                 <area alt="constructs_xsd_Element_bvar.tmp#bvar" href="constructs_xsd_Element_bvar.html#bvar" coords="491,5501,546,5525" />
+                                 <area alt="constructs_xsd_Element_degree.tmp#degree" href="constructs_xsd_Element_degree.html#degree" coords="491,5535,559,5559" />
+                                 <area alt="constructs_xsd_Element_Group_Content-constructs_class.tmp#Content-constructs.class" href="constructs_xsd_Element_Group_Content-constructs_class.html#Content-constructs.class" coords="409,5222,601,5248" />
+                                 <area alt="semantics_xsd_Element_semantics.tmp#semantics" href="semantics_xsd_Element_semantics.html#semantics" coords="406,5576,491,5600" />
+                                 <area alt="math_xsd_Element_Group_ContExpr_class.tmp#ContExpr.class" href="math_xsd_Element_Group_ContExpr_class.html#ContExpr.class" coords="324,180,460,206" />
+                                 <area alt="tokens_xsd_Element_mi.tmp#mi" href="tokens_xsd_Element_mi.html#mi" coords="491,5705,542,5729" />
+                                 <area alt="tokens_xsd_Element_mo.tmp#mo" href="tokens_xsd_Element_mo.html#mo" coords="491,5739,542,5763" />
+                                 <area alt="tokens_xsd_Element_mn.tmp#mn" href="tokens_xsd_Element_mn.html#mn" coords="491,5773,542,5797" />
+                                 <area alt="tokens_xsd_Element_mtext.tmp#mtext" href="tokens_xsd_Element_mtext.html#mtext" coords="491,5807,553,5831" />
+                                 <area alt="tokens_xsd_Element_ms.tmp#ms" href="tokens_xsd_Element_ms.html#ms" coords="491,5841,542,5865" />
+                                 <area alt="tokens_xsd_Element_Group_Presentation-token_class.tmp#Presentation-token.class" href="tokens_xsd_Element_Group_Presentation-token_class.html#Presentation-token.class" coords="409,5664,597,5690" />
+                                 <area alt="layout_xsd_Element_mrow.tmp#mrow" href="layout_xsd_Element_mrow.html#mrow" coords="491,5926,552,5950" />
+                                 <area alt="layout_xsd_Element_mfrac.tmp#mfrac" href="layout_xsd_Element_mfrac.html#mfrac" coords="491,5960,553,5984" />
+                                 <area alt="layout_xsd_Element_msqrt.tmp#msqrt" href="layout_xsd_Element_msqrt.html#msqrt" coords="491,5994,554,6018" />
+                                 <area alt="layout_xsd_Element_mroot.tmp#mroot" href="layout_xsd_Element_mroot.html#mroot" coords="491,6028,555,6052" />
+                                 <area alt="layout_xsd_Element_mpadded.tmp#mpadded" href="layout_xsd_Element_mpadded.html#mpadded" coords="491,6062,572,6086" />
+                                 <area alt="layout_xsd_Element_mphantom.tmp#mphantom" href="layout_xsd_Element_mphantom.html#mphantom" coords="491,6096,580,6120" />
+                                 <area alt="layout_xsd_Element_mfenced.tmp#mfenced" href="layout_xsd_Element_mfenced.html#mfenced" coords="491,6130,568,6154" />
+                                 <area alt="layout_xsd_Element_menclose.tmp#menclose" href="layout_xsd_Element_menclose.html#menclose" coords="491,6164,573,6188" />
+                                 <area alt="layout_xsd_Element_Group_Presentation-layout_class.tmp#Presentation-layout.class" href="layout_xsd_Element_Group_Presentation-layout_class.html#Presentation-layout.class" coords="409,5885,600,5911" />
+                                 <area alt="scripts_xsd_Element_msub.tmp#msub" href="scripts_xsd_Element_msub.html#msub" coords="491,6249,552,6273" />
+                                 <area alt="scripts_xsd_Element_msup.tmp#msup" href="scripts_xsd_Element_msup.html#msup" coords="491,6283,552,6307" />
+                                 <area alt="scripts_xsd_Element_msubsup.tmp#msubsup" href="scripts_xsd_Element_msubsup.html#msubsup" coords="491,6317,572,6341" />
+                                 <area alt="scripts_xsd_Element_munder.tmp#munder" href="scripts_xsd_Element_munder.html#munder" coords="491,6351,564,6375" />
+                                 <area alt="scripts_xsd_Element_mover.tmp#mover" href="scripts_xsd_Element_mover.html#mover" coords="491,6385,556,6409" />
+                                 <area alt="scripts_xsd_Element_munderover.tmp#munderover" href="scripts_xsd_Element_munderover.html#munderover" coords="491,6419,588,6443" />
+                                 <area alt="scripts_xsd_Element_mmultiscripts.tmp#mmultiscripts" href="scripts_xsd_Element_mmultiscripts.html#mmultiscripts" coords="491,6453,596,6477" />
+                                 <area alt="scripts_xsd_Element_Group_Presentation-script_class.tmp#Presentation-script.class" href="scripts_xsd_Element_Group_Presentation-script_class.html#Presentation-script.class" coords="409,6208,598,6234" />
+                                 <area alt="table_xsd_Element_mtable.tmp#mtable" href="table_xsd_Element_mtable.html#mtable" coords="491,6538,558,6562" />
+                                 <area alt="table_xsd_Element_maligngroup.tmp#maligngroup" href="table_xsd_Element_maligngroup.html#maligngroup" coords="491,6572,591,6596" />
+                                 <area alt="table_xsd_Element_malignmark.tmp#malignmark" href="table_xsd_Element_malignmark.html#malignmark" coords="491,6606,585,6630" />
+                                 <area alt="table_xsd_Element_Group_Presentation-table_class.tmp#Presentation-table.class" href="table_xsd_Element_Group_Presentation-table_class.html#Presentation-table.class" coords="409,6497,593,6523" />
+                                 <area alt="space_xsd_Element_mspace.tmp#mspace" href="space_xsd_Element_mspace.html#mspace" coords="406,6647,478,6671" />
+                                 <area alt="action_xsd_Element_maction.tmp#maction" href="action_xsd_Element_maction.html#maction" coords="406,6681,480,6705" />
+                                 <area alt="error_xsd_Element_merror.tmp#merror" href="error_xsd_Element_merror.html#merror" coords="406,6715,475,6739" />
+                                 <area alt="style_xsd_Element_mstyle.tmp#mstyle" href="style_xsd_Element_mstyle.html#mstyle" coords="406,6749,472,6773" />
+                                 <area alt="math_xsd_Element_Group_PresExpr_class.tmp#PresExpr.class" href="math_xsd_Element_Group_PresExpr_class.html#PresExpr.class" coords="324,5620,457,5646" />
+                                 <area alt="math_xsd_Element_Group_Content-expr_class.tmp#Content-expr.class" href="math_xsd_Element_Group_Content-expr_class.html#Content-expr.class" coords="239,136,398,162" />
+                                 <area alt="elementary-functions_xsd_Element_Group_logbase_content.tmp#logbase.content" href="elementary-functions_xsd_Element_Group_logbase_content.html#logbase.content" coords="154,92,295,118" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_logbase.type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_logbase.type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_logbase.type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="elementary-functions_xsd_Element_logbase.html#logbase" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component logbase')">logbase</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_logbase.type" type="image" src="img/btM.gif" value="-" onclick="switchState('model_logbase.type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_logbase.type" style="display:block">(<b><a href="tokens_xsd_Element_cn.html#cn" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component cn')">cn</a></b> | <b><a href="tokens_xsd_Element_ci.html#ci" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ci')">ci</a></b> | <b><a href="tokens_xsd_Element_csymbol.html#csymbol" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component csymbol')">csymbol</a></b> | <b><a href="arith_xsd_Element_abs.html#abs" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component abs')">abs</a></b> | <b><a href="arith_xsd_Element_conjugate.html#conjugate" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component conjugate')">conjugate</a></b> | <b><a href="arith_xsd_Element_factorial.html#factorial" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component factorial')">factorial</a></b> | <b><a href="arith_xsd_Element_arg.html#arg" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arg')">arg</a></b> | <b><a href="arith_xsd_Element_real.html#real" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component real')">real</a></b> | <b><a href="arith_xsd_Element_imaginary.html#imaginary" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component imaginary')">imaginary</a></b> | <b><a href="arith_xsd_Element_floor.html#floor" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component floor')">floor</a></b> | <b><a href="arith_xsd_Element_ceiling.html#ceiling" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ceiling')">ceiling</a></b> | <b><a href="arith_xsd_Element_quotient.html#quotient" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component quotient')">quotient</a></b> | <b><a href="arith_xsd_Element_divide.html#divide" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component divide')">divide</a></b> | <b><a href="arith_xsd_Element_rem.html#rem" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component rem')">rem</a></b> | <b><a href="arith_xsd_Element_minus.html#minus" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component minus')">minus</a></b> | <b><a href="arith_xsd_Element_plus.html#plus" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component plus')">plus</a></b> | <b><a href="arith_xsd_Element_times.html#times" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component times')">times</a></b> | <b><a href="arith_xsd_Element_power.html#power" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component power')">power</a></b> | <b><a href="arith_xsd_Element_root.html#root" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component root')">root</a></b> | <b><a href="arith_xsd_Element_max.html#max" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component max')">max</a></b> | <b><a href="arith_xsd_Element_min.html#min" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component min')">min</a></b> | <b><a href="arith_xsd_Element_gcd.html#gcd" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component gcd')">gcd</a></b> | <b><a href="arith_xsd_Element_lcm.html#lcm" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component lcm')">lcm</a></b> | <b><a href="arith_xsd_Element_sum.html#sum" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sum')">sum</a></b> | <b><a href="arith_xsd_Element_product.html#product" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component product')">product</a></b> | <b><a href="functions_xsd_Element_compose.html#compose" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component compose')">compose</a></b> | <b><a href="functions_xsd_Element_domain.html#domain" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component domain')">domain</a></b> | <b><a href="functions_xsd_Element_codomain.html#codomain" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component codomain')">codomain</a></b> | <b><a href="functions_xsd_Element_image.html#image" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component image')">image</a></b> | <b><a href="functions_xsd_Element_domainofapplication.html#domainofapplication" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component domainofapplication')">domainofapplication</a></b> | <b><a href="functions_xsd_Element_ident.html#ident" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ident')">ident</a></b> | <b><a href="logic_xsd_Element_and.html#and" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component and')">and</a></b> | <b><a href="logic_xsd_Element_or.html#or" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component or')">or</a></b> | <b><a href="logic_xsd_Element_xor.html#xor" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component xor')">xor</a></b> | <b><a href="logic_xsd_Element_not.html#not" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component not')">not</a></b> | <b><a href="logic_xsd_Element_exists.html#exists" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component exists')">exists</a></b> | <b><a href="logic_xsd_Element_forall.html#forall" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component forall')">forall</a></b> | <b><a href="logic_xsd_Element_implies.html#implies" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component implies')">implies</a></b> | <b><a href="constants_xsd_Element_naturalnumbers.html#naturalnumbers" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component naturalnumbers')">naturalnumbers</a></b> | <b><a href="constants_xsd_Element_primes.html#primes" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component primes')">primes</a></b> | <b><a href="constants_xsd_Element_integers.html#integers" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component integers')">integers</a></b> | <b><a href="constants_xsd_Element_rationals.html#rationals" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component rationals')">rationals</a></b> | <b><a href="constants_xsd_Element_reals.html#reals" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component reals')">reals</a></b> | <b><a href="constants_xsd_Element_complexes.html#complexes" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component complexes')">complexes</a></b> | <b><a href="constants_xsd_Element_emptyset.html#emptyset" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component emptyset')">emptyset</a></b> | <b><a href="constants_xsd_Element_exponentiale.html#exponentiale" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component exponentiale')">exponentiale</a></b> | <b><a href="constants_xsd_Element_imaginaryi.html#imaginaryi" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component imaginaryi')">imaginaryi</a></b> | <b><a href="constants_xsd_Element_pi.html#pi" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component pi')">pi</a></b> | <b><a href="constants_xsd_Element_eulergamma.html#eulergamma" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component eulergamma')">eulergamma</a></b> | <b><a href="constants_xsd_Element_true.html#true" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component true')">true</a></b> | <b><a href="constants_xsd_Element_false.html#false" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component false')">false</a></b> | <b><a href="constants_xsd_Element_infinity.html#http___www.w3.org_1998_Math_MathML_infinity" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component infinity')">infinity</a></b> | <b><a href="constants_xsd_Element_notanumber.html#notanumber" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component notanumber')">notanumber</a></b> | <b><a href="sets_xsd_Element_set.html#set" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component set')">set</a></b> | <b><a href="sets_xsd_Element_list.html#list" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component list')">list</a></b> | <b><a href="sets_xsd_Element_union.html#union" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component union')">union</a></b> | <b><a href="sets_xsd_Element_intersect.html#intersect" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component intersect')">intersect</a></b> | <b><a href="sets_xsd_Element_in.html#in" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component in')">in</a></b> | <b><a href="sets_xsd_Element_notin.html#notin" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component notin')">notin</a></b> | <b><a href="sets_xsd_Element_subset.html#subset" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component subset')">subset</a></b> | <b><a href="sets_xsd_Element_prsubset.html#prsubset" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component prsubset')">prsubset</a></b> | <b><a href="sets_xsd_Element_notsubset.html#notsubset" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component notsubset')">notsubset</a></b> | <b><a href="sets_xsd_Element_notprsubset.html#notprsubset" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component notprsubset')">notprsubset</a></b> | <b><a href="sets_xsd_Element_setdiff.html#setdiff" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component setdiff')">setdiff</a></b> | <b><a href="sets_xsd_Element_card.html#card" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component card')">card</a></b> | <b><a href="sets_xsd_Element_cartesianproduct.html#cartesianproduct" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component cartesianproduct')">cartesianproduct</a></b> | <b><a href="relations_xsd_Element_eq.html#eq" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component eq')">eq</a></b> | <b><a href="relations_xsd_Element_neq.html#neq" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component neq')">neq</a></b> | <b><a href="relations_xsd_Element_leq.html#leq" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component leq')">leq</a></b> | <b><a href="relations_xsd_Element_lt.html#lt" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component lt')">lt</a></b> | <b><a href="relations_xsd_Element_geq.html#geq" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component geq')">geq</a></b> | <b><a href="relations_xsd_Element_gt.html#gt" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component gt')">gt</a></b> | <b><a href="relations_xsd_Element_equivalent.html#equivalent" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component equivalent')">equivalent</a></b> | <b><a href="relations_xsd_Element_approx.html#approx" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component approx')">approx</a></b> | <b><a href="relations_xsd_Element_factorof.html#factorof" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component factorof')">factorof</a></b> | <b><a href="elementary-functions_xsd_Element_exp.html#exp" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component exp')">exp</a></b> | <b><a href="elementary-functions_xsd_Element_ln.html#ln" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ln')">ln</a></b> | <b><a href="elementary-functions_xsd_Element_log.html#log" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component log')">log</a></b> | <b><a href="elementary-functions_xsd_Element_logbase.html#logbase" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component logbase')">logbase</a></b> | <b><a href="elementary-functions_xsd_Element_sin.html#sin" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sin')">sin</a></b> | <b><a href="elementary-functions_xsd_Element_cos.html#cos" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component cos')">cos</a></b> | <b><a href="elementary-functions_xsd_Element_tan.html#tan" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component tan')">tan</a></b> | <b><a href="elementary-functions_xsd_Element_sec.html#sec" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sec')">sec</a></b> | <b><a href="elementary-functions_xsd_Element_csc.html#csc" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component csc')">csc</a></b> | <b><a href="elementary-functions_xsd_Element_cot.html#cot" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component cot')">cot</a></b> | <b><a href="elementary-functions_xsd_Element_arcsin.html#arcsin" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arcsin')">arcsin</a></b> | <b><a href="elementary-functions_xsd_Element_arccos.html#arccos" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccos')">arccos</a></b> | <b><a href="elementary-functions_xsd_Element_arctan.html#arctan" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arctan')">arctan</a></b> | <b><a href="elementary-functions_xsd_Element_arcsec.html#arcsec" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arcsec')">arcsec</a></b> | <b><a href="elementary-functions_xsd_Element_arccsc.html#arccsc" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccsc')">arccsc</a></b> | <b><a href="elementary-functions_xsd_Element_arccot.html#arccot" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccot')">arccot</a></b> | <b><a href="elementary-functions_xsd_Element_sinh.html#sinh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sinh')">sinh</a></b> | <b><a href="elementary-functions_xsd_Element_cosh.html#cosh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component cosh')">cosh</a></b> | <b><a href="elementary-functions_xsd_Element_tanh.html#tanh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component tanh')">tanh</a></b> | <b><a href="elementary-functions_xsd_Element_sech.html#sech" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sech')">sech</a></b> | <b><a href="elementary-functions_xsd_Element_csch.html#csch" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component csch')">csch</a></b> | <b><a href="elementary-functions_xsd_Element_coth.html#coth" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component coth')">coth</a></b> | <b><a href="elementary-functions_xsd_Element_arccosh.html#arccosh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccosh')">arccosh</a></b> | <b><a href="elementary-functions_xsd_Element_arccoth.html#arccoth" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccoth')">arccoth</a></b> | <b><a href="elementary-functions_xsd_Element_arccsch.html#arccsch" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccsch')">arccsch</a></b> | <b><a href="elementary-functions_xsd_Element_arcsech.html#arcsech" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arcsech')">arcsech</a></b> | <b><a href="elementary-functions_xsd_Element_arcsinh.html#arcsinh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arcsinh')">arcsinh</a></b> | <b><a href="elementary-functions_xsd_Element_arctanh.html#arctanh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arctanh')">arctanh</a></b> | <b><a href="calculus_xsd_Element_int.html#int" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component int')">int</a></b> | <b><a href="calculus_xsd_Element_diff.html#diff" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component diff')">diff</a></b> | <b><a href="calculus_xsd_Element_partialdiff.html#partialdiff" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component partialdiff')">partialdiff</a></b> | <b><a href="calculus_xsd_Element_limit.html#limit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component limit')">limit</a></b> | <b><a href="calculus_xsd_Element_lowlimit.html#lowlimit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component lowlimit')">lowlimit</a></b> | <b><a href="calculus_xsd_Element_uplimit.html#uplimit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component uplimit')">uplimit</a></b> | <b><a href="calculus_xsd_Element_tendsto.html#tendsto" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component tendsto')">tendsto</a></b> | <b><a href="linear-algebra_xsd_Element_vector.html#vector" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component vector')">vector</a></b> | <b><a href="linear-algebra_xsd_Element_matrix.html#matrix" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component matrix')">matrix</a></b> | <b><a href="linear-algebra_xsd_Element_determinant.html#determinant" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component determinant')">determinant</a></b> | <b><a href="linear-algebra_xsd_Element_transpose.html#transpose" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component transpose')">transpose</a></b> | <b><a href="linear-algebra_xsd_Element_selector.html#selector" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component selector')">selector</a></b> | <b><a href="linear-algebra_xsd_Element_vectorproduct.html#vectorproduct" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component vectorproduct')">vectorproduct</a></b> | <b><a href="linear-algebra_xsd_Element_scalarproduct.html#scalarproduct" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component scalarproduct')">scalarproduct</a></b> | <b><a href="linear-algebra_xsd_Element_outerproduct.html#outerproduct" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component outerproduct')">outerproduct</a></b> | <b><a href="vector-calculus_xsd_Element_divergence.html#divergence" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component divergence')">divergence</a></b> | <b><a href="vector-calculus_xsd_Element_grad.html#grad" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component grad')">grad</a></b> | <b><a href="vector-calculus_xsd_Element_curl.html#curl" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component curl')">curl</a></b> | <b><a href="vector-calculus_xsd_Element_laplacian.html#laplacian" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component laplacian')">laplacian</a></b> | <b><a href="statistics_xsd_Element_mean.html#mean" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mean')">mean</a></b> | <b><a href="statistics_xsd_Element_sdev.html#sdev" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sdev')">sdev</a></b> | <b><a href="statistics_xsd_Element_variance.html#variance" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component variance')">variance</a></b> | <b><a href="statistics_xsd_Element_median.html#median" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component median')">median</a></b> | <b><a href="statistics_xsd_Element_mode.html#mode" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mode')">mode</a></b> | <b><a href="statistics_xsd_Element_moment.html#moment" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component moment')">moment</a></b> | <b><a href="statistics_xsd_Element_momentabout.html#momentabout" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component momentabout')">momentabout</a></b> | <b><a href="constructs_xsd_Element_apply.html#apply" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component apply')">apply</a></b> | <b><a href="constructs_xsd_Element_interval.html#interval" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component interval')">interval</a></b> | <b><a href="constructs_xsd_Element_inverse.html#inverse" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component inverse')">inverse</a></b> | <b><a href="constructs_xsd_Element_condition.html#condition" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component condition')">condition</a></b> | <b><a href="constructs_xsd_Element_declare.html#declare" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component declare')">declare</a></b> | <b><a href="constructs_xsd_Element_lambda.html#lambda" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component lambda')">lambda</a></b> | <b><a href="constructs_xsd_Element_piecewise.html#piecewise" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component piecewise')">piecewise</a></b> | <b><a href="constructs_xsd_Element_bvar.html#bvar" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component bvar')">bvar</a></b> | <b><a href="constructs_xsd_Element_degree.html#degree" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component degree')">degree</a></b> | <b><a href="semantics_xsd_Element_semantics.html#semantics" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component semantics')">semantics</a></b> | <b><a href="tokens_xsd_Element_mi.html#mi" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mi')">mi</a></b> | <b><a href="tokens_xsd_Element_mo.html#mo" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mo')">mo</a></b> | <b><a href="tokens_xsd_Element_mn.html#mn" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mn')">mn</a></b> | <b><a href="tokens_xsd_Element_mtext.html#mtext" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mtext')">mtext</a></b> | <b><a href="tokens_xsd_Element_ms.html#ms" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ms')">ms</a></b> | <b><a href="layout_xsd_Element_mrow.html#mrow" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mrow')">mrow</a></b> | <b><a href="layout_xsd_Element_mfrac.html#mfrac" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mfrac')">mfrac</a></b> | <b><a href="layout_xsd_Element_msqrt.html#msqrt" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msqrt')">msqrt</a></b> | <b><a href="layout_xsd_Element_mroot.html#mroot" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mroot')">mroot</a></b> | <b><a href="layout_xsd_Element_mpadded.html#mpadded" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mpadded')">mpadded</a></b> | <b><a href="layout_xsd_Element_mphantom.html#mphantom" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mphantom')">mphantom</a></b> | <b><a href="layout_xsd_Element_mfenced.html#mfenced" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mfenced')">mfenced</a></b> | <b><a href="layout_xsd_Element_menclose.html#menclose" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component menclose')">menclose</a></b> | <b><a href="scripts_xsd_Element_msub.html#msub" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msub')">msub</a></b> | <b><a href="scripts_xsd_Element_msup.html#msup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msup')">msup</a></b> | <b><a href="scripts_xsd_Element_msubsup.html#msubsup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msubsup')">msubsup</a></b> | <b><a href="scripts_xsd_Element_munder.html#munder" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component munder')">munder</a></b> | <b><a href="scripts_xsd_Element_mover.html#mover" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mover')">mover</a></b> | <b><a href="scripts_xsd_Element_munderover.html#munderover" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component munderover')">munderover</a></b> | <b><a href="scripts_xsd_Element_mmultiscripts.html#mmultiscripts" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mmultiscripts')">mmultiscripts</a></b> | <b><a href="table_xsd_Element_mtable.html#mtable" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mtable')">mtable</a></b> | <b><a href="table_xsd_Element_maligngroup.html#maligngroup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component maligngroup')">maligngroup</a></b> | <b><a href="table_xsd_Element_malignmark.html#malignmark" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component malignmark')">malignmark</a></b> | <b><a href="space_xsd_Element_mspace.html#mspace" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mspace')">mspace</a></b> | <b><a href="action_xsd_Element_maction.html#maction" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component maction')">maction</a></b> | <b><a href="error_xsd_Element_merror.html#merror" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component merror')">merror</a></b> | <b><a href="style_xsd_Element_mstyle.html#mstyle" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle')">mstyle</a></b>)
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="arith_xsd_Element_abs.html#abs" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component abs')">abs</a></b>, <b><a href="logic_xsd_Element_and.html#and" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component and')">and</a></b>, <b><a href="constructs_xsd_Element_apply.html#apply" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component apply')">apply</a></b>, <b><a href="relations_xsd_Element_approx.html#approx" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component approx')">approx</a></b>, <b><a href="elementary-functions_xsd_Element_arccos.html#arccos" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccos')">arccos</a></b>, <b><a href="elementary-functions_xsd_Element_arccosh.html#arccosh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccosh')">arccosh</a></b>, <b><a href="elementary-functions_xsd_Element_arccot.html#arccot" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccot')">arccot</a></b>, <b><a href="elementary-functions_xsd_Element_arccoth.html#arccoth" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccoth')">arccoth</a></b>, <b><a href="elementary-functions_xsd_Element_arccsc.html#arccsc" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccsc')">arccsc</a></b>, <b><a href="elementary-functions_xsd_Element_arccsch.html#arccsch" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arccsch')">arccsch</a></b>, <b><a href="elementary-functions_xsd_Element_arcsec.html#arcsec" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arcsec')">arcsec</a></b>, <b><a href="elementary-functions_xsd_Element_arcsech.html#arcsech" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arcsech')">arcsech</a></b>, <b><a href="elementary-functions_xsd_Element_arcsin.html#arcsin" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arcsin')">arcsin</a></b>, <b><a href="elementary-functions_xsd_Element_arcsinh.html#arcsinh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arcsinh')">arcsinh</a></b>, <b><a href="elementary-functions_xsd_Element_arctan.html#arctan" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arctan')">arctan</a></b>, <b><a href="elementary-functions_xsd_Element_arctanh.html#arctanh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arctanh')">arctanh</a></b>, <b><a href="arith_xsd_Element_arg.html#arg" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component arg')">arg</a></b>, <b><a href="constructs_xsd_Element_bvar.html#bvar" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component bvar')">bvar</a></b>, <b><a href="sets_xsd_Element_card.html#card" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component card')">card</a></b>, <b><a href="sets_xsd_Element_cartesianproduct.html#cartesianproduct" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component cartesianproduct')">cartesianproduct</a></b>, <b><a href="arith_xsd_Element_ceiling.html#ceiling" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ceiling')">ceiling</a></b>, <b><a href="tokens_xsd_Element_ci.html#ci" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ci')">ci</a></b>, <b><a href="tokens_xsd_Element_cn.html#cn" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component cn')">cn</a></b>, <b><a href="functions_xsd_Element_codomain.html#codomain" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component codomain')">codomain</a></b>, <b><a href="constants_xsd_Element_complexes.html#complexes" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component complexes')">complexes</a></b>, <b><a href="functions_xsd_Element_compose.html#compose" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component compose')">compose</a></b>, <b><a href="constructs_xsd_Element_condition.html#condition" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component condition')">condition</a></b>, <b><a href="arith_xsd_Element_conjugate.html#conjugate" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component conjugate')">conjugate</a></b>, <b><a href="elementary-functions_xsd_Element_cos.html#cos" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component cos')">cos</a></b>, <b><a href="elementary-functions_xsd_Element_cosh.html#cosh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component cosh')">cosh</a></b>, <b><a href="elementary-functions_xsd_Element_cot.html#cot" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component cot')">cot</a></b>, <b><a href="elementary-functions_xsd_Element_coth.html#coth" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component coth')">coth</a></b>, <b><a href="elementary-functions_xsd_Element_csc.html#csc" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component csc')">csc</a></b>, <b><a href="elementary-functions_xsd_Element_csch.html#csch" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component csch')">csch</a></b>, <b><a href="tokens_xsd_Element_csymbol.html#csymbol" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component csymbol')">csymbol</a></b>, <b><a href="vector-calculus_xsd_Element_curl.html#curl" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component curl')">curl</a></b>, <b><a href="constructs_xsd_Element_declare.html#declare" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component declare')">declare</a></b>, <b><a href="constructs_xsd_Element_degree.html#degree" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component degree')">degree</a></b>, <b><a href="linear-algebra_xsd_Element_determinant.html#determinant" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component determinant')">determinant</a></b>, <b><a href="calculus_xsd_Element_diff.html#diff" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component diff')">diff</a></b>, <b><a href="vector-calculus_xsd_Element_divergence.html#divergence" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component divergence')">divergence</a></b>, <b><a href="arith_xsd_Element_divide.html#divide" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component divide')">divide</a></b>, <b><a href="functions_xsd_Element_domain.html#domain" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component domain')">domain</a></b>, <b><a href="functions_xsd_Element_domainofapplication.html#domainofapplication" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component domainofapplication')">domainofapplication</a></b>, <b><a href="constants_xsd_Element_emptyset.html#emptyset" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component emptyset')">emptyset</a></b>, <b><a href="relations_xsd_Element_eq.html#eq" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component eq')">eq</a></b>, <b><a href="relations_xsd_Element_equivalent.html#equivalent" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component equivalent')">equivalent</a></b>, <b><a href="constants_xsd_Element_eulergamma.html#eulergamma" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component eulergamma')">eulergamma</a></b>, <b><a href="logic_xsd_Element_exists.html#exists" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component exists')">exists</a></b>, <b><a href="elementary-functions_xsd_Element_exp.html#exp" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component exp')">exp</a></b>, <b><a href="constants_xsd_Element_exponentiale.html#exponentiale" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component exponentiale')">exponentiale</a></b>, <b><a href="arith_xsd_Element_factorial.html#factorial" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component factorial')">factorial</a></b>, <b><a href="relations_xsd_Element_factorof.html#factorof" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component factorof')">factorof</a></b>, <b><a href="constants_xsd_Element_false.html#false" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component false')">false</a></b>, <b><a href="arith_xsd_Element_floor.html#floor" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component floor')">floor</a></b>, <b><a href="logic_xsd_Element_forall.html#forall" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component forall')">forall</a></b>, <b><a href="arith_xsd_Element_gcd.html#gcd" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component gcd')">gcd</a></b>, <b><a href="relations_xsd_Element_geq.html#geq" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component geq')">geq</a></b>, <b><a href="vector-calculus_xsd_Element_grad.html#grad" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component grad')">grad</a></b>, <b><a href="relations_xsd_Element_gt.html#gt" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component gt')">gt</a></b>, <b><a href="functions_xsd_Element_ident.html#ident" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ident')">ident</a></b>, <b><a href="functions_xsd_Element_image.html#image" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component image')">image</a></b>, <b><a href="arith_xsd_Element_imaginary.html#imaginary" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component imaginary')">imaginary</a></b>, <b><a href="constants_xsd_Element_imaginaryi.html#imaginaryi" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component imaginaryi')">imaginaryi</a></b>, <b><a href="logic_xsd_Element_implies.html#implies" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component implies')">implies</a></b>, <b><a href="sets_xsd_Element_in.html#in" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component in')">in</a></b>, <b><a href="constants_xsd_Element_infinity.html#http___www.w3.org_1998_Math_MathML_infinity" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component infinity')">infinity</a></b>, <b><a href="calculus_xsd_Element_int.html#int" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component int')">int</a></b>, <b><a href="constants_xsd_Element_integers.html#integers" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component integers')">integers</a></b>, <b><a href="sets_xsd_Element_intersect.html#intersect" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component intersect')">intersect</a></b>, <b><a href="constructs_xsd_Element_interval.html#interval" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component interval')">interval</a></b>, <b><a href="constructs_xsd_Element_inverse.html#inverse" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component inverse')">inverse</a></b>, <b><a href="constructs_xsd_Element_lambda.html#lambda" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component lambda')">lambda</a></b>, <b><a href="vector-calculus_xsd_Element_laplacian.html#laplacian" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component laplacian')">laplacian</a></b>, <b><a href="arith_xsd_Element_lcm.html#lcm" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component lcm')">lcm</a></b>, <b><a href="relations_xsd_Element_leq.html#leq" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component leq')">leq</a></b>, <b><a href="calculus_xsd_Element_limit.html#limit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component limit')">limit</a></b>, <b><a href="sets_xsd_Element_list.html#list" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component list')">list</a></b>, <b><a href="elementary-functions_xsd_Element_ln.html#ln" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ln')">ln</a></b>, <b><a href="elementary-functions_xsd_Element_log.html#log" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component log')">log</a></b>, <b><a href="elementary-functions_xsd_Element_logbase.html#logbase" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component logbase')">logbase</a></b>, <b><a href="calculus_xsd_Element_lowlimit.html#lowlimit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component lowlimit')">lowlimit</a></b>, <b><a href="relations_xsd_Element_lt.html#lt" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component lt')">lt</a></b>, <b><a href="action_xsd_Element_maction.html#maction" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component maction')">maction</a></b>, <b><a href="table_xsd_Element_maligngroup.html#maligngroup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component maligngroup')">maligngroup</a></b>, <b><a href="table_xsd_Element_malignmark.html#malignmark" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component malignmark')">malignmark</a></b>, <b><a href="linear-algebra_xsd_Element_matrix.html#matrix" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component matrix')">matrix</a></b>, <b><a href="arith_xsd_Element_max.html#max" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component max')">max</a></b>, <b><a href="statistics_xsd_Element_mean.html#mean" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mean')">mean</a></b>, <b><a href="statistics_xsd_Element_median.html#median" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component median')">median</a></b>, <b><a href="layout_xsd_Element_menclose.html#menclose" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component menclose')">menclose</a></b>, <b><a href="error_xsd_Element_merror.html#merror" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component merror')">merror</a></b>, <b><a href="layout_xsd_Element_mfenced.html#mfenced" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mfenced')">mfenced</a></b>, <b><a href="layout_xsd_Element_mfrac.html#mfrac" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mfrac')">mfrac</a></b>, <b><a href="tokens_xsd_Element_mi.html#mi" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mi')">mi</a></b>, <b><a href="arith_xsd_Element_min.html#min" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component min')">min</a></b>, <b><a href="arith_xsd_Element_minus.html#minus" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component minus')">minus</a></b>, <b><a href="scripts_xsd_Element_mmultiscripts.html#mmultiscripts" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mmultiscripts')">mmultiscripts</a></b>, <b><a href="tokens_xsd_Element_mn.html#mn" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mn')">mn</a></b>, <b><a href="tokens_xsd_Element_mo.html#mo" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mo')">mo</a></b>, <b><a href="statistics_xsd_Element_mode.html#mode" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mode')">mode</a></b>, <b><a href="statistics_xsd_Element_moment.html#moment" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component moment')">moment</a></b>, <b><a href="statistics_xsd_Element_momentabout.html#momentabout" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component momentabout')">momentabout</a></b>, <b><a href="scripts_xsd_Element_mover.html#mover" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mover')">mover</a></b>, <b><a href="layout_xsd_Element_mpadded.html#mpadded" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mpadded')">mpadded</a></b>, <b><a href="layout_xsd_Element_mphantom.html#mphantom" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mphantom')">mphantom</a></b>, <b><a href="layout_xsd_Element_mroot.html#mroot" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mroot')">mroot</a></b>, <b><a href="layout_xsd_Element_mrow.html#mrow" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mrow')">mrow</a></b>, <b><a href="tokens_xsd_Element_ms.html#ms" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component ms')">ms</a></b>, <b><a href="space_xsd_Element_mspace.html#mspace" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mspace')">mspace</a></b>, <b><a href="layout_xsd_Element_msqrt.html#msqrt" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msqrt')">msqrt</a></b>, <b><a href="style_xsd_Element_mstyle.html#mstyle" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mstyle')">mstyle</a></b>, <b><a href="scripts_xsd_Element_msub.html#msub" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msub')">msub</a></b>, <b><a href="scripts_xsd_Element_msubsup.html#msubsup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msubsup')">msubsup</a></b>, <b><a href="scripts_xsd_Element_msup.html#msup" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component msup')">msup</a></b>, <b><a href="table_xsd_Element_mtable.html#mtable" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mtable')">mtable</a></b>, <b><a href="tokens_xsd_Element_mtext.html#mtext" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component mtext')">mtext</a></b>, <b><a href="scripts_xsd_Element_munder.html#munder" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component munder')">munder</a></b>, <b><a href="scripts_xsd_Element_munderover.html#munderover" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component munderover')">munderover</a></b>, <b><a href="constants_xsd_Element_naturalnumbers.html#naturalnumbers" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component naturalnumbers')">naturalnumbers</a></b>, <b><a href="relations_xsd_Element_neq.html#neq" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component neq')">neq</a></b>, <b><a href="logic_xsd_Element_not.html#not" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component not')">not</a></b>, <b><a href="constants_xsd_Element_notanumber.html#notanumber" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component notanumber')">notanumber</a></b>, <b><a href="sets_xsd_Element_notin.html#notin" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component notin')">notin</a></b>, <b><a href="sets_xsd_Element_notprsubset.html#notprsubset" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component notprsubset')">notprsubset</a></b>, <b><a href="sets_xsd_Element_notsubset.html#notsubset" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component notsubset')">notsubset</a></b>, <b><a href="logic_xsd_Element_or.html#or" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component or')">or</a></b>, <b><a href="linear-algebra_xsd_Element_outerproduct.html#outerproduct" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component outerproduct')">outerproduct</a></b>, <b><a href="calculus_xsd_Element_partialdiff.html#partialdiff" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component partialdiff')">partialdiff</a></b>, <b><a href="constants_xsd_Element_pi.html#pi" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component pi')">pi</a></b>, <b><a href="constructs_xsd_Element_piecewise.html#piecewise" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component piecewise')">piecewise</a></b>, <b><a href="arith_xsd_Element_plus.html#plus" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component plus')">plus</a></b>, <b><a href="arith_xsd_Element_power.html#power" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component power')">power</a></b>, <b><a href="constants_xsd_Element_primes.html#primes" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component primes')">primes</a></b>, <b><a href="arith_xsd_Element_product.html#product" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component product')">product</a></b>, <b><a href="sets_xsd_Element_prsubset.html#prsubset" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component prsubset')">prsubset</a></b>, <b><a href="arith_xsd_Element_quotient.html#quotient" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component quotient')">quotient</a></b>, <b><a href="constants_xsd_Element_rationals.html#rationals" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component rationals')">rationals</a></b>, <b><a href="arith_xsd_Element_real.html#real" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component real')">real</a></b>, <b><a href="constants_xsd_Element_reals.html#reals" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component reals')">reals</a></b>, <b><a href="arith_xsd_Element_rem.html#rem" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component rem')">rem</a></b>, <b><a href="arith_xsd_Element_root.html#root" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component root')">root</a></b>, <b><a href="linear-algebra_xsd_Element_scalarproduct.html#scalarproduct" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component scalarproduct')">scalarproduct</a></b>, <b><a href="statistics_xsd_Element_sdev.html#sdev" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sdev')">sdev</a></b>, <b><a href="elementary-functions_xsd_Element_sec.html#sec" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sec')">sec</a></b>, <b><a href="elementary-functions_xsd_Element_sech.html#sech" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sech')">sech</a></b>, <b><a href="linear-algebra_xsd_Element_selector.html#selector" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component selector')">selector</a></b>, <b><a href="semantics_xsd_Element_semantics.html#semantics" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component semantics')">semantics</a></b>, <b><a href="sets_xsd_Element_set.html#set" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component set')">set</a></b>, <b><a href="sets_xsd_Element_setdiff.html#setdiff" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component setdiff')">setdiff</a></b>, <b><a href="elementary-functions_xsd_Element_sin.html#sin" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sin')">sin</a></b>, <b><a href="elementary-functions_xsd_Element_sinh.html#sinh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sinh')">sinh</a></b>, <b><a href="sets_xsd_Element_subset.html#subset" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component subset')">subset</a></b>, <b><a href="arith_xsd_Element_sum.html#sum" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component sum')">sum</a></b>, <b><a href="elementary-functions_xsd_Element_tan.html#tan" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component tan')">tan</a></b>, <b><a href="elementary-functions_xsd_Element_tanh.html#tanh" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component tanh')">tanh</a></b>, <b><a href="calculus_xsd_Element_tendsto.html#tendsto" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component tendsto')">tendsto</a></b>, <b><a href="arith_xsd_Element_times.html#times" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component times')">times</a></b>, <b><a href="linear-algebra_xsd_Element_transpose.html#transpose" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component transpose')">transpose</a></b>, <b><a href="constants_xsd_Element_true.html#true" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component true')">true</a></b>, <b><a href="sets_xsd_Element_union.html#union" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component union')">union</a></b>, <b><a href="calculus_xsd_Element_uplimit.html#uplimit" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component uplimit')">uplimit</a></b>, <b><a href="statistics_xsd_Element_variance.html#variance" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component variance')">variance</a></b>, <b><a href="linear-algebra_xsd_Element_vector.html#vector" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component vector')">vector</a></b>, <b><a href="linear-algebra_xsd_Element_vectorproduct.html#vectorproduct" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component vectorproduct')">vectorproduct</a></b>, <b><a href="logic_xsd_Element_xor.html#xor" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component xor')">xor</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_logbase.type" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_logbase.type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_logbase.type" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component class')">class</a></b></td>
+                                    <td><b>xs:NMTOKENS</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_style" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component style')">style</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd_Attribute_xlink_href.html#href" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for component xlink:href')">xlink:href</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="common-attribs_xsd_Attribute_Group_Common_attrib.html#Common.attrib_xref" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component xref')">xref</a></b></td>
+                                    <td><b>xs:IDREF</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                              <table>
+                                 <tr>
+                                    <td width="100%"><b>Wildcard:  </b>ANY attribute from ANY namespace OTHER than 'http://www.w3.org/1998/Math/MathML'
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

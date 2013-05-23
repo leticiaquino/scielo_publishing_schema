@@ -1,0 +1,374 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component </title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <h2><a id="INDEX">Table of Contents</a></h2>
+      <p><a href="SciELO-journalpublishing1.indexList.html">Components</a><span> | </span><a href="schHierarchy.html">Resource Hierarchy</a></p>
+      <hr />
+      <ul class="schemaHierarchy">
+         <li>
+            <p class="componentTitle"><input id="button_sHSciELO-journalpublishing1.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('sHSciELO-journalpublishing1.xsd');" class="control" /><a href="SciELO-journalpublishing1_xsd_Main_schema_SciELO-journalpublishing1_xsd.html#SciELO-journalpublishing1.xsd" target="mainFrame">SciELO-journalpublishing1.xsd</a></p>
+            <div id="sHSciELO-journalpublishing1.xsd" style="display:block">
+               <ul>
+                  <li class="schemaHierarchy">
+                     <p><input id="button_sHSciELO-journalpublishing1.xsdmathml2.xsd" type="image" value="-" src="img/btP.gif" onclick="switchState('sHSciELO-journalpublishing1.xsdmathml2.xsd');" class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Import12.gif" title="Imported by  'SciELO-journalpublishing1.xsd'." /> <a href="mathml2_xsd_Imported_schema_mathml2_xsd.html#mathml2.xsd" target="mainFrame" title="Imported by  'SciELO-journalpublishing1.xsd'." onclick="updatePageTitle('Schema documentation for component ')">mathml2.xsd</a></p>
+                     <div id="sHSciELO-journalpublishing1.xsdmathml2.xsd" style="display:none">
+                        <ul>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="math_xsd_Included_schema_math_xsd.html#math.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">math.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><input id="button_sHSciELO-journalpublishing1.xsdmathml2.xsdcommon-attribs.xsd" type="image" value="-" src="img/btM.gif" onclick="switchState('sHSciELO-journalpublishing1.xsdmathml2.xsdcommon-attribs.xsd');" class="control" /><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="common-attribs_xsd_Included_schema_common-attribs_xsd.html#common-attribs.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">common-attribs.xsd</a></p>
+                              <div id="sHSciELO-journalpublishing1.xsdmathml2.xsdcommon-attribs.xsd" style="display:block">
+                                 <ul>
+                                    <li class="schemaHierarchy">
+                                       <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Import12.gif" title="Imported by  'common-attribs.xsd'." /> <a href="xlink_xsd_Imported_schema_xlink_xsd.html#xlink.xsd" target="mainFrame" title="Imported by  'common-attribs.xsd'." onclick="updatePageTitle('Schema documentation for component ')">xlink.xsd</a></p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="common-types_xsd_Included_schema_common-types_xsd.html#common-types.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">common-types.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="common-attribs_xsd_Included_schema_common-attribs_xsd_1.html#schema_NAMESPACE_http___www.w3.org_1998_Math_MathML_LOCATION_file__Users_fabiobatalha_Trabalho_scielo_publishing_schema_schema_ncbi-mathml2_presentation_common-attribs.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">common-attribs.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="characters_xsd_Included_schema_characters_xsd.html#characters.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">characters.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="tokens_xsd_Included_schema_tokens_xsd.html#tokens.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">tokens.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="scripts_xsd_Included_schema_scripts_xsd.html#scripts.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">scripts.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="space_xsd_Included_schema_space_xsd.html#space.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">space.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="layout_xsd_Included_schema_layout_xsd.html#layout.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">layout.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="table_xsd_Included_schema_table_xsd.html#table.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">table.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="style_xsd_Included_schema_style_xsd.html#style.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">style.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="error_xsd_Included_schema_error_xsd.html#error.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">error.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="action_xsd_Included_schema_action_xsd.html#action.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">action.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="common-attrib_xsd_Included_schema_common-attrib_xsd.html#common-attrib.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">common-attrib.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="tokens_xsd_Included_schema_tokens_xsd_1.html#schema_NAMESPACE_http___www.w3.org_1998_Math_MathML_LOCATION_file__Users_fabiobatalha_Trabalho_scielo_publishing_schema_schema_ncbi-mathml2_content_tokens.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">tokens.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="arith_xsd_Included_schema_arith_xsd.html#arith.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">arith.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="functions_xsd_Included_schema_functions_xsd.html#functions.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">functions.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="logic_xsd_Included_schema_logic_xsd.html#logic.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">logic.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="constructs_xsd_Included_schema_constructs_xsd.html#constructs.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">constructs.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="constants_xsd_Included_schema_constants_xsd.html#constants.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">constants.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="elementary-functions_xsd_Included_schema_elementary-functions_xsd.html#elementary-functions.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">elementary-functions.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="relations_xsd_Included_schema_relations_xsd.html#relations.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">relations.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="semantics_xsd_Included_schema_semantics_xsd.html#semantics.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">semantics.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="sets_xsd_Included_schema_sets_xsd.html#sets.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">sets.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="linear-algebra_xsd_Included_schema_linear-algebra_xsd.html#linear-algebra.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">linear-algebra.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="calculus_xsd_Included_schema_calculus_xsd.html#calculus.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">calculus.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="vector-calculus_xsd_Included_schema_vector-calculus_xsd.html#vector-calculus.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">vector-calculus.xsd</a></p>
+                           </li>
+                           <li class="schemaHierarchy">
+                              <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Include12.gif" title="Included by 'mathml2.xsd'." /> <a href="statistics_xsd_Included_schema_statistics_xsd.html#statistics.xsd" target="mainFrame" title="Included by 'mathml2.xsd'." onclick="updatePageTitle('Schema documentation for component ')">statistics.xsd</a></p>
+                           </li>
+                        </ul>
+                     </div>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Import12.gif" title="Imported by  'SciELO-journalpublishing1.xsd'." /> <a href="xlink_xsd_Imported_schema_xlink_xsd.html#xlink.xsd" target="mainFrame" title="Imported by  'SciELO-journalpublishing1.xsd'." onclick="updatePageTitle('Schema documentation for component ')">xlink.xsd</a></p>
+                  </li>
+                  <li class="schemaHierarchy">
+                     <p><img src="img/HierarchyArrow12.jpg" /> <img src="img/Import12.gif" title="Imported by  'SciELO-journalpublishing1.xsd'." /> <a href="xml_xsd_Imported_schema_xml_xsd.html#xml.xsd" target="mainFrame" title="Imported by  'SciELO-journalpublishing1.xsd'." onclick="updatePageTitle('Schema documentation for component ')">xml.xsd</a></p>
+                  </li>
+               </ul>
+            </div>
+         </li>
+      </ul>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div>
+   </body>
+</html>

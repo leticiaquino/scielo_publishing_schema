@@ -1,0 +1,1566 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component colgroup</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_colgroup', 
+				'properties_colgroup_id', 
+				'properties_colgroup_span', 
+				'properties_colgroup_align', 
+				'properties_colgroup_valign');
+
+        
+        var facetsBoxes= new Array('facets_colgroup_align', 
+				'facets_colgroup_valign');
+
+        var usedByBoxes= new Array('usedBy_colgroup', 
+				'usedBy_colgroup_id', 
+				'usedBy_colgroup_content-type', 
+				'usedBy_colgroup_style', 
+				'usedBy_colgroup_span', 
+				'usedBy_colgroup_width', 
+				'usedBy_colgroup_align', 
+				'usedBy_colgroup_char', 
+				'usedBy_colgroup_charoff', 
+				'usedBy_colgroup_valign');
+
+        
+        var instanceBoxes= new Array('instance_colgroup');
+
+        var diagramBoxes= new Array('diagram_colgroup');
+
+        var annotationBoxes= new Array('annotations_colgroup', 
+				'annotations_colgroup_content-type', 
+				'annotations_colgroup_style', 
+				'annotations_colgroup_span', 
+				'annotations_colgroup_width', 
+				'annotations_colgroup_align', 
+				'annotations_colgroup_char', 
+				'annotations_colgroup_charoff', 
+				'annotations_colgroup_valign');
+
+        var attributesBoxes= new Array('attributes_colgroup');
+
+        
+        
+        
+        var modelBoxes= new Array('model_colgroup');
+
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, facetsBoxes);" class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="colgroup"></a><div class="componentTitle">Element <span class="qname">colgroup</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_colgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_colgroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_colgroup" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">A container element to hold column descriptions (element &lt;col&gt;) for a group of columns
+                                    in a table—or for all of the columns in the table if there is only one &lt;colgroup&gt;
+                                    in the table. Attributes on the &lt;colgroup&gt; apply to all of the columns in the group
+                                    unless over-ridden on the &lt;col&gt;. (This element is based on and intended to be converted
+                                    easily to the XHMTL 
+                                    <tt>col</tt> element.)
+                                 </p>
+                                 <p xmlns="">A container element to hold column descriptions (element &lt;col&gt;) for a group of columns
+                                    in a table — or for all of the columns in the table if there is only one &lt;colgroup&gt;
+                                    in the table. Attributes on the &lt;colgroup&gt; apply to all of the columns in the group
+                                    unless overridden on the &lt;col&gt;.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_colgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_colgroup');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_colgroup" style="display:block"><img alt="Diagram" border="0" src="img/SciELO-journalpublishing1_xsd_Element_colgroup.jpeg" usemap="#SciELO-journalpublishing1_xsd_Element_colgroup" /><map name="SciELO-journalpublishing1_xsd_Element_colgroup" id="SciELO-journalpublishing1_xsd_Element_colgroup">
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_colgroup.tmp#colgroup_id" href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_id" coords="142,40,234,82" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_colgroup.tmp#colgroup_content-type" href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_content-type" coords="142,92,249,116" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_colgroup.tmp#colgroup_style" href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_style" coords="142,195,204,219" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_colgroup.tmp#colgroup_span" href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_span" coords="142,311,228,353" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_colgroup.tmp#colgroup_width" href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_width" coords="142,419,208,443" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_colgroup.tmp#colgroup_align" href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_align" coords="142,522,334,564" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_colgroup.tmp#colgroup_char" href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_char" coords="142,617,203,641" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_colgroup.tmp#colgroup_charoff" href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_charoff" coords="142,707,218,731" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_colgroup.tmp#colgroup_valign" href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_valign" coords="142,797,334,839" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_col.tmp#col" href="SciELO-journalpublishing1_xsd_Element_col.html#col" coords="220,903,271,927" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_colgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_colgroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_colgroup" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_colgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_colgroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_colgroup" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_table.html#table" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table')">table</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_colgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('model_colgroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_colgroup" style="display:block"><b><a href="SciELO-journalpublishing1_xsd_Element_col.html#col" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component col*')">col*</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="SciELO-journalpublishing1_xsd_Element_col.html#col" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component col')">col</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_colgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_colgroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_colgroup" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;colgroup</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">char=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">charoff=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">span=</span><span class="tAV">"1"</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">valign=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;col</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">char=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">charoff=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">span=</span><span class="tAV">"1"</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">valign=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/col&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/colgroup&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_colgroup" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_colgroup');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_colgroup" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_align" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component align')">align</a></b></td>
+                                    <td>restriction of <b>xs:token</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Sets the horizontal (line) alignment inside a table cell. (This attribute is based
+                                             on andintended to be converted easily to the XHMTL 
+                                             <tt>align</tt> attribute.)
+                                          </p>
+                                          <p xmlns="">The @align attribute is used in two different ways. 1) It specifies the horizontal
+                                             alignment for the entire cell (such as “
+                                             <tt>center</tt>” or “
+                                             <tt>justify</tt>”. 2) It is used for aligning values in table cells on a particular character within
+                                             the cell, commonly a decimal point. Alignment on a particular character requires that
+                                             three attributes be set in the XML document: 
+                                          </p>
+                                          <ol xmlns="" class="olist">
+                                             <li>The @align attribute value is set to the word “
+                                                <tt>char</tt>”.
+                                             </li>
+                                             <li>The @char attribute value is set to the actual character to use for the aligning,
+                                                for example, to align on a decimal point, the “
+                                                <tt>.</tt>” character.
+                                             </li>
+                                             <li>The @charoff attribute value is set to the percent of the current column width to
+                                                be placed to the left of the (left edge of the) alignment character, for example,
+                                                “
+                                                <tt>30</tt>”.
+                                             </li>
+                                          </ol>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_char" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component char')">char</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">The character to be used in horizontal alignment of the contents of an entry in atable.
+                                             The content of a table data or table header element is to be aligned horizontally
+                                             based on the character named in this attribute, for example, alignment on a period
+                                             for decimal alignment or on an equal sign for alignment of variables. (This attribute
+                                             is based on andintended to be converted easily to the XHMTL 
+                                             <tt>char</tt> attribute.)
+                                          </p>
+                                          <p xmlns="">Horizontal alignment on a particular character requires that three attributes be set
+                                             in the XML document: 
+                                          </p>
+                                          <ol xmlns="" class="olist">
+                                             <li>The @align attribute value is set to the word “
+                                                <tt>char</tt>”.
+                                             </li>
+                                             <li>The @char attribute value is set to the actual character to use for the aligning,
+                                                for example, a decimal point, “
+                                                <tt>.</tt>”.
+                                             </li>
+                                             <li>The @charoff attribute value is set to the percent of the current column width to
+                                                the left of the (left edge of the) alignment character, for example, “
+                                                <tt>30</tt>”.
+                                             </li>
+                                          </ol>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_charoff" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component charoff')">charoff</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Horizontal offset from the alignment character specified by the @char attribute; the
+                                             percent of the current column width to the left of the (left edge of the) alignment
+                                             character. (This attribute is based on andintended to be converted easily to the XHMTL
+                                             
+                                             <tt>charoff</tt> attribute.)
+                                          </p>
+                                          <p xmlns="">Alignment on a particular character requires that three attributes be set in the document:
+                                             
+                                          </p>
+                                          <ol xmlns="" class="olist">
+                                             <li>The @align attribute value is set to the word “
+                                                <tt>char</tt>”.
+                                             </li>
+                                             <li>The @char attribute value is set to the actual character to use for the aligning,
+                                                for example, a decimal point, “
+                                                <tt>.</tt>”.
+                                             </li>
+                                             <li>The @charoff attribute value is set to the percent of the current column width to
+                                                the left of the (left edge of the) alignment character, for example, “
+                                                <tt>30</tt>”.
+                                             </li>
+                                          </ol>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_content-type" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component content-type')">content-type</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Subject or type of content that makes this element semantically distinct.</p>
+                                          <p xmlns="">The values for this attribute may include information classes, semantic categories,
+                                             or functions for grouping elements. This attribute could identify: the name of a drug,
+                                             company, or product; systematics terms such as genus, species, or family; or biological
+                                             systems components, such as gene, protein, or peptide. The attribute could also be
+                                             used to record that the content of a table cell is a total or subtotal amount, that
+                                             a sidebar (&lt;boxed-text&gt;) contains a case study, or that a &lt;statement&gt; is a theorem
+                                             or a proof.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Conversion Note:</strong> This attribute can be used to preserve semantic tagging that can’t be captured directly
+                                             with an element in this Tag Set.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Display/Formatting Note:</strong> The presence of a @content-type attribute may be used to treat its element in a distinct
+                                             way, for example, giving the work, phrase, or structure a different look in print
+                                             or on display. This type of formatting may be guided by the value of the attribute,
+                                             for example, making all circulatory system words (identified by a &lt;named-content&gt;
+                                             element) red or putting a background image behind case studies.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Historical Note:</strong> In Tag Set version 2.3, because “
+                                             <tt>type</tt>” attributes were viewed as a useful tool for preserving Publisher semantics without
+                                             extending the Tag Set, @content-type attributes were added to more than 60 elements
+                                             according to the following rationale. 
+                                          </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>Unless there was a conflicting rule, a @content-type attribute was added.</li>
+                                             <li>Elements that cannot repeat (such as &lt;body&gt; and &lt;title-group&gt;) were not given a @content-type
+                                                attribute. This includes all the “
+                                                <tt>-meta</tt>” elements and most top-level structural elements (such as &lt;front&gt; and &lt;back&gt;).
+                                             </li>
+                                             <li>Elements that can appear more than once by virtue of being part of a 
+                                                <tt>#PCDATA</tt> 
+                                                <tt>OR</tt>-group were given a @content-type attribute.
+                                             </li>
+                                             <li>Elements that already had a “
+                                                <tt>type</tt>” or “
+                                                <tt>style</tt>” attribute were not given a second such attribute.
+                                             </li>
+                                             <li>Elements concerning glyph characters were not given a @content-type attribute.</li>
+                                             <li> 
+                                                <tt>EMPTY</tt> elements (such as all the counts) were not given a @content-type attribute.
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_span" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component span')">span</a></b></td>
+                                    <td></td>
+                                    <td>1</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">The number of columns that will share the &lt;col&gt; or &lt;colgroup&gt; element’s attributes.
+                                             (This attribute is based on andintended to be converted easily to the XHMTL 
+                                             <tt>span</tt> attribute.) 
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_style" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component style')">style</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Names the concrete style or rendering to be applied to the element. This attribute
+                                             can be used in several contexts:
+                                          </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>with the styled content element (&lt;styled-content&gt;), records XHTML classes or similar
+                                                styling information;
+                                             </li>
+                                             <li>with many of the elements within a NISO JATS table(&lt;table&gt;), records the name of the
+                                                style to be applied to the element; or
+                                             </li>
+                                             <li>with &lt;mml:math&gt;, use as defined in the documentation for the Mathematical Markup Language
+                                                (MathML) 2.0 Tag Set (http://www.w3.org/TR/MathML2).
+                                             </li>
+                                          </ul>
+                                          <p xmlns="">
+                                             <strong>Best Practice:</strong> When used with a Styled Special (Subject) Content element, the value should be as
+                                             defined in the W3CXHTML 1.1 Tag Set.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_valign" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component valign')">valign</a></b></td>
+                                    <td>restriction of <b>xs:token</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Sets the horizontal (line) alignment inside a table cell. (This attribute is based
+                                             on andintended to be converted easily to the XHMTL 
+                                             <tt>valign</tt> attribute.)
+                                          </p>
+                                          <p xmlns="">Within a NISO JATS table (based on and designed to be converted easily to the XHTML
+                                             1.1 table model) this attribute specifies the vertical position of data within a table
+                                             cell, for example, flush to the top of the cell.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup_width" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component width')">width</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">This attribute can be used in several contexts: </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>within the mathematics element (&lt;mml:math&gt;). Use documentation for the Mathematical
+                                                Markup Language (MathML) 2.0 Tag Set. (http://www.w3.org/TR/MathML2/)
+                                             </li>
+                                             <li>within a NISO JATS table (based on and designed to be converted easily to theXHTML
+                                                1.1 table model) this attribute should be used to specify component width (as defined
+                                                in the XHTML 1.1 table model to take advantage of existing software for table handling).
+                                             </li>
+                                          </ul>
+                                          <p xmlns="">As specified in the NISO JATS table model (based on and easily converted to the XHTML
+                                             1.1 table model), this attribute should specify the desired width of the entire table.
+                                             The attribute is intended for visual applications. When the value is a percentage
+                                             value, the value is relative to the available horizontal space. In the absence of
+                                             any width specification, table width is determined by the application. The width value
+                                             can be either an integer number of pixels or a percentage of the width of the display
+                                             window.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="colgroup_id"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b> / @id</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:ID</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_colgroup_id" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_colgroup_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_colgroup_id" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_colgroup_id" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_colgroup_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_colgroup_id" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="colgroup_content-type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b> / @content-type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_colgroup_content-type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_colgroup_content-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_colgroup_content-type" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Subject or type of content that makes this element semantically distinct.</p>
+                                 <p xmlns="">The values for this attribute may include information classes, semantic categories,
+                                    or functions for grouping elements. This attribute could identify: the name of a drug,
+                                    company, or product; systematics terms such as genus, species, or family; or biological
+                                    systems components, such as gene, protein, or peptide. The attribute could also be
+                                    used to record that the content of a table cell is a total or subtotal amount, that
+                                    a sidebar (&lt;boxed-text&gt;) contains a case study, or that a &lt;statement&gt; is a theorem
+                                    or a proof.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Conversion Note:</strong> This attribute can be used to preserve semantic tagging that can’t be captured directly
+                                    with an element in this Tag Set.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Display/Formatting Note:</strong> The presence of a @content-type attribute may be used to treat its element in a distinct
+                                    way, for example, giving the work, phrase, or structure a different look in print
+                                    or on display. This type of formatting may be guided by the value of the attribute,
+                                    for example, making all circulatory system words (identified by a &lt;named-content&gt;
+                                    element) red or putting a background image behind case studies.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Historical Note:</strong> In Tag Set version 2.3, because “
+                                    <tt>type</tt>” attributes were viewed as a useful tool for preserving Publisher semantics without
+                                    extending the Tag Set, @content-type attributes were added to more than 60 elements
+                                    according to the following rationale. 
+                                 </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>Unless there was a conflicting rule, a @content-type attribute was added.</li>
+                                    <li>Elements that cannot repeat (such as &lt;body&gt; and &lt;title-group&gt;) were not given a @content-type
+                                       attribute. This includes all the “
+                                       <tt>-meta</tt>” elements and most top-level structural elements (such as &lt;front&gt; and &lt;back&gt;).
+                                    </li>
+                                    <li>Elements that can appear more than once by virtue of being part of a 
+                                       <tt>#PCDATA</tt> 
+                                       <tt>OR</tt>-group were given a @content-type attribute.
+                                    </li>
+                                    <li>Elements that already had a “
+                                       <tt>type</tt>” or “
+                                       <tt>style</tt>” attribute were not given a second such attribute.
+                                    </li>
+                                    <li>Elements concerning glyph characters were not given a @content-type attribute.</li>
+                                    <li> 
+                                       <tt>EMPTY</tt> elements (such as all the counts) were not given a @content-type attribute.
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_colgroup_content-type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_colgroup_content-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_colgroup_content-type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="colgroup_style"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b> / @style</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_colgroup_style" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_colgroup_style');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_colgroup_style" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Names the concrete style or rendering to be applied to the element. This attribute
+                                    can be used in several contexts:
+                                 </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>with the styled content element (&lt;styled-content&gt;), records XHTML classes or similar
+                                       styling information;
+                                    </li>
+                                    <li>with many of the elements within a NISO JATS table(&lt;table&gt;), records the name of the
+                                       style to be applied to the element; or
+                                    </li>
+                                    <li>with &lt;mml:math&gt;, use as defined in the documentation for the Mathematical Markup Language
+                                       (MathML) 2.0 Tag Set (http://www.w3.org/TR/MathML2).
+                                    </li>
+                                 </ul>
+                                 <p xmlns="">
+                                    <strong>Best Practice:</strong> When used with a Styled Special (Subject) Content element, the value should be as
+                                    defined in the W3CXHTML 1.1 Tag Set.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_colgroup_style" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_colgroup_style');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_colgroup_style" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="colgroup_span"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b> / @span</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_colgroup_span" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_colgroup_span');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_colgroup_span" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">The number of columns that will share the &lt;col&gt; or &lt;colgroup&gt; element’s attributes.
+                                    (This attribute is based on andintended to be converted easily to the XHMTL 
+                                    <tt>span</tt> attribute.) 
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_colgroup_span" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_colgroup_span');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_colgroup_span" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_colgroup_span" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_colgroup_span');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_colgroup_span" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="colgroup_width"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b> / @width</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_colgroup_width" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_colgroup_width');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_colgroup_width" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">This attribute can be used in several contexts: </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>within the mathematics element (&lt;mml:math&gt;). Use documentation for the Mathematical
+                                       Markup Language (MathML) 2.0 Tag Set. (http://www.w3.org/TR/MathML2/)
+                                    </li>
+                                    <li>within a NISO JATS table (based on and designed to be converted easily to theXHTML
+                                       1.1 table model) this attribute should be used to specify component width (as defined
+                                       in the XHTML 1.1 table model to take advantage of existing software for table handling).
+                                    </li>
+                                 </ul>
+                                 <p xmlns="">As specified in the NISO JATS table model (based on and easily converted to the XHTML
+                                    1.1 table model), this attribute should specify the desired width of the entire table.
+                                    The attribute is intended for visual applications. When the value is a percentage
+                                    value, the value is relative to the available horizontal space. In the absence of
+                                    any width specification, table width is determined by the application. The width value
+                                    can be either an integer number of pixels or a percentage of the width of the display
+                                    window.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_colgroup_width" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_colgroup_width');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_colgroup_width" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="colgroup_align"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b> / @align</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_colgroup_align" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_colgroup_align');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_colgroup_align" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Sets the horizontal (line) alignment inside a table cell. (This attribute is based
+                                    on andintended to be converted easily to the XHMTL 
+                                    <tt>align</tt> attribute.)
+                                 </p>
+                                 <p xmlns="">The @align attribute is used in two different ways. 1) It specifies the horizontal
+                                    alignment for the entire cell (such as “
+                                    <tt>center</tt>” or “
+                                    <tt>justify</tt>”. 2) It is used for aligning values in table cells on a particular character within
+                                    the cell, commonly a decimal point. Alignment on a particular character requires that
+                                    three attributes be set in the XML document: 
+                                 </p>
+                                 <ol xmlns="" class="olist">
+                                    <li>The @align attribute value is set to the word “
+                                       <tt>char</tt>”.
+                                    </li>
+                                    <li>The @char attribute value is set to the actual character to use for the aligning,
+                                       for example, to align on a decimal point, the “
+                                       <tt>.</tt>” character.
+                                    </li>
+                                    <li>The @charoff attribute value is set to the percent of the current column width to
+                                       be placed to the left of the (left edge of the) alignment character, for example,
+                                       “
+                                       <tt>30</tt>”.
+                                    </li>
+                                 </ol>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:token</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_colgroup_align" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_colgroup_align');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_colgroup_align" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_colgroup_align" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_colgroup_align');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_colgroup_align" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>left</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>center</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>right</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>justify</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>char</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_colgroup_align" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_colgroup_align');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_colgroup_align" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="colgroup_char"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b> / @char</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_colgroup_char" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_colgroup_char');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_colgroup_char" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">The character to be used in horizontal alignment of the contents of an entry in atable.
+                                    The content of a table data or table header element is to be aligned horizontally
+                                    based on the character named in this attribute, for example, alignment on a period
+                                    for decimal alignment or on an equal sign for alignment of variables. (This attribute
+                                    is based on andintended to be converted easily to the XHMTL 
+                                    <tt>char</tt> attribute.)
+                                 </p>
+                                 <p xmlns="">Horizontal alignment on a particular character requires that three attributes be set
+                                    in the XML document: 
+                                 </p>
+                                 <ol xmlns="" class="olist">
+                                    <li>The @align attribute value is set to the word “
+                                       <tt>char</tt>”.
+                                    </li>
+                                    <li>The @char attribute value is set to the actual character to use for the aligning,
+                                       for example, a decimal point, “
+                                       <tt>.</tt>”.
+                                    </li>
+                                    <li>The @charoff attribute value is set to the percent of the current column width to
+                                       the left of the (left edge of the) alignment character, for example, “
+                                       <tt>30</tt>”.
+                                    </li>
+                                 </ol>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_colgroup_char" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_colgroup_char');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_colgroup_char" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="colgroup_charoff"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b> / @charoff</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_colgroup_charoff" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_colgroup_charoff');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_colgroup_charoff" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Horizontal offset from the alignment character specified by the @char attribute; the
+                                    percent of the current column width to the left of the (left edge of the) alignment
+                                    character. (This attribute is based on andintended to be converted easily to the XHMTL
+                                    
+                                    <tt>charoff</tt> attribute.)
+                                 </p>
+                                 <p xmlns="">Alignment on a particular character requires that three attributes be set in the document:
+                                    
+                                 </p>
+                                 <ol xmlns="" class="olist">
+                                    <li>The @align attribute value is set to the word “
+                                       <tt>char</tt>”.
+                                    </li>
+                                    <li>The @char attribute value is set to the actual character to use for the aligning,
+                                       for example, a decimal point, “
+                                       <tt>.</tt>”.
+                                    </li>
+                                    <li>The @charoff attribute value is set to the percent of the current column width to
+                                       the left of the (left edge of the) alignment character, for example, “
+                                       <tt>30</tt>”.
+                                    </li>
+                                 </ol>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_colgroup_charoff" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_colgroup_charoff');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_colgroup_charoff" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="colgroup_valign"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b> / @valign</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_colgroup_valign" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_colgroup_valign');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_colgroup_valign" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Sets the horizontal (line) alignment inside a table cell. (This attribute is based
+                                    on andintended to be converted easily to the XHMTL 
+                                    <tt>valign</tt> attribute.)
+                                 </p>
+                                 <p xmlns="">Within a NISO JATS table (based on and designed to be converted easily to the XHTML
+                                    1.1 table model) this attribute specifies the vertical position of data within a table
+                                    cell, for example, flush to the top of the cell.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:token</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_colgroup_valign" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_colgroup_valign');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_colgroup_valign" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_colgroup_valign" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_colgroup_valign');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_colgroup_valign" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>top</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>middle</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>bottom</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>baseline</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_colgroup_valign" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_colgroup_valign');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_colgroup_valign" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_colgroup.html#colgroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colgroup')">colgroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

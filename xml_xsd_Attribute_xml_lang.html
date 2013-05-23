@@ -1,0 +1,380 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component xml:lang</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_lang');
+
+        
+        
+        var usedByBoxes= new Array('usedBy_lang');
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="lang"></a><div class="componentTitle">Attribute <span class="qname">@xml:lang</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://www.w3.org/XML/1998/namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:NMTOKEN</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_lang" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_lang');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_lang" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_lang" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_lang');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_lang" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Elements </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_abbrev.html#abbrev" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component abbrev')">abbrev</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_abbrev-journal-title.html#abbrev-journal-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component abbrev-journal-title')">abbrev-journal-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_abstract.html#abstract" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component abstract')">abstract</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_ack.html#ack" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ack')">ack</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_addr-line.html#addr-line" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component addr-line')">addr-line</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_address.html#address" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component address')">address</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_aff.html#aff" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component aff')">aff</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_alt-text.html#alt-text" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component alt-text')">alt-text</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_alt-title.html#alt-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component alt-title')">alt-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_annotation.html#NO_NAMESPACE_annotation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component annotation')">annotation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_anonymous.html#anonymous" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component anonymous')">anonymous</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_app.html#app" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component app')">app</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_app-group.html#app-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component app-group')">app-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_array.html#array" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component array')">array</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_article.html#article" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component article')">article</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_article-title.html#article-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component article-title')">article-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_attrib.html#attrib" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component attrib')">attrib</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_author-comment.html#author-comment" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component author-comment')">author-comment</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_award-group.html#award-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component award-group')">award-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_award-id.html#award-id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component award-id')">award-id</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_bio.html#bio" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component bio')">bio</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_boxed-text.html#boxed-text" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component boxed-text')">boxed-text</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_caption.html#caption" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component caption')">caption</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_chapter-title.html#chapter-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component chapter-title')">chapter-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_chem-struct.html#chem-struct" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component chem-struct')">chem-struct</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_chem-struct-wrap.html#chem-struct-wrap" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component chem-struct-wrap')">chem-struct-wrap</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_collab.html#collab" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component collab')">collab</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_comment.html#comment" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component comment')">comment</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conf-acronym.html#conf-acronym" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-acronym')">conf-acronym</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conf-date.html#conf-date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-date')">conf-date</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conf-loc.html#conf-loc" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-loc')">conf-loc</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conf-name.html#conf-name" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-name')">conf-name</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conf-num.html#conf-num" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-num')">conf-num</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conf-sponsor.html#conf-sponsor" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-sponsor')">conf-sponsor</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conf-theme.html#conf-theme" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-theme')">conf-theme</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conference.html#conference" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conference')">conference</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_copyright-holder.html#copyright-holder" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component copyright-holder')">copyright-holder</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_copyright-statement.html#copyright-statement" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component copyright-statement')">copyright-statement</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_corresp.html#corresp" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component corresp')">corresp</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_country.html#country" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component country')">country</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_custom-meta.html#custom-meta" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component custom-meta')">custom-meta</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_date-in-citation.html#date-in-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component date-in-citation')">date-in-citation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_day.html#day" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component day')">day</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_def.html#def" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component def')">def</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_def-item.html#def-item" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component def-item')">def-item</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_def-list.html#def-list" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component def-list')">def-list</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_degrees.html#degrees" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component degrees')">degrees</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_disp-formula.html#disp-formula" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component disp-formula')">disp-formula</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_disp-formula-group.html#disp-formula-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component disp-formula-group')">disp-formula-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_disp-quote.html#disp-quote" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component disp-quote')">disp-quote</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_edition.html#edition" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component edition')">edition</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_element-citation.html#element-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component element-citation')">element-citation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_email.html#email" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component email')">email</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_etal.html#etal" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component etal')">etal</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_ext-link.html#ext-link" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ext-link')">ext-link</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_fig.html#fig" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fig')">fig</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_fig-group.html#fig-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fig-group')">fig-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_fn.html#fn" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fn')">fn</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_fn-group.html#fn-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fn-group')">fn-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_fpage.html#fpage" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fpage')">fpage</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_funding-group.html#funding-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component funding-group')">funding-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_funding-source.html#funding-source" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component funding-source')">funding-source</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_funding-statement.html#funding-statement" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component funding-statement')">funding-statement</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_glossary.html#glossary" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component glossary')">glossary</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_gov.html#gov" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component gov')">gov</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_graphic.html#graphic" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component graphic')">graphic</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_inline-formula.html#inline-formula" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component inline-formula')">inline-formula</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_inline-graphic.html#inline-graphic" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component inline-graphic')">inline-graphic</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_inline-supplementary-material.html#inline-supplementary-material" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component inline-supplementary-material')">inline-supplementary-material</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_institution.html#institution" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component institution')">institution</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_issue.html#issue" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component issue')">issue</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_issue-id.html#issue-id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component issue-id')">issue-id</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_issue-part.html#issue-part" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component issue-part')">issue-part</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_issue-sponsor.html#issue-sponsor" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component issue-sponsor')">issue-sponsor</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_issue-title.html#issue-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component issue-title')">issue-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_journal-id.html#journal-id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component journal-id')">journal-id</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_journal-subtitle.html#journal-subtitle" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component journal-subtitle')">journal-subtitle</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_journal-title.html#journal-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component journal-title')">journal-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_kwd-group.html#kwd-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component kwd-group')">kwd-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_label.html#label" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component label')">label</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_license.html#license" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component license')">license</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_list.html#NO_NAMESPACE_list" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component list')">list</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_list-item.html#list-item" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component list-item')">list-item</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_long-desc.html#long-desc" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component long-desc')">long-desc</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_lpage.html#lpage" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component lpage')">lpage</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_media.html#media" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component media')">media</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_milestone-end.html#milestone-end" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component milestone-end')">milestone-end</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_milestone-start.html#milestone-start" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component milestone-start')">milestone-start</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_mixed-citation.html#mixed-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component mixed-citation')">mixed-citation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_month.html#month" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component month')">month</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_name.html#name" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component name')">name</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_named-content.html#named-content" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component named-content')">named-content</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_note.html#note" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component note')">note</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_notes.html#notes" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component notes')">notes</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_on-behalf-of.html#on-behalf-of" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component on-behalf-of')">on-behalf-of</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_open-access.html#open-access" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component open-access')">open-access</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_p.html#p" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component p')">p</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_page-range.html#page-range" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component page-range')">page-range</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_part-title.html#part-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component part-title')">part-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_patent.html#patent" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component patent')">patent</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_person-group.html#person-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component person-group')">person-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_prefix.html#prefix" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component prefix')">prefix</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_preformat.html#preformat" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component preformat')">preformat</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_price.html#price" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component price')">price</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_principal-award-recipient.html#principal-award-recipient" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component principal-award-recipient')">principal-award-recipient</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_principal-investigator.html#principal-investigator" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component principal-investigator')">principal-investigator</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_product.html#NO_NAMESPACE_product" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component product')">product</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_pub-date.html#pub-date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component pub-date')">pub-date</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_publisher-loc.html#publisher-loc" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component publisher-loc')">publisher-loc</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_publisher-name.html#publisher-name" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component publisher-name')">publisher-name</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_ref.html#ref" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ref')">ref</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_ref-list.html#ref-list" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ref-list')">ref-list</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_related-article.html#related-article" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component related-article')">related-article</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_related-object.html#related-object" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component related-object')">related-object</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_response.html#response" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component response')">response</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_role.html#NO_NAMESPACE_role" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component role')">role</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_season.html#season" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component season')">season</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_sec.html#NO_NAMESPACE_sec" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sec')">sec</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_self-uri.html#self-uri" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component self-uri')">self-uri</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_series.html#series" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component series')">series</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_series-text.html#series-text" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component series-text')">series-text</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_series-title.html#series-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component series-title')">series-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_sig.html#sig" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sig')">sig</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_size.html#size" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component size')">size</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_source.html#source" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component source')">source</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_speaker.html#speaker" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component speaker')">speaker</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_speech.html#speech" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component speech')">speech</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_statement.html#statement" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component statement')">statement</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_std.html#std" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component std')">std</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_std-organization.html#std-organization" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component std-organization')">std-organization</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_string-conf.html#string-conf" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component string-conf')">string-conf</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_string-date.html#string-date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component string-date')">string-date</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_string-name.html#string-name" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component string-name')">string-name</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_styled-content.html#styled-content" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component styled-content')">styled-content</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_sub-article.html#sub-article" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sub-article')">sub-article</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_subj-group.html#subj-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component subj-group')">subj-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_subtitle.html#subtitle" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component subtitle')">subtitle</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_suffix.html#suffix" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component suffix')">suffix</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_supplement.html#supplement" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component supplement')">supplement</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_supplementary-material.html#supplementary-material" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component supplementary-material')">supplementary-material</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_table-wrap.html#table-wrap" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table-wrap')">table-wrap</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_table-wrap-group.html#table-wrap-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component table-wrap-group')">table-wrap-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_target.html#target" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component target')">target</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_term.html#term" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component term')">term</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_textual-form.html#textual-form" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component textual-form')">textual-form</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_trans-abstract.html#trans-abstract" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component trans-abstract')">trans-abstract</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_trans-source.html#trans-source" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component trans-source')">trans-source</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_trans-subtitle.html#trans-subtitle" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component trans-subtitle')">trans-subtitle</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_trans-title.html#trans-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component trans-title')">trans-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_trans-title-group.html#trans-title-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component trans-title-group')">trans-title-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_unstructured-kwd-group.html#unstructured-kwd-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component unstructured-kwd-group')">unstructured-kwd-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_uri.html#uri" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component uri')">uri</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_verse-group.html#verse-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component verse-group')">verse-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_verse-line.html#verse-line" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component verse-line')">verse-line</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_volume.html#volume" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component volume')">volume</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_volume-id.html#volume-id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component volume-id')">volume-id</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_volume-series.html#volume-series" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component volume-series')">volume-series</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_x.html#x" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component x')">x</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_xref.html#xref" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component xref')">xref</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_year.html#year" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component year')">year</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

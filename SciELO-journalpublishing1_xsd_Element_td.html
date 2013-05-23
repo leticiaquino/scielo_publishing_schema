@@ -1,0 +1,2061 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component td</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_td', 
+				'properties_td_id', 
+				'properties_td_headers', 
+				'properties_td_scope', 
+				'properties_td_rowspan', 
+				'properties_td_colspan', 
+				'properties_td_align', 
+				'properties_td_valign');
+
+        
+        var facetsBoxes= new Array('facets_td_scope', 
+				'facets_td_align', 
+				'facets_td_valign');
+
+        var usedByBoxes= new Array('usedBy_td', 
+				'usedBy_td_id', 
+				'usedBy_td_content-type', 
+				'usedBy_td_style', 
+				'usedBy_td_abbr', 
+				'usedBy_td_axis', 
+				'usedBy_td_headers', 
+				'usedBy_td_scope', 
+				'usedBy_td_rowspan', 
+				'usedBy_td_colspan', 
+				'usedBy_td_align', 
+				'usedBy_td_char', 
+				'usedBy_td_charoff', 
+				'usedBy_td_valign');
+
+        
+        var instanceBoxes= new Array('instance_td');
+
+        var diagramBoxes= new Array('diagram_td');
+
+        var annotationBoxes= new Array('annotations_td', 
+				'annotations_td_content-type', 
+				'annotations_td_style', 
+				'annotations_td_abbr', 
+				'annotations_td_axis', 
+				'annotations_td_scope', 
+				'annotations_td_rowspan', 
+				'annotations_td_colspan', 
+				'annotations_td_align', 
+				'annotations_td_char', 
+				'annotations_td_charoff', 
+				'annotations_td_valign');
+
+        var attributesBoxes= new Array('attributes_td');
+
+        
+        
+        
+        var modelBoxes= new Array('model_td');
+
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, facetsBoxes);" class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="td"></a><div class="componentTitle">Element <span class="qname">td</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">One ordinary cell in the body of a table, as opposed to a cell in the tableheader.
+                                    (This element is based on and intended to be converted easily to the XHMTL 
+                                    <tt>td</tt> element.)
+                                 </p>
+                                 <p xmlns="">One ordinary cell in a table, as opposed to a cell in the table header.</p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_td" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_td');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_td" style="display:block"><img alt="Diagram" border="0" src="img/SciELO-journalpublishing1_xsd_Element_td.jpeg" usemap="#SciELO-journalpublishing1_xsd_Element_td" /><map name="SciELO-journalpublishing1_xsd_Element_td" id="SciELO-journalpublishing1_xsd_Element_td">
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_id" href="SciELO-journalpublishing1_xsd_Element_td.html#td_id" coords="134,40,226,82" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_content-type" href="SciELO-journalpublishing1_xsd_Element_td.html#td_content-type" coords="134,92,241,116" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_style" href="SciELO-journalpublishing1_xsd_Element_td.html#td_style" coords="134,195,196,219" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_abbr" href="SciELO-journalpublishing1_xsd_Element_td.html#td_abbr" coords="134,311,196,335" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_axis" href="SciELO-journalpublishing1_xsd_Element_td.html#td_axis" coords="134,401,193,425" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_headers" href="SciELO-journalpublishing1_xsd_Element_td.html#td_headers" coords="134,491,251,533" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_scope" href="SciELO-journalpublishing1_xsd_Element_td.html#td_scope" coords="134,543,326,585" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_rowspan" href="SciELO-journalpublishing1_xsd_Element_td.html#td_rowspan" coords="134,638,220,680" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_colspan" href="SciELO-journalpublishing1_xsd_Element_td.html#td_colspan" coords="134,746,220,788" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_align" href="SciELO-journalpublishing1_xsd_Element_td.html#td_align" coords="134,854,326,896" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_char" href="SciELO-journalpublishing1_xsd_Element_td.html#td_char" coords="134,949,195,973" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_charoff" href="SciELO-journalpublishing1_xsd_Element_td.html#td_charoff" coords="134,1039,210,1063" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_td.tmp#td_valign" href="SciELO-journalpublishing1_xsd_Element_td.html#td_valign" coords="134,1129,326,1171" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_email.tmp#email" href="SciELO-journalpublishing1_xsd_Element_email.html#email" coords="191,1231,250,1255" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_ext-link.tmp#ext-link" href="SciELO-journalpublishing1_xsd_Element_ext-link.html#ext-link" coords="191,1347,264,1371" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_uri.tmp#uri" href="SciELO-journalpublishing1_xsd_Element_uri.html#uri" coords="191,1450,242,1474" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_hr.tmp#hr" href="SciELO-journalpublishing1_xsd_Element_hr.html#hr" coords="191,1540,231,1564" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_inline-supplementary-material.tmp#inline-supplementary-material" href="SciELO-journalpublishing1_xsd_Element_inline-supplementary-material.html#inline-supplementary-material" coords="191,1656,386,1680" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_related-article.tmp#related-article" href="SciELO-journalpublishing1_xsd_Element_related-article.html#related-article" coords="191,1733,298,1757" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_related-object.tmp#related-object" href="SciELO-journalpublishing1_xsd_Element_related-object.html#related-object" coords="191,1810,298,1834" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_disp-formula.tmp#disp-formula" href="SciELO-journalpublishing1_xsd_Element_disp-formula.html#disp-formula" coords="191,1900,293,1924" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_disp-formula-group.tmp#disp-formula-group" href="SciELO-journalpublishing1_xsd_Element_disp-formula-group.html#disp-formula-group" coords="191,1977,332,2001" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_break.tmp#break" href="SciELO-journalpublishing1_xsd_Element_break.html#break" coords="191,2080,241,2104" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_citation-alternatives.tmp#citation-alternatives" href="SciELO-journalpublishing1_xsd_Element_citation-alternatives.html#citation-alternatives" coords="191,2183,330,2207" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_element-citation.tmp#element-citation" href="SciELO-journalpublishing1_xsd_Element_element-citation.html#element-citation" coords="191,2260,310,2284" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_mixed-citation.tmp#mixed-citation" href="SciELO-journalpublishing1_xsd_Element_mixed-citation.html#mixed-citation" coords="191,2337,301,2361" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_nlm-citation.tmp#nlm-citation" href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" coords="191,2427,288,2451" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_bold.tmp#bold" href="SciELO-journalpublishing1_xsd_Element_bold.html#bold" coords="191,2504,246,2528" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_italic.tmp#italic" href="SciELO-journalpublishing1_xsd_Element_italic.html#italic" coords="191,2581,247,2605" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_monospace.tmp#monospace" href="SciELO-journalpublishing1_xsd_Element_monospace.html#monospace" coords="191,2697,284,2721" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_overline.tmp#overline" href="SciELO-journalpublishing1_xsd_Element_overline.html#overline" coords="191,2800,265,2824" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_roman.tmp#roman" href="SciELO-journalpublishing1_xsd_Element_roman.html#roman" coords="191,2877,257,2901" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_sans-serif.tmp#sans-serif" href="SciELO-journalpublishing1_xsd_Element_sans-serif.html#sans-serif" coords="191,2967,277,2991" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_sc.tmp#sc" href="SciELO-journalpublishing1_xsd_Element_sc.html#sc" coords="191,3083,242,3107" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_strike.tmp#strike" href="SciELO-journalpublishing1_xsd_Element_strike.html#strike" coords="191,3160,252,3184" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_underline.tmp#underline" href="SciELO-journalpublishing1_xsd_Element_underline.html#underline" coords="191,3237,273,3261" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_chem-struct.tmp#chem-struct" href="SciELO-journalpublishing1_xsd_Element_chem-struct.html#chem-struct" coords="191,3340,289,3364" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_inline-formula.tmp#inline-formula" href="SciELO-journalpublishing1_xsd_Element_inline-formula.html#inline-formula" coords="191,3443,299,3467" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_def-list.tmp#def-list" href="SciELO-journalpublishing1_xsd_Element_def-list.html#def-list" coords="191,3533,261,3557" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_list.tmp#NO_NAMESPACE_list" href="SciELO-journalpublishing1_xsd_Element_list.html#NO_NAMESPACE_list" coords="191,3623,242,3647" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_tex-math.tmp#tex-math" href="SciELO-journalpublishing1_xsd_Element_tex-math.html#tex-math" coords="191,3739,272,3763" />
+                                 <area alt="math_xsd_Element_math.tmp#math" href="math_xsd_Element_math.html#math" coords="191,3855,275,3879" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_abbrev.tmp#abbrev" href="SciELO-journalpublishing1_xsd_Element_abbrev.html#abbrev" coords="191,3889,259,3913" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_milestone-end.tmp#milestone-end" href="SciELO-journalpublishing1_xsd_Element_milestone-end.html#milestone-end" coords="191,3979,300,4003" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_milestone-start.tmp#milestone-start" href="SciELO-journalpublishing1_xsd_Element_milestone-start.html#milestone-start" coords="191,4069,305,4093" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_named-content.tmp#named-content" href="SciELO-journalpublishing1_xsd_Element_named-content.html#named-content" coords="191,4159,305,4183" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_styled-content.tmp#styled-content" href="SciELO-journalpublishing1_xsd_Element_styled-content.html#styled-content" coords="191,4262,301,4286" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_alternatives.tmp#alternatives" href="SciELO-journalpublishing1_xsd_Element_alternatives.html#alternatives" coords="191,4352,284,4376" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_array.tmp#array" href="SciELO-journalpublishing1_xsd_Element_array.html#array" coords="191,4442,250,4466" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_graphic.tmp#graphic" href="SciELO-journalpublishing1_xsd_Element_graphic.html#graphic" coords="191,4532,263,4556" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_media.tmp#media" href="SciELO-journalpublishing1_xsd_Element_media.html#media" coords="191,4635,254,4659" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_preformat.tmp#preformat" href="SciELO-journalpublishing1_xsd_Element_preformat.html#preformat" coords="191,4751,276,4775" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_inline-graphic.tmp#inline-graphic" href="SciELO-journalpublishing1_xsd_Element_inline-graphic.html#inline-graphic" coords="191,4841,298,4865" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_private-char.tmp#private-char" href="SciELO-journalpublishing1_xsd_Element_private-char.html#private-char" coords="191,4944,289,4968" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_fn.tmp#fn" href="SciELO-journalpublishing1_xsd_Element_fn.html#fn" coords="191,5034,242,5058" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_target.tmp#target" href="SciELO-journalpublishing1_xsd_Element_target.html#target" coords="191,5124,254,5148" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_xref.tmp#xref" href="SciELO-journalpublishing1_xsd_Element_xref.html#xref" coords="191,5227,244,5251" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_sub.tmp#sub" href="SciELO-journalpublishing1_xsd_Element_sub.html#sub" coords="191,5317,242,5341" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_sup.tmp#sup" href="SciELO-journalpublishing1_xsd_Element_sup.html#sup" coords="191,5407,242,5431" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_td" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_td');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_td" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">mixed</td>
+                                    <td><b>true</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_tr.html#tr" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component tr')">tr</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_td" type="image" src="img/btM.gif" value="-" onclick="switchState('model_td');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_td" style="display:block"><b><a href="SciELO-journalpublishing1_xsd_Element_email.html#email" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component email')">email</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_ext-link.html#ext-link" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ext-link')">ext-link</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_uri.html#uri" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component uri')">uri</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_hr.html#hr" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component hr')">hr</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_inline-supplementary-material.html#inline-supplementary-material" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component inline-supplementary-material')">inline-supplementary-material</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_related-article.html#related-article" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component related-article')">related-article</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_related-object.html#related-object" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component related-object')">related-object</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_disp-formula.html#disp-formula" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component disp-formula')">disp-formula</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_disp-formula-group.html#disp-formula-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component disp-formula-group')">disp-formula-group</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_break.html#break" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component break')">break</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_citation-alternatives.html#citation-alternatives" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component citation-alternatives')">citation-alternatives</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_element-citation.html#element-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component element-citation')">element-citation</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_mixed-citation.html#mixed-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component mixed-citation')">mixed-citation</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_bold.html#bold" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component bold')">bold</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_italic.html#italic" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component italic')">italic</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_monospace.html#monospace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component monospace')">monospace</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_overline.html#overline" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component overline')">overline</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_roman.html#roman" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component roman')">roman</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_sans-serif.html#sans-serif" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sans-serif')">sans-serif</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_sc.html#sc" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sc')">sc</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_strike.html#strike" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component strike')">strike</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_underline.html#underline" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component underline')">underline</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_chem-struct.html#chem-struct" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component chem-struct')">chem-struct</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_inline-formula.html#inline-formula" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component inline-formula')">inline-formula</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_def-list.html#def-list" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component def-list')">def-list</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_list.html#NO_NAMESPACE_list" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component list')">list</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_tex-math.html#tex-math" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component tex-math')">tex-math</a></b> | <b><a href="math_xsd_Element_math.html#math" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component math')">math</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_abbrev.html#abbrev" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component abbrev')">abbrev</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_milestone-end.html#milestone-end" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component milestone-end')">milestone-end</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_milestone-start.html#milestone-start" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component milestone-start')">milestone-start</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_named-content.html#named-content" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component named-content')">named-content</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_styled-content.html#styled-content" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component styled-content')">styled-content</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_alternatives.html#alternatives" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component alternatives')">alternatives</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_array.html#array" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component array')">array</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_graphic.html#graphic" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component graphic')">graphic</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_media.html#media" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component media')">media</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_preformat.html#preformat" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component preformat')">preformat</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_inline-graphic.html#inline-graphic" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component inline-graphic')">inline-graphic</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_private-char.html#private-char" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component private-char')">private-char</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_fn.html#fn" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fn')">fn</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_target.html#target" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component target')">target</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_xref.html#xref" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component xref')">xref</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_sub.html#sub" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sub')">sub</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_sup.html#sup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sup')">sup</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="SciELO-journalpublishing1_xsd_Element_abbrev.html#abbrev" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component abbrev')">abbrev</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_alternatives.html#alternatives" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component alternatives')">alternatives</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_array.html#array" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component array')">array</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_bold.html#bold" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component bold')">bold</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_break.html#break" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component break')">break</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_chem-struct.html#chem-struct" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component chem-struct')">chem-struct</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_citation-alternatives.html#citation-alternatives" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component citation-alternatives')">citation-alternatives</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_def-list.html#def-list" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component def-list')">def-list</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_disp-formula.html#disp-formula" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component disp-formula')">disp-formula</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_disp-formula-group.html#disp-formula-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component disp-formula-group')">disp-formula-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_element-citation.html#element-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component element-citation')">element-citation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_email.html#email" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component email')">email</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_ext-link.html#ext-link" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ext-link')">ext-link</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_fn.html#fn" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fn')">fn</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_graphic.html#graphic" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component graphic')">graphic</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_hr.html#hr" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component hr')">hr</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_inline-formula.html#inline-formula" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component inline-formula')">inline-formula</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_inline-graphic.html#inline-graphic" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component inline-graphic')">inline-graphic</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_inline-supplementary-material.html#inline-supplementary-material" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component inline-supplementary-material')">inline-supplementary-material</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_italic.html#italic" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component italic')">italic</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_list.html#NO_NAMESPACE_list" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component list')">list</a></b>, <b><a href="math_xsd_Element_math.html#math" target="mainFrame" title="http://www.w3.org/1998/Math/MathML" onclick="updatePageTitle('Schema documentation for component math')">math</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_media.html#media" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component media')">media</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_milestone-end.html#milestone-end" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component milestone-end')">milestone-end</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_milestone-start.html#milestone-start" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component milestone-start')">milestone-start</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_mixed-citation.html#mixed-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component mixed-citation')">mixed-citation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_monospace.html#monospace" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component monospace')">monospace</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_named-content.html#named-content" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component named-content')">named-content</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_overline.html#overline" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component overline')">overline</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_preformat.html#preformat" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component preformat')">preformat</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_private-char.html#private-char" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component private-char')">private-char</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_related-article.html#related-article" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component related-article')">related-article</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_related-object.html#related-object" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component related-object')">related-object</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_roman.html#roman" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component roman')">roman</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_sans-serif.html#sans-serif" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sans-serif')">sans-serif</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_sc.html#sc" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sc')">sc</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_strike.html#strike" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component strike')">strike</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_styled-content.html#styled-content" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component styled-content')">styled-content</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_sub.html#sub" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sub')">sub</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_sup.html#sup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component sup')">sup</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_target.html#target" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component target')">target</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_tex-math.html#tex-math" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component tex-math')">tex-math</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_underline.html#underline" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component underline')">underline</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_uri.html#uri" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component uri')">uri</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_xref.html#xref" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component xref')">xref</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_td" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_td');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_td" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;td</span><span class="tT"> </span><span class="tAN">abbr=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">axis=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">char=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">charoff=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">colspan=</span><span class="tAV">"1"</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">headers=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rowspan=</span><span class="tAV">"1"</span><span class="tT"> </span><span class="tAN">scope=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">valign=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:mml=</span><span class="tAV">"http://www.w3.org/1998/Math/MathML"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;email</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/email&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ext-link</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">ext-link-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ext-link&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;uri</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/uri&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;hr</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/hr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;inline-supplementary-material</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mime-subtype=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mimetype=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/inline-supplementary-material&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;related-article</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">elocation-id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">ext-link-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">issue=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">journal-id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">journal-id-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">page=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">related-article-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">vol=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/related-article&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;related-object</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">document-id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">document-id-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">document-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">ext-link-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">link-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">object-id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">object-id-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">object-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">source-id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">source-id-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">source-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/related-object&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;disp-formula</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/disp-formula&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;disp-formula-group</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/disp-formula-group&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;break</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/break&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;citation-alternatives</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/citation-alternatives&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;element-citation</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publication-format=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publication-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publisher-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/element-citation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;mixed-citation</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publication-format=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publication-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publisher-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/mixed-citation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;nlm-citation</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publication-format=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publication-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publisher-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/nlm-citation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;bold</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/bold&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;italic</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/italic&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;monospace</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/monospace&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;overline</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/overline&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;roman</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/roman&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;sans-serif</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/sans-serif&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;sc</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/sc&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;strike</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/strike&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;underline</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">underline-style=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/underline&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;chem-struct</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/chem-struct&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;inline-formula</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/inline-formula&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;def-list</span><span class="tT"> </span><span class="tAN">continued-from=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">list-content=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">list-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">prefix-word=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/def-list&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;list</span><span class="tT"> </span><span class="tAN">continued-from=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">list-content=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">list-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">prefix-word=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/list&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tex-math</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">notation=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">version=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/tex-math&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;mml:math</span><span class="tT"> </span><span class="tAN">altimg=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">alttext=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">baseline=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">display=</span><span class="tAV">"inline"</span><span class="tT"> </span><span class="tAN">height=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">macros=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">name=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">overflow=</span><span class="tAV">"scroll"</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xref=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/mml:math&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;abbrev</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">alt=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/abbrev&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;milestone-end</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rationale=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rid=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/milestone-end&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;milestone-start</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rationale=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rid=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/milestone-start&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;named-content</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">alt=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rid=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/named-content&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;styled-content</span><span class="tT"> </span><span class="tAN">alt=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">style=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">style-type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/styled-content&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;alternatives</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/alternatives&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;array</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">orientation=</span><span class="tAV">"portrait"</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/array&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;graphic</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mime-subtype=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mimetype=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">orientation=</span><span class="tAV">"portrait"</span><span class="tT"> </span><span class="tAN">position=</span><span class="tAV">"float"</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/graphic&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;media</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mime-subtype=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mimetype=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">orientation=</span><span class="tAV">"portrait"</span><span class="tT"> </span><span class="tAN">position=</span><span class="tAV">"float"</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/media&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;preformat</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">orientation=</span><span class="tAV">"portrait"</span><span class="tT"> </span><span class="tAN">position=</span><span class="tAV">"float"</span><span class="tT"> </span><span class="tAN">preformat-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:space=</span><span class="tAV">"preserve"</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/preformat&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;inline-graphic</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">baseline-shift=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mime-subtype=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mimetype=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/inline-graphic&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;private-char</span><span class="tT"> </span><span class="tAN">description=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">name=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/private-char&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;fn</span><span class="tT"> </span><span class="tAN">fn-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">symbol=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/fn&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;target</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">target-type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/target&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xref</span><span class="tT"> </span><span class="tAN">alt=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">ref-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rid=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/xref&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;sub</span><span class="tT"> </span><span class="tAN">arrange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/sub&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;sup</span><span class="tT"> </span><span class="tAN">arrange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/sup&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/td&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_td" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_td');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_td" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_abbr" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component abbr')">abbr</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">An abbreviated version of the cell’s content. This allows visual browsers to use the
+                                             short form if space is limited, and non-visual browsers can give a cell’s header information
+                                             in an abbreviated form before rendering each cell.  (This attribute is based on and
+                                             intended to be converted easily to the XHMTL  
+                                             <tt>abbr</tt> attribute.) 
+                                          </p>
+                                          <p xmlns="">This abbreviated version of the cell’s content may, for example, may be rendered by
+                                             user agents when appropriate in place of the cell’s content. Abbreviated names should
+                                             be short since user agents may render them repeatedly. For instance, speech synthesizers
+                                             may render the abbreviated headers relating to a particular cell before rendering
+                                             that cell’s content.
+                                          </p>
+                                          <p xmlns="">Caution: This attribute has not been widely supported.</p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_align" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component align')">align</a></b></td>
+                                    <td>restriction of <b>xs:token</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Sets the horizontal (line) alignment inside a table cell. (This attribute is based
+                                             on andintended to be converted easily to the XHMTL 
+                                             <tt>align</tt> attribute.)
+                                          </p>
+                                          <p xmlns="">The @align attribute is used in two different ways. 1) It specifies the horizontal
+                                             alignment for the entire cell (such as “
+                                             <tt>center</tt>” or “
+                                             <tt>justify</tt>”. 2) It is used for aligning values in table cells on a particular character within
+                                             the cell, commonly a decimal point. Alignment on a particular character requires that
+                                             three attributes be set in the XML document: 
+                                          </p>
+                                          <ol xmlns="" class="olist">
+                                             <li>The @align attribute value is set to the word “
+                                                <tt>char</tt>”.
+                                             </li>
+                                             <li>The @char attribute value is set to the actual character to use for the aligning,
+                                                for example, to align on a decimal point, the “
+                                                <tt>.</tt>” character.
+                                             </li>
+                                             <li>The @charoff attribute value is set to the percent of the current column width to
+                                                be placed to the left of the (left edge of the) alignment character, for example,
+                                                “
+                                                <tt>30</tt>”.
+                                             </li>
+                                          </ol>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_axis" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component axis')">axis</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">A method of categorizing table cells. The value of this attribute should be one ormore
+                                             category names. (This attribute is based on andintended to be converted easily to
+                                             the XHMTL 
+                                             <tt>axis</tt> attribute.) 
+                                          </p>
+                                          <p xmlns="">This attribute may be used to place a cell into conceptual categories that can be
+                                             considered to form axes in an n-dimensional space. User agents may give users access
+                                             to these categories (e.g., the user may query the user agent for all cells that belong
+                                             to certain categories, the user agent may present a table in the form of a table of
+                                             contents, etc.). The value of this attribute is typically a comma-separated list of
+                                             category names.
+                                          </p>
+                                          <p xmlns="">Caution: This attribute has not been widely supported.</p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_char" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component char')">char</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">The character to be used in horizontal alignment of the contents of an entry in atable.
+                                             The content of a table data or table header element is to be aligned horizontally
+                                             based on the character named in this attribute, for example, alignment on a period
+                                             for decimal alignment or on an equal sign for alignment of variables. (This attribute
+                                             is based on andintended to be converted easily to the XHMTL 
+                                             <tt>char</tt> attribute.)
+                                          </p>
+                                          <p xmlns="">Horizontal alignment on a particular character requires that three attributes be set
+                                             in the XML document: 
+                                          </p>
+                                          <ol xmlns="" class="olist">
+                                             <li>The @align attribute value is set to the word “
+                                                <tt>char</tt>”.
+                                             </li>
+                                             <li>The @char attribute value is set to the actual character to use for the aligning,
+                                                for example, a decimal point, “
+                                                <tt>.</tt>”.
+                                             </li>
+                                             <li>The @charoff attribute value is set to the percent of the current column width to
+                                                the left of the (left edge of the) alignment character, for example, “
+                                                <tt>30</tt>”.
+                                             </li>
+                                          </ol>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_charoff" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component charoff')">charoff</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Horizontal offset from the alignment character specified by the @char attribute; the
+                                             percent of the current column width to the left of the (left edge of the) alignment
+                                             character. (This attribute is based on andintended to be converted easily to the XHMTL
+                                             
+                                             <tt>charoff</tt> attribute.)
+                                          </p>
+                                          <p xmlns="">Alignment on a particular character requires that three attributes be set in the document:
+                                             
+                                          </p>
+                                          <ol xmlns="" class="olist">
+                                             <li>The @align attribute value is set to the word “
+                                                <tt>char</tt>”.
+                                             </li>
+                                             <li>The @char attribute value is set to the actual character to use for the aligning,
+                                                for example, a decimal point, “
+                                                <tt>.</tt>”.
+                                             </li>
+                                             <li>The @charoff attribute value is set to the percent of the current column width to
+                                                the left of the (left edge of the) alignment character, for example, “
+                                                <tt>30</tt>”.
+                                             </li>
+                                          </ol>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_colspan" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component colspan')">colspan</a></b></td>
+                                    <td></td>
+                                    <td>1</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Table attribute used to request horizontal spanning of more than one column. (This
+                                             attribute is based on andintended to be converted easily to the XHMTL 
+                                             <tt>colspan</tt> attribute.) 
+                                          </p>
+                                          <p xmlns="">To specify horizontal spanning, this attribute contains the number of columns that
+                                             a table cell will span. (The table cell will be tagged with a &lt;td&gt; or &lt;th&gt; element.)
+                                             
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_content-type" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component content-type')">content-type</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Subject or type of content that makes this element semantically distinct.</p>
+                                          <p xmlns="">The values for this attribute may include information classes, semantic categories,
+                                             or functions for grouping elements. This attribute could identify: the name of a drug,
+                                             company, or product; systematics terms such as genus, species, or family; or biological
+                                             systems components, such as gene, protein, or peptide. The attribute could also be
+                                             used to record that the content of a table cell is a total or subtotal amount, that
+                                             a sidebar (&lt;boxed-text&gt;) contains a case study, or that a &lt;statement&gt; is a theorem
+                                             or a proof.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Conversion Note:</strong> This attribute can be used to preserve semantic tagging that can’t be captured directly
+                                             with an element in this Tag Set.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Display/Formatting Note:</strong> The presence of a @content-type attribute may be used to treat its element in a distinct
+                                             way, for example, giving the work, phrase, or structure a different look in print
+                                             or on display. This type of formatting may be guided by the value of the attribute,
+                                             for example, making all circulatory system words (identified by a &lt;named-content&gt;
+                                             element) red or putting a background image behind case studies.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Historical Note:</strong> In Tag Set version 2.3, because “
+                                             <tt>type</tt>” attributes were viewed as a useful tool for preserving Publisher semantics without
+                                             extending the Tag Set, @content-type attributes were added to more than 60 elements
+                                             according to the following rationale. 
+                                          </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>Unless there was a conflicting rule, a @content-type attribute was added.</li>
+                                             <li>Elements that cannot repeat (such as &lt;body&gt; and &lt;title-group&gt;) were not given a @content-type
+                                                attribute. This includes all the “
+                                                <tt>-meta</tt>” elements and most top-level structural elements (such as &lt;front&gt; and &lt;back&gt;).
+                                             </li>
+                                             <li>Elements that can appear more than once by virtue of being part of a 
+                                                <tt>#PCDATA</tt> 
+                                                <tt>OR</tt>-group were given a @content-type attribute.
+                                             </li>
+                                             <li>Elements that already had a “
+                                                <tt>type</tt>” or “
+                                                <tt>style</tt>” attribute were not given a second such attribute.
+                                             </li>
+                                             <li>Elements concerning glyph characters were not given a @content-type attribute.</li>
+                                             <li> 
+                                                <tt>EMPTY</tt> elements (such as all the counts) were not given a @content-type attribute.
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_headers" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component headers')">headers</a></b></td>
+                                    <td><b>xs:IDREFS</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_rowspan" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component rowspan')">rowspan</a></b></td>
+                                    <td></td>
+                                    <td>1</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Table attribute used to request vertical spanning by naming the number of rows a cell
+                                             spans in a vertical span. (This attribute is based on andintended to be converted
+                                             easily to the XHMTL 
+                                             <tt>rowspan</tt> attribute.) 
+                                          </p>
+                                          <p xmlns="">To specify vertical spanning, this attribute contains the number of rows that a table
+                                             cell will span. (The table cell will be tagged with a &lt;td&gt; or &lt;th&gt; element.) 
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_scope" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component scope')">scope</a></b></td>
+                                    <td>restriction of <b>xs:token</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Specifies the cells for which the &lt;td&gt; element provides header information. This provides
+                                             an alternative to usingexplicitly named header elements (&lt;th&gt;) if thearrangement of
+                                             header cells is not complex. (This attribute is based on andintended to be converted
+                                             easily to the XHMTL 
+                                             <tt>scope</tt> attribute.) 
+                                          </p>
+                                          <p xmlns="">Caution: This attribute has not been widely supported.</p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_style" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component style')">style</a></b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Names the concrete style or rendering to be applied to the element. This attribute
+                                             can be used in several contexts:
+                                          </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>with the styled content element (&lt;styled-content&gt;), records XHTML classes or similar
+                                                styling information;
+                                             </li>
+                                             <li>with many of the elements within a NISO JATS table(&lt;table&gt;), records the name of the
+                                                style to be applied to the element; or
+                                             </li>
+                                             <li>with &lt;mml:math&gt;, use as defined in the documentation for the Mathematical Markup Language
+                                                (MathML) 2.0 Tag Set (http://www.w3.org/TR/MathML2).
+                                             </li>
+                                          </ul>
+                                          <p xmlns="">
+                                             <strong>Best Practice:</strong> When used with a Styled Special (Subject) Content element, the value should be as
+                                             defined in the W3CXHTML 1.1 Tag Set.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td_valign" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component valign')">valign</a></b></td>
+                                    <td>restriction of <b>xs:token</b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Sets the horizontal (line) alignment inside a table cell. (This attribute is based
+                                             on andintended to be converted easily to the XHMTL 
+                                             <tt>valign</tt> attribute.)
+                                          </p>
+                                          <p xmlns="">Within a NISO JATS table (based on and designed to be converted easily to the XHTML
+                                             1.1 table model) this attribute specifies the vertical position of data within a table
+                                             cell, for example, flush to the top of the cell.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_id"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @id</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:ID</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_td_id" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_td_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_td_id" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_id" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_id" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_content-type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @content-type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_content-type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_content-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_content-type" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Subject or type of content that makes this element semantically distinct.</p>
+                                 <p xmlns="">The values for this attribute may include information classes, semantic categories,
+                                    or functions for grouping elements. This attribute could identify: the name of a drug,
+                                    company, or product; systematics terms such as genus, species, or family; or biological
+                                    systems components, such as gene, protein, or peptide. The attribute could also be
+                                    used to record that the content of a table cell is a total or subtotal amount, that
+                                    a sidebar (&lt;boxed-text&gt;) contains a case study, or that a &lt;statement&gt; is a theorem
+                                    or a proof.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Conversion Note:</strong> This attribute can be used to preserve semantic tagging that can’t be captured directly
+                                    with an element in this Tag Set.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Display/Formatting Note:</strong> The presence of a @content-type attribute may be used to treat its element in a distinct
+                                    way, for example, giving the work, phrase, or structure a different look in print
+                                    or on display. This type of formatting may be guided by the value of the attribute,
+                                    for example, making all circulatory system words (identified by a &lt;named-content&gt;
+                                    element) red or putting a background image behind case studies.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Historical Note:</strong> In Tag Set version 2.3, because “
+                                    <tt>type</tt>” attributes were viewed as a useful tool for preserving Publisher semantics without
+                                    extending the Tag Set, @content-type attributes were added to more than 60 elements
+                                    according to the following rationale. 
+                                 </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>Unless there was a conflicting rule, a @content-type attribute was added.</li>
+                                    <li>Elements that cannot repeat (such as &lt;body&gt; and &lt;title-group&gt;) were not given a @content-type
+                                       attribute. This includes all the “
+                                       <tt>-meta</tt>” elements and most top-level structural elements (such as &lt;front&gt; and &lt;back&gt;).
+                                    </li>
+                                    <li>Elements that can appear more than once by virtue of being part of a 
+                                       <tt>#PCDATA</tt> 
+                                       <tt>OR</tt>-group were given a @content-type attribute.
+                                    </li>
+                                    <li>Elements that already had a “
+                                       <tt>type</tt>” or “
+                                       <tt>style</tt>” attribute were not given a second such attribute.
+                                    </li>
+                                    <li>Elements concerning glyph characters were not given a @content-type attribute.</li>
+                                    <li> 
+                                       <tt>EMPTY</tt> elements (such as all the counts) were not given a @content-type attribute.
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_content-type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_content-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_content-type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_style"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @style</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_style" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_style');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_style" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Names the concrete style or rendering to be applied to the element. This attribute
+                                    can be used in several contexts:
+                                 </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>with the styled content element (&lt;styled-content&gt;), records XHTML classes or similar
+                                       styling information;
+                                    </li>
+                                    <li>with many of the elements within a NISO JATS table(&lt;table&gt;), records the name of the
+                                       style to be applied to the element; or
+                                    </li>
+                                    <li>with &lt;mml:math&gt;, use as defined in the documentation for the Mathematical Markup Language
+                                       (MathML) 2.0 Tag Set (http://www.w3.org/TR/MathML2).
+                                    </li>
+                                 </ul>
+                                 <p xmlns="">
+                                    <strong>Best Practice:</strong> When used with a Styled Special (Subject) Content element, the value should be as
+                                    defined in the W3CXHTML 1.1 Tag Set.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_style" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_style');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_style" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_abbr"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @abbr</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_abbr" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_abbr');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_abbr" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">An abbreviated version of the cell’s content. This allows visual browsers to use the
+                                    short form if space is limited, and non-visual browsers can give a cell’s header information
+                                    in an abbreviated form before rendering each cell.  (This attribute is based on and
+                                    intended to be converted easily to the XHMTL  
+                                    <tt>abbr</tt> attribute.) 
+                                 </p>
+                                 <p xmlns="">This abbreviated version of the cell’s content may, for example, may be rendered by
+                                    user agents when appropriate in place of the cell’s content. Abbreviated names should
+                                    be short since user agents may render them repeatedly. For instance, speech synthesizers
+                                    may render the abbreviated headers relating to a particular cell before rendering
+                                    that cell’s content.
+                                 </p>
+                                 <p xmlns="">Caution: This attribute has not been widely supported.</p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_abbr" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_abbr');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_abbr" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_axis"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @axis</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_axis" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_axis');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_axis" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">A method of categorizing table cells. The value of this attribute should be one ormore
+                                    category names. (This attribute is based on andintended to be converted easily to
+                                    the XHMTL 
+                                    <tt>axis</tt> attribute.) 
+                                 </p>
+                                 <p xmlns="">This attribute may be used to place a cell into conceptual categories that can be
+                                    considered to form axes in an n-dimensional space. User agents may give users access
+                                    to these categories (e.g., the user may query the user agent for all cells that belong
+                                    to certain categories, the user agent may present a table in the form of a table of
+                                    contents, etc.). The value of this attribute is typically a comma-separated list of
+                                    category names.
+                                 </p>
+                                 <p xmlns="">Caution: This attribute has not been widely supported.</p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_axis" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_axis');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_axis" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_headers"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @headers</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:IDREFS</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_td_headers" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_td_headers');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_td_headers" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_headers" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_headers');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_headers" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_scope"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @scope</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_scope" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_scope');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_scope" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Specifies the cells for which the &lt;td&gt; element provides header information. This provides
+                                    an alternative to usingexplicitly named header elements (&lt;th&gt;) if thearrangement of
+                                    header cells is not complex. (This attribute is based on andintended to be converted
+                                    easily to the XHMTL 
+                                    <tt>scope</tt> attribute.) 
+                                 </p>
+                                 <p xmlns="">Caution: This attribute has not been widely supported.</p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:token</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_td_scope" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_td_scope');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_td_scope" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_td_scope" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_td_scope');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_td_scope" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>row</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>col</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>rowgroup</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>colgroup</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_scope" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_scope');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_scope" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_rowspan"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @rowspan</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_rowspan" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_rowspan');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_rowspan" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Table attribute used to request vertical spanning by naming the number of rows a cell
+                                    spans in a vertical span. (This attribute is based on andintended to be converted
+                                    easily to the XHMTL 
+                                    <tt>rowspan</tt> attribute.) 
+                                 </p>
+                                 <p xmlns="">To specify vertical spanning, this attribute contains the number of rows that a table
+                                    cell will span. (The table cell will be tagged with a &lt;td&gt; or &lt;th&gt; element.) 
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_td_rowspan" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_td_rowspan');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_td_rowspan" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_rowspan" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_rowspan');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_rowspan" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_colspan"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @colspan</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_colspan" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_colspan');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_colspan" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Table attribute used to request horizontal spanning of more than one column. (This
+                                    attribute is based on andintended to be converted easily to the XHMTL 
+                                    <tt>colspan</tt> attribute.) 
+                                 </p>
+                                 <p xmlns="">To specify horizontal spanning, this attribute contains the number of columns that
+                                    a table cell will span. (The table cell will be tagged with a &lt;td&gt; or &lt;th&gt; element.)
+                                    
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_td_colspan" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_td_colspan');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_td_colspan" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>1</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_colspan" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_colspan');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_colspan" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_align"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @align</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_align" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_align');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_align" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Sets the horizontal (line) alignment inside a table cell. (This attribute is based
+                                    on andintended to be converted easily to the XHMTL 
+                                    <tt>align</tt> attribute.)
+                                 </p>
+                                 <p xmlns="">The @align attribute is used in two different ways. 1) It specifies the horizontal
+                                    alignment for the entire cell (such as “
+                                    <tt>center</tt>” or “
+                                    <tt>justify</tt>”. 2) It is used for aligning values in table cells on a particular character within
+                                    the cell, commonly a decimal point. Alignment on a particular character requires that
+                                    three attributes be set in the XML document: 
+                                 </p>
+                                 <ol xmlns="" class="olist">
+                                    <li>The @align attribute value is set to the word “
+                                       <tt>char</tt>”.
+                                    </li>
+                                    <li>The @char attribute value is set to the actual character to use for the aligning,
+                                       for example, to align on a decimal point, the “
+                                       <tt>.</tt>” character.
+                                    </li>
+                                    <li>The @charoff attribute value is set to the percent of the current column width to
+                                       be placed to the left of the (left edge of the) alignment character, for example,
+                                       “
+                                       <tt>30</tt>”.
+                                    </li>
+                                 </ol>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:token</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_td_align" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_td_align');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_td_align" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_td_align" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_td_align');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_td_align" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>left</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>center</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>right</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>justify</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>char</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_align" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_align');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_align" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_char"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @char</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_char" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_char');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_char" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">The character to be used in horizontal alignment of the contents of an entry in atable.
+                                    The content of a table data or table header element is to be aligned horizontally
+                                    based on the character named in this attribute, for example, alignment on a period
+                                    for decimal alignment or on an equal sign for alignment of variables. (This attribute
+                                    is based on andintended to be converted easily to the XHMTL 
+                                    <tt>char</tt> attribute.)
+                                 </p>
+                                 <p xmlns="">Horizontal alignment on a particular character requires that three attributes be set
+                                    in the XML document: 
+                                 </p>
+                                 <ol xmlns="" class="olist">
+                                    <li>The @align attribute value is set to the word “
+                                       <tt>char</tt>”.
+                                    </li>
+                                    <li>The @char attribute value is set to the actual character to use for the aligning,
+                                       for example, a decimal point, “
+                                       <tt>.</tt>”.
+                                    </li>
+                                    <li>The @charoff attribute value is set to the percent of the current column width to
+                                       the left of the (left edge of the) alignment character, for example, “
+                                       <tt>30</tt>”.
+                                    </li>
+                                 </ol>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_char" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_char');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_char" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_charoff"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @charoff</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_charoff" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_charoff');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_charoff" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Horizontal offset from the alignment character specified by the @char attribute; the
+                                    percent of the current column width to the left of the (left edge of the) alignment
+                                    character. (This attribute is based on andintended to be converted easily to the XHMTL
+                                    
+                                    <tt>charoff</tt> attribute.)
+                                 </p>
+                                 <p xmlns="">Alignment on a particular character requires that three attributes be set in the document:
+                                    
+                                 </p>
+                                 <ol xmlns="" class="olist">
+                                    <li>The @align attribute value is set to the word “
+                                       <tt>char</tt>”.
+                                    </li>
+                                    <li>The @char attribute value is set to the actual character to use for the aligning,
+                                       for example, a decimal point, “
+                                       <tt>.</tt>”.
+                                    </li>
+                                    <li>The @charoff attribute value is set to the percent of the current column width to
+                                       the left of the (left edge of the) alignment character, for example, “
+                                       <tt>30</tt>”.
+                                    </li>
+                                 </ol>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_charoff" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_charoff');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_charoff" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="td_valign"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b> / @valign</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_td_valign" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_td_valign');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_td_valign" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Sets the horizontal (line) alignment inside a table cell. (This attribute is based
+                                    on andintended to be converted easily to the XHMTL 
+                                    <tt>valign</tt> attribute.)
+                                 </p>
+                                 <p xmlns="">Within a NISO JATS table (based on and designed to be converted easily to the XHTML
+                                    1.1 table model) this attribute specifies the vertical position of data within a table
+                                    cell, for example, flush to the top of the cell.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:token</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_td_valign" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_td_valign');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_td_valign" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_td_valign" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_td_valign');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_td_valign" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>top</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>middle</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>bottom</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>baseline</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_td_valign" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_td_valign');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_td_valign" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

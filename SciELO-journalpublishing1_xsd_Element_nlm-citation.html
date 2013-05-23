@@ -1,0 +1,1063 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component nlm-citation</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_nlm-citation', 
+				'properties_nlm-citation_id');
+
+        
+        
+        var usedByBoxes= new Array('usedBy_nlm-citation', 
+				'usedBy_nlm-citation_id', 
+				'usedBy_nlm-citation_publication-type', 
+				'usedBy_nlm-citation_publisher-type', 
+				'usedBy_nlm-citation_publication-format', 
+				'usedBy_nlm-citation_specific-use');
+
+        
+        var instanceBoxes= new Array('instance_nlm-citation');
+
+        var diagramBoxes= new Array('diagram_nlm-citation');
+
+        var annotationBoxes= new Array('annotations_nlm-citation', 
+				'annotations_nlm-citation_publication-type', 
+				'annotations_nlm-citation_publisher-type', 
+				'annotations_nlm-citation_publication-format', 
+				'annotations_nlm-citation_specific-use');
+
+        var attributesBoxes= new Array('attributes_nlm-citation');
+
+        
+        
+        
+        var modelBoxes= new Array('model_nlm-citation');
+
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="nlm-citation"></a><div class="componentTitle">Element <span class="qname">nlm-citation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_nlm-citation" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_nlm-citation');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_nlm-citation" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">This element is deprecated; avoid using it. Use &lt;element-citation&gt;.</p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_nlm-citation" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_nlm-citation');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_nlm-citation" style="display:block"><img alt="Diagram" border="0" src="img/SciELO-journalpublishing1_xsd_Element_nlm-citation.jpeg" usemap="#SciELO-journalpublishing1_xsd_Element_nlm-citation" /><map name="SciELO-journalpublishing1_xsd_Element_nlm-citation" id="SciELO-journalpublishing1_xsd_Element_nlm-citation">
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_nlm-citation.tmp#nlm-citation_id" href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation_id" coords="159,40,251,82" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_nlm-citation.tmp#nlm-citation_publication-type" href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation_publication-type" coords="159,92,285,116" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_nlm-citation.tmp#nlm-citation_publisher-type" href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation_publisher-type" coords="159,169,276,193" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_nlm-citation.tmp#nlm-citation_publication-format" href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation_publication-format" coords="159,246,298,270" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_nlm-citation.tmp#nlm-citation_specific-use" href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation_specific-use" coords="159,349,262,373" />
+                                 <area alt="xml_xsd_Attribute_xml_lang.tmp#lang" href="xml_xsd_Attribute_xml_lang.html#lang" coords="159,452,253,476" />
+                                 <area alt="xlink_xsd_Attribute_xlink_type.tmp#type" href="xlink_xsd_Attribute_xlink_type.html#type" coords="159,486,259,510" />
+                                 <area alt="xlink_xsd_Attribute_xlink_href.tmp#href" href="xlink_xsd_Attribute_xlink_href.html#href" coords="159,520,247,544" />
+                                 <area alt="xlink_xsd_Attribute_xlink_role.tmp#role" href="xlink_xsd_Attribute_xlink_role.html#role" coords="159,554,246,578" />
+                                 <area alt="xlink_xsd_Attribute_xlink_title.tmp#title" href="xlink_xsd_Attribute_xlink_title.html#title" coords="159,588,245,612" />
+                                 <area alt="xlink_xsd_Attribute_xlink_show.tmp#show" href="xlink_xsd_Attribute_xlink_show.html#show" coords="159,622,264,646" />
+                                 <area alt="xlink_xsd_Attribute_xlink_actuate.tmp#actuate" href="xlink_xsd_Attribute_xlink_actuate.html#actuate" coords="159,656,275,680" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_person-group.tmp#person-group" href="SciELO-journalpublishing1_xsd_Element_person-group.html#person-group" coords="308,697,416,721" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_collab.tmp#collab" href="SciELO-journalpublishing1_xsd_Element_collab.html#collab" coords="308,800,371,824" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_article-title.tmp#article-title" href="SciELO-journalpublishing1_xsd_Element_article-title.html#article-title" coords="308,916,398,940" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_trans-title.tmp#trans-title" href="SciELO-journalpublishing1_xsd_Element_trans-title.html#trans-title" coords="308,1019,393,1043" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_source.tmp#source" href="SciELO-journalpublishing1_xsd_Element_source.html#source" coords="237,1109,305,1133" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_patent.tmp#patent" href="SciELO-journalpublishing1_xsd_Element_patent.html#patent" coords="237,1199,302,1223" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_trans-source.tmp#trans-source" href="SciELO-journalpublishing1_xsd_Element_trans-source.html#trans-source" coords="237,1302,339,1326" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_year.tmp#year" href="SciELO-journalpublishing1_xsd_Element_year.html#year" coords="237,1392,291,1416" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_month.tmp#month" href="SciELO-journalpublishing1_xsd_Element_month.html#month" coords="379,1495,445,1519" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_day.tmp#day" href="SciELO-journalpublishing1_xsd_Element_day.html#day" coords="379,1611,430,1635" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_time-stamp.tmp#time-stamp" href="SciELO-journalpublishing1_xsd_Element_time-stamp.html#time-stamp" coords="379,1727,472,1751" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_season.tmp#season" href="SciELO-journalpublishing1_xsd_Element_season.html#season" coords="308,1830,377,1854" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_access-date.tmp#access-date" href="SciELO-journalpublishing1_xsd_Element_access-date.html#access-date" coords="237,1946,333,1970" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_volume.tmp#volume" href="SciELO-journalpublishing1_xsd_Element_volume.html#volume" coords="237,2062,307,2086" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_edition.tmp#edition" href="SciELO-journalpublishing1_xsd_Element_edition.html#edition" coords="237,2178,305,2202" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_conf-name.tmp#conf-name" href="SciELO-journalpublishing1_xsd_Element_conf-name.html#conf-name" coords="237,2281,327,2305" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_conf-date.tmp#conf-date" href="SciELO-journalpublishing1_xsd_Element_conf-date.html#conf-date" coords="237,2358,321,2382" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_conf-loc.tmp#conf-loc" href="SciELO-journalpublishing1_xsd_Element_conf-loc.html#conf-loc" coords="237,2461,314,2485" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_issue.tmp#issue" href="SciELO-journalpublishing1_xsd_Element_issue.html#issue" coords="308,2564,367,2588" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_supplement.tmp#supplement" href="SciELO-journalpublishing1_xsd_Element_supplement.html#supplement" coords="308,2680,402,2704" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_publisher-loc.tmp#publisher-loc" href="SciELO-journalpublishing1_xsd_Element_publisher-loc.html#publisher-loc" coords="237,2770,341,2794" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_publisher-name.tmp#publisher-name" href="SciELO-journalpublishing1_xsd_Element_publisher-name.html#publisher-name" coords="237,2873,354,2897" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_fpage.tmp#fpage" href="SciELO-journalpublishing1_xsd_Element_fpage.html#fpage" coords="308,2976,369,3000" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_lpage.tmp#lpage" href="SciELO-journalpublishing1_xsd_Element_lpage.html#lpage" coords="308,3092,368,3116" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_page-count.tmp#page-count" href="SciELO-journalpublishing1_xsd_Element_page-count.html#page-count" coords="237,3208,331,3232" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_series.tmp#series" href="SciELO-journalpublishing1_xsd_Element_series.html#series" coords="237,3298,300,3322" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_comment.tmp#comment" href="SciELO-journalpublishing1_xsd_Element_comment.html#comment" coords="237,3401,318,3425" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_pub-id.tmp#pub-id" href="SciELO-journalpublishing1_xsd_Element_pub-id.html#pub-id" coords="237,3504,305,3528" />
+                                 <area alt="SciELO-journalpublishing1_xsd_Element_annotation.tmp#NO_NAMESPACE_annotation" href="SciELO-journalpublishing1_xsd_Element_annotation.html#NO_NAMESPACE_annotation" coords="237,3607,326,3631" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_nlm-citation" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_nlm-citation');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_nlm-citation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_nlm-citation" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_nlm-citation');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_nlm-citation" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Elements </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_citation-alternatives.html#citation-alternatives" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component citation-alternatives')">citation-alternatives</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_license-p.html#license-p" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component license-p')">license-p</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_p.html#p" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component p')">p</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_ref.html#ref" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component ref')">ref</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_td.html#td" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component td')">td</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_th.html#th" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component th')">th</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_title.html#NO_NAMESPACE_title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component title')">title</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_nlm-citation" type="image" src="img/btM.gif" value="-" onclick="switchState('model_nlm-citation');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_nlm-citation" style="display:block">(<b><a href="SciELO-journalpublishing1_xsd_Element_person-group.html#person-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component person-group')">person-group</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_collab.html#collab" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component collab')">collab</a></b>) , (<b><a href="SciELO-journalpublishing1_xsd_Element_article-title.html#article-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component article-title')">article-title</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_trans-title.html#trans-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component trans-title')">trans-title</a></b>) , <b><a href="SciELO-journalpublishing1_xsd_Element_source.html#source" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component source{0,1}')">source{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_patent.html#patent" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component patent{0,1}')">patent{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_trans-source.html#trans-source" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component trans-source{0,1}')">trans-source{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_year.html#year" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component year{0,1}')">year{0,1}</a></b> , ((<b><a href="SciELO-journalpublishing1_xsd_Element_month.html#month" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component month{0,1}')">month{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_day.html#day" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component day{0,1}')">day{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_time-stamp.html#time-stamp" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component time-stamp{0,1}')">time-stamp{0,1}</a></b>) | <b><a href="SciELO-journalpublishing1_xsd_Element_season.html#season" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component season{0,1}')">season{0,1}</a></b>) , <b><a href="SciELO-journalpublishing1_xsd_Element_access-date.html#access-date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component access-date{0,1}')">access-date{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_volume.html#volume" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component volume{0,1}')">volume{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_edition.html#edition" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component edition{0,1}')">edition{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_conf-name.html#conf-name" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-name{0,1}')">conf-name{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_conf-date.html#conf-date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-date{0,1}')">conf-date{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_conf-loc.html#conf-loc" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-loc{0,1}')">conf-loc{0,1}</a></b> , (<b><a href="SciELO-journalpublishing1_xsd_Element_issue.html#issue" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component issue')">issue</a></b> | <b><a href="SciELO-journalpublishing1_xsd_Element_supplement.html#supplement" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component supplement')">supplement</a></b>) , <b><a href="SciELO-journalpublishing1_xsd_Element_publisher-loc.html#publisher-loc" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component publisher-loc{0,1}')">publisher-loc{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_publisher-name.html#publisher-name" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component publisher-name{0,1}')">publisher-name{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_fpage.html#fpage" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fpage{0,1}')">fpage{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_lpage.html#lpage" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component lpage{0,1}')">lpage{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_page-count.html#page-count" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component page-count{0,1}')">page-count{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_series.html#series" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component series{0,1}')">series{0,1}</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_comment.html#comment" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component comment*')">comment*</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_pub-id.html#pub-id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component pub-id*')">pub-id*</a></b> , <b><a href="SciELO-journalpublishing1_xsd_Element_annotation.html#NO_NAMESPACE_annotation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component annotation{0,1}')">annotation{0,1}</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="SciELO-journalpublishing1_xsd_Element_access-date.html#access-date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component access-date')">access-date</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_annotation.html#NO_NAMESPACE_annotation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component annotation')">annotation</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_article-title.html#article-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component article-title')">article-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_collab.html#collab" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component collab')">collab</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_comment.html#comment" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component comment')">comment</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conf-date.html#conf-date" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-date')">conf-date</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conf-loc.html#conf-loc" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-loc')">conf-loc</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_conf-name.html#conf-name" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component conf-name')">conf-name</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_day.html#day" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component day')">day</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_edition.html#edition" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component edition')">edition</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_fpage.html#fpage" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component fpage')">fpage</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_issue.html#issue" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component issue')">issue</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_lpage.html#lpage" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component lpage')">lpage</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_month.html#month" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component month')">month</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_page-count.html#page-count" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component page-count')">page-count</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_patent.html#patent" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component patent')">patent</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_person-group.html#person-group" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component person-group')">person-group</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_pub-id.html#pub-id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component pub-id')">pub-id</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_publisher-loc.html#publisher-loc" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component publisher-loc')">publisher-loc</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_publisher-name.html#publisher-name" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component publisher-name')">publisher-name</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_season.html#season" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component season')">season</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_series.html#series" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component series')">series</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_source.html#source" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component source')">source</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_supplement.html#supplement" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component supplement')">supplement</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_time-stamp.html#time-stamp" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component time-stamp')">time-stamp</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_trans-source.html#trans-source" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component trans-source')">trans-source</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_trans-title.html#trans-title" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component trans-title')">trans-title</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_volume.html#volume" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component volume')">volume</a></b>, <b><a href="SciELO-journalpublishing1_xsd_Element_year.html#year" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component year')">year</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_nlm-citation" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_nlm-citation');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_nlm-citation" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;nlm-citation</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publication-format=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publication-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">publisher-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;person-group</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">person-group-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/person-group&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;collab</span><span class="tT"> </span><span class="tAN">xlink:actuate=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">collab-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:href=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:role=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:show=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xlink:type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/collab&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;article-title</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/article-title&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;trans-title</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/trans-title&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;source</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/source&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;patent</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">country=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/patent&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;trans-source</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/trans-source&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;year</span><span class="tT"> </span><span class="tAN">calendar=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">iso-8601-date=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/year&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;month</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/month&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;day</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/day&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;time-stamp</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/time-stamp&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;season</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/season&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;access-date</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/access-date&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;volume</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">seq=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/volume&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;edition</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">designator=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/edition&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;conf-name</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/conf-name&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;conf-date</span><span class="tT"> </span><span class="tAN">calendar=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">iso-8601-date=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/conf-date&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;conf-loc</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/conf-loc&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;issue</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">seq=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/issue&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;supplement</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">supplement-type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/supplement&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;publisher-loc</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/publisher-loc&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;publisher-name</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/publisher-name&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;fpage</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">seq=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/fpage&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;lpage</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/lpage&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;page-count</span><span class="tT"> </span><span class="tAN">count=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/page-count&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;series</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/series&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;comment</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/comment&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;pub-id</span><span class="tT"> </span><span class="tAN">pub-id-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/pub-id&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;annotation</span><span class="tT"> </span><span class="tAN">content-type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xml:lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">specific-use=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/nlm-citation&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_nlm-citation" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_nlm-citation');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_nlm-citation" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation_publication-format" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component publication-format')">publication-format</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Format or medium of the document (for example, “
+                                             <tt>print</tt>”). This element is used in two senses:
+                                          </p>
+                                          <ul xmlns="" class="bullist">
+                                             <li>to describe the format/medium for a publication date or other lifecycle date such
+                                                as an acceptance date or a revision date, and
+                                             </li>
+                                             <li>to name the format/medium of the document being cited as part of a bibliographic reference.</li>
+                                          </ul>
+                                          <p xmlns="">
+                                             <strong>Best Practice:</strong> This attribute should be used when the value is known. Values may include such formats
+                                             as “
+                                             <tt>print</tt>”, “
+                                             <tt>electronic</tt>”, “
+                                             <tt>video</tt>”, “
+                                             <tt>audio</tt>”,“
+                                             <tt>ebook</tt>”, “
+                                             <tt>online-only</tt>”.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation_publication-type" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component publication-type')">publication-type</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Category of publication being cited (for example, “
+                                             <tt>book</tt>”, “
+                                             <tt>letter</tt>”, “
+                                             <tt>review</tt>”, “
+                                             <tt>journal</tt>”, “
+                                             <tt>patent</tt>”, “
+                                             <tt>report</tt>”, “
+                                             <tt>standard</tt>”, “
+                                             <tt>working-paper</tt>”).
+                                          </p>
+                                          <p xmlns="">The @publication-type, @publisher-type, and @publication-format attributes replace
+                                             the 
+                                             <tt>@citation-type</tt> attribute of prior versions, which provided no clear way to distinguish these different
+                                             notions.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation_publisher-type" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component publisher-type')">publisher-type</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Type of publisher or publishing organization of a work being cited (for example, “
+                                             <tt>government</tt>”, “
+                                             <tt>standards-body</tt>”, “
+                                             <tt>university</tt>”, “
+                                             <tt>commercial</tt>”, “
+                                             <tt>foundation</tt>”, “
+                                             <tt>private</tt>”, “
+                                             <tt>corporate</tt>”).
+                                          </p>
+                                          <p xmlns="">The @publication-type, @publisher-type, and @publication-format attributes replace
+                                             the 
+                                             <tt>@citation-type</tt> attribute of prior versions, which provided no clear way to distinguish these different
+                                             notions.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation_specific-use" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component specific-use')">specific-use</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <p xmlns="">Specifies distinctions in the applicability of a particular element.</p>
+                                          <p xmlns="">No particular processing or display is promised by the values of this attribute; it
+                                             is up to the users’ application to make any appropriate display versions. This attribute
+                                             can be used to create some of the old SGML functionality of using Marked Sections
+                                             within text.
+                                          </p>
+                                          <p xmlns="">
+                                             <strong>Best Practice:</strong> This attribute is not used to make semantic distinctions; the attribute @content-type
+                                             is more appropriate to tell, for example, “
+                                             <tt>skeletal</tt>” system material, “
+                                             <tt>circulatory</tt>” system material, and “
+                                             <tt>lymphatic</tt>” system material, or “
+                                             <tt>legal</tt>” material from “
+                                             <tt>engineering</tt>” material. The @specific-use attribute is used to make usage or processing distinctions,
+                                             for example, audience or sorting distinctions. The attributes can be used together,
+                                             for example, to mark “
+                                             <tt>content-type="dosage" specific-use="for-the-patient"</tt>”. The attribute can also be used in combination with the @xml:lang attribute to indicate,
+                                             for example, that a name given in a second language is a transliteration of the primary
+                                             name. This attribute is not appropriate for differences in appearance; the element
+                                             &lt;styled-content&gt; is typically better for that use. Nor should this attribute be used
+                                             to record lifecycle or version distinctions.
+                                          </p>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd_Attribute_xlink_actuate.html#actuate" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for component xlink:actuate')">xlink:actuate</a></b></td>
+                                    <td>restriction of <b>xs:token</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd_Attribute_xlink_href.html#href" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for component xlink:href')">xlink:href</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd_Attribute_xlink_role.html#role" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for component xlink:role')">xlink:role</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd_Attribute_xlink_show.html#show" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for component xlink:show')">xlink:show</a></b></td>
+                                    <td>restriction of <b>xs:token</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd_Attribute_xlink_title.html#title" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for component xlink:title')">xlink:title</a></b></td>
+                                    <td></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xlink_xsd_Attribute_xlink_type.html#type" target="mainFrame" title="http://www.w3.org/1999/xlink" onclick="updatePageTitle('Schema documentation for component xlink:type')">xlink:type</a></b></td>
+                                    <td>restriction of <b>xs:token</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xml_xsd_Attribute_xml_lang.html#lang" target="mainFrame" title="http://www.w3.org/XML/1998/namespace" onclick="updatePageTitle('Schema documentation for component xml:lang')">xml:lang</a></b></td>
+                                    <td><b>xs:NMTOKEN</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="nlm-citation_id"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b> / @id</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:ID</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_nlm-citation_id" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_nlm-citation_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_nlm-citation_id" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_nlm-citation_id" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_nlm-citation_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_nlm-citation_id" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="nlm-citation_publication-type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b> / @publication-type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_nlm-citation_publication-type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_nlm-citation_publication-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_nlm-citation_publication-type" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Category of publication being cited (for example, “
+                                    <tt>book</tt>”, “
+                                    <tt>letter</tt>”, “
+                                    <tt>review</tt>”, “
+                                    <tt>journal</tt>”, “
+                                    <tt>patent</tt>”, “
+                                    <tt>report</tt>”, “
+                                    <tt>standard</tt>”, “
+                                    <tt>working-paper</tt>”).
+                                 </p>
+                                 <p xmlns="">The @publication-type, @publisher-type, and @publication-format attributes replace
+                                    the 
+                                    <tt>@citation-type</tt> attribute of prior versions, which provided no clear way to distinguish these different
+                                    notions.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_nlm-citation_publication-type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_nlm-citation_publication-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_nlm-citation_publication-type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="nlm-citation_publisher-type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b> / @publisher-type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_nlm-citation_publisher-type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_nlm-citation_publisher-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_nlm-citation_publisher-type" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Type of publisher or publishing organization of a work being cited (for example, “
+                                    <tt>government</tt>”, “
+                                    <tt>standards-body</tt>”, “
+                                    <tt>university</tt>”, “
+                                    <tt>commercial</tt>”, “
+                                    <tt>foundation</tt>”, “
+                                    <tt>private</tt>”, “
+                                    <tt>corporate</tt>”).
+                                 </p>
+                                 <p xmlns="">The @publication-type, @publisher-type, and @publication-format attributes replace
+                                    the 
+                                    <tt>@citation-type</tt> attribute of prior versions, which provided no clear way to distinguish these different
+                                    notions.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_nlm-citation_publisher-type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_nlm-citation_publisher-type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_nlm-citation_publisher-type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="nlm-citation_publication-format"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b> / @publication-format</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_nlm-citation_publication-format" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_nlm-citation_publication-format');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_nlm-citation_publication-format" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Format or medium of the document (for example, “
+                                    <tt>print</tt>”). This element is used in two senses:
+                                 </p>
+                                 <ul xmlns="" class="bullist">
+                                    <li>to describe the format/medium for a publication date or other lifecycle date such
+                                       as an acceptance date or a revision date, and
+                                    </li>
+                                    <li>to name the format/medium of the document being cited as part of a bibliographic reference.</li>
+                                 </ul>
+                                 <p xmlns="">
+                                    <strong>Best Practice:</strong> This attribute should be used when the value is known. Values may include such formats
+                                    as “
+                                    <tt>print</tt>”, “
+                                    <tt>electronic</tt>”, “
+                                    <tt>video</tt>”, “
+                                    <tt>audio</tt>”,“
+                                    <tt>ebook</tt>”, “
+                                    <tt>online-only</tt>”.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_nlm-citation_publication-format" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_nlm-citation_publication-format');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_nlm-citation_publication-format" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="nlm-citation_specific-use"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b> / @specific-use</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_nlm-citation_specific-use" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_nlm-citation_specific-use');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_nlm-citation_specific-use" style="display:block">
+                              <div class="annotation">
+                                 <p xmlns="">Specifies distinctions in the applicability of a particular element.</p>
+                                 <p xmlns="">No particular processing or display is promised by the values of this attribute; it
+                                    is up to the users’ application to make any appropriate display versions. This attribute
+                                    can be used to create some of the old SGML functionality of using Marked Sections
+                                    within text.
+                                 </p>
+                                 <p xmlns="">
+                                    <strong>Best Practice:</strong> This attribute is not used to make semantic distinctions; the attribute @content-type
+                                    is more appropriate to tell, for example, “
+                                    <tt>skeletal</tt>” system material, “
+                                    <tt>circulatory</tt>” system material, and “
+                                    <tt>lymphatic</tt>” system material, or “
+                                    <tt>legal</tt>” material from “
+                                    <tt>engineering</tt>” material. The @specific-use attribute is used to make usage or processing distinctions,
+                                    for example, audience or sorting distinctions. The attributes can be used together,
+                                    for example, to mark “
+                                    <tt>content-type="dosage" specific-use="for-the-patient"</tt>”. The attribute can also be used in combination with the @xml:lang attribute to indicate,
+                                    for example, that a name given in a second language is a transliteration of the primary
+                                    name. This attribute is not appropriate for differences in appearance; the element
+                                    &lt;styled-content&gt; is typically better for that use. Nor should this attribute be used
+                                    to record lifecycle or version distinctions.
+                                 </p>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_nlm-citation_specific-use" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_nlm-citation_specific-use');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_nlm-citation_specific-use" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="SciELO-journalpublishing1_xsd_Element_nlm-citation.html#nlm-citation" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component nlm-citation')">nlm-citation</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>
