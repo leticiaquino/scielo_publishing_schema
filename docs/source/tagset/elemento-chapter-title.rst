@@ -6,10 +6,11 @@
 Aparece em:
 
   :ref:`elemento-element-citation`
+  :ref:`elemento-product`
 
 Ocorre:
 
-  Zero ou mais vezes
+  Zero ou uma vez
 
 Identifica um título de capítulo de um documento em uma referência.
 
