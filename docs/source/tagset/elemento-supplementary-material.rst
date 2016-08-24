@@ -5,9 +5,9 @@
 
 Aparece em:
 
+  :ref:`elemento-app`
   :ref:`elemento-article-meta`
   :ref:`elemento-p`
-  :ref:`elemento-app`
 
 Atributos obrigatórios:
 
@@ -33,7 +33,18 @@ Os atributos obrigatórios são:
 * ``@xlink:href``: Indica o nome completo do arquivo, como por exemplo, ``http://sitio/arquivos/suplementar1.pdf``, ``entrevista.mov`` etc.
 
 
-Exemplo:
+Exemplos:
+
+ * :ref:`elemento-supplmat-exemplo-1`
+ * :ref:`elemento-supplmat-exemplo-2`
+ * :ref:`elemento-supplmat-exemplo-3`
+ * :ref:`elemento-supplmat-exemplo-4`
+
+
+.. _elemento-supplmat-exemplo-1:
+
+Exemplo de ``<supplementary-material>`` em :ref:`elemento-front`:
+-----------------------------------------------------------------
 
 .. code-block:: xml
 
@@ -49,6 +60,18 @@ Exemplo:
         </article-meta>
         ...
     </front>
+    ...
+
+
+
+.. _elemento-supplmat-exemplo-2:
+
+Exemplo de ``<supplementary-material>`` envolvendo objeto em :ref:`elemento-body`:
+----------------------------------------------------------------------------------
+
+.. code-block:: xml
+    
+    ...
     <body>
         ...
         <p>
@@ -60,11 +83,40 @@ Exemplo:
             </supplementary-material>
         </p>
         ...
+    </body>
+    ...
+
+
+       
+.. _elemento-supplmat-exemplo-3:
+
+Exemplo de ``<supplementary-material>`` em :ref:`elemento-p` de :ref:`elemento-body`:
+-------------------------------------------------------------------------------------
+
+
+.. code-block:: xml
+    
+    ...
+    <body>
+        ...
         <p>
             <supplementary-material id="suppl03" mimetype="application" mime-subtype="pdf" xlink:href="1234-5678-rctb-45-05-0110-suppl01.pdf"/>
         </p>
         ...
     </body>
+    ...
+
+
+
+.. _elemento-supplmat-exemplo-4:
+
+Exemplo de ``<supplementary-material>`` em :ref:`elemento-back`:
+----------------------------------------------------------------
+
+
+.. code-block:: xml
+    
+    ...
     <back>
         <app-group>
             <app id="app01">
