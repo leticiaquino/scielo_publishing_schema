@@ -61,7 +61,7 @@ Exemplo de ISSN em ``journal-meta`` :
     ...
 
 
-.. _elemento-exemplo-2:
+.. _elemento-issn-exemplo-2:
 
 Exemplo de ISSN em ``element-citation`` :
 -----------------------------------------
