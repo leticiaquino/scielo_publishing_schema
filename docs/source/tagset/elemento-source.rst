@@ -10,7 +10,7 @@ Aparece em:
 
 Ocorre:
 
-  Zero ou uma vez
+  Zero ou uma
 
 Identifica o título da fonte principal de uma referência ou de um produto. O atributo ``@xml:lang`` não deve ser utilizado.
 
