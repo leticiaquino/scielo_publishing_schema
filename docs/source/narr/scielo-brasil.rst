@@ -3,13 +3,18 @@
 SciELO Brasil
 =============
 
-Em SciELO *Publishing Schema*, há algumas regras que se aplicam a apenas SciELO Brasil, devido aos "Critérios, política e procedimentos para a admissão e a permanência de periódicos científicos na Coleção SciELO Brasil".
+Em *SciELO Publishing Schema* há algumas regras que se aplicam apenas SciELO Brasil, devido aos "Critérios, política e procedimentos para a admissão e a permanência de periódicos científicos na Coleção SciELO Brasil" [1].
+
+
 Consulte abaixo quais elementos apresentam restrições para envio de pacotes SciELO Brasil:
 
 
-	* :ref:`elemento-scibrasil-article-id`
-	* :ref:`elemento-scibrasil-license`
+  * :ref:`elemento-scibrasil-article-id`
+  * :ref:`elemento-scibrasil-license`
 
+
+
+[1] Consultar: `Critérios SciELO <http://www.scielo.br/avaliacao/20141003NovosCriterios_SciELO_Brasil.pdf>`_
 
 
 .. _elemento-scibrasil-article-id:
@@ -18,6 +23,7 @@ Consulte abaixo quais elementos apresentam restrições para envio de pacotes Sc
 ^^^^^^^^^^^^
 
 Em :ref:`elemento-article-id` o atributo ``@pub-id-type`` deve, obrigatoriamente, apresentar o valor "doi".
+
 Exemplo:
 
 .. code-block:: xml
